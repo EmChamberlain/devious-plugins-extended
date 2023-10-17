@@ -15,7 +15,7 @@ import net.runelite.client.events.PluginChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.events.LobbyWorldSelectToggled;
-import net.unethicalite.api.events.LoginStateChanged;
+import net.unethicalite.api.events.LoginIndexChanged;
 import net.unethicalite.api.events.WorldHopped;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.game.Worlds;
@@ -56,7 +56,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	}
 
 	@Subscribe
-	private void onLoginStateChanged(LoginStateChanged e)
+	private void onLoginIndexChanged(LoginIndexChanged e)
 	{
 		switch (e.getIndex())
 		{
@@ -68,7 +68,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 				break;
 			case 24:
 				prepareLogin();
-				client.getCallbacks().post(new LoginStateChanged(2));
+				client.getCallbacks().post(new LoginIndexChanged(2));
 				break;
 		}
 	}
@@ -132,7 +132,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		if (e.isLoaded() && Game.getState() == GameState.LOGIN_SCREEN)
 		{
 			prepareLogin();
-			client.getCallbacks().post(new LoginStateChanged(2));
+			client.getCallbacks().post(new LoginIndexChanged(2));
 		}
 	}
 
