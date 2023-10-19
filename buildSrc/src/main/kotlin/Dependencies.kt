@@ -32,7 +32,7 @@ object Libraries {
     private object Versions {
         const val guice = "5.0.1"
         const val javax = "1.3.2"
-        const val lombok = "1.18.20"
+        const val lombok = "1.18.30"
         const val pf4j = "3.6.0"
         const val slf4j = "1.7.32"
         const val gson = "2.8.5"
