@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, Melxin <https://github.com/melxin/>,
+ * Copyright (c) 2022, EmChamberlain <https://github.com/EmChamberlain/>,
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

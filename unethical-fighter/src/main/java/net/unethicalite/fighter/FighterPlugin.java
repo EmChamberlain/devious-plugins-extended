@@ -138,11 +138,6 @@ public class FighterPlugin extends LoopedPlugin
 			return -1;
 		}
 
-		if (Movement.isWalking())
-		{
-			return -4;
-		}
-
 		if (config.flick() && Prayers.isQuickPrayerEnabled())
 		{
 			Prayers.toggleQuickPrayer(false);
@@ -201,6 +196,12 @@ public class FighterPlugin extends LoopedPlugin
 				!notOurItems.contains(x)
 						&& !shouldNotLoot(x) && (shouldLootByName(x) || shouldLootUntradable(x) || shouldLootByValue(x))
 		);
+
+		if (Movement.isWalking())
+		{
+			return -4;
+		}
+
 		if (loot != null && canPick(loot))
 		{
 			if (!Reachable.isInteractable(loot.getTile()))
