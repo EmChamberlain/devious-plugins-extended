@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Owain van Brakel <https:github.com/Owain94>
+ * Copyright (c) 2018, Raqes <j.raqes@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,41 +22,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package net.unethicalite;
 
-rootProject.name = "unethicalite-plugins"
+import net.runelite.client.config.Config;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.Keybind;
 
-include("unethical-fighter")
-include("unethical-butler")
-include("unethical-birdhouses")
-include("unethical-kebab-buyer")
-include("unethical-autologin")
-include("unethical-oneclick")
-include("unethical-agility")
-include("unethical-prayer")
-include("unethical-explorer")
-include("unethical-chopper")
-include("unethical-zulrah")
-include("unethical-cooker")
-include("unethical-bankpin")
-include("unethical-tempoross")
-include("unethical-pickpocket")
-include("unethical-logout")
+@ConfigGroup("prayerflicker")
+public interface PrayerFlickerConfig extends Config
+{
+    @ConfigItem(
+            position = 0,
+            keyName = "safemode",
+            name = "Safe mode",
+            description = "This setting is recommended to avoid being detected. Works best in fixed mode."
+    )
+    default boolean safemode()
+    {
+        return true;
+    }
 
-include("m-autoswitcher")
-include("m-powerfisher")
-include("m-wintertodt")
-
-include("prayerflicker")
-
-//include("example-kotlin")
-
-for (project in rootProject.children) {
-    project.apply {
-        projectDir = file(name)
-        buildFileName = "$name.gradle.kts"
-
-        require(projectDir.isDirectory) { "Project '${project.path} must have a $projectDir directory" }
-        require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
+    @ConfigItem(
+            position = 1,
+            keyName = "hotkey",
+            name = "Prayer flicker hotkey",
+            description = "When you press this key, the prayer flicker will be switched on/off"
+    )
+    default Keybind hotkey()
+    {
+        return Keybind.NOT_SET;
     }
 }
-include("prayerflicker")
