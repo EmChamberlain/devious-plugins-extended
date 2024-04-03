@@ -9,6 +9,7 @@ import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
+import net.unethicalite.api.widgets.Prayers;
 
 import javax.inject.Inject;
 import java.awt.*;
@@ -166,8 +167,14 @@ class PrayerFlicker extends Overlay
         return (int)( LocalOrbYCoordinate + PrayerOrbHeight * 0.5 );
     }
 
-
     private void ClickPrayerOrb()
+    {
+        if(Prayers.isQuickPrayerEnabled())
+            Prayers.toggleQuickPrayer(false);
+        else
+            Prayers.toggleQuickPrayer(true);
+    }
+    /*private void ClickPrayerOrb()
     {
         MouseEvent press, release, click, move;
         final Canvas target = client.getCanvas();
@@ -194,7 +201,7 @@ class PrayerFlicker extends Overlay
         target.dispatchEvent(press);
         target.dispatchEvent(release);
         target.dispatchEvent(click);
-    }
+    }*/
 
     private void ResetMousePosition()
     {

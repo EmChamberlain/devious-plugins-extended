@@ -42,6 +42,8 @@ import net.unethicalite.*;
 import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.HotkeyListener;
+import net.unethicalite.api.widgets.Prayers;
+
 
 import javax.inject.Inject;
 
