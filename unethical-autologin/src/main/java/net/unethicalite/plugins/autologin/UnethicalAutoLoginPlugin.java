@@ -50,6 +50,14 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
+		if (config.useWorld())
+		{
+			World selectedWorld = Worlds.getFirst(config.world());
+			if (selectedWorld != null)
+			{
+				client.changeWorld(selectedWorld);
+			}
+		}
 		if (e.getGameState() == GameState.LOGIN_SCREEN && client.getLoginIndex() == 0)
 		{
 			prepareLogin();
@@ -60,7 +68,12 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 		if (client.getCurrentLoginField() == 1)
 		{
-			client.setGameState(GameState.LOGGING_IN);
+            try {
+                Thread.sleep(1000 * 30);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            client.setGameState(GameState.LOGGING_IN);
 		}
 	}
 
