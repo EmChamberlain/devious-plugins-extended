@@ -54,7 +54,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		{
 			prepareLogin();
 		}
-		if (List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
+		if (!List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
 		{
 			client.setGameState(GameState.LOGIN_SCREEN);
 		}
