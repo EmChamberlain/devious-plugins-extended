@@ -70,11 +70,15 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 		if (client.getCurrentLoginField() == 1)
 		{
-			log.info("Logging in asyc in 10 seconds");
-			CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS).execute(() -> {
-				client.setGameState(GameState.LOGGING_IN);
-				log.info("Logging in!");
-			});
+			log.info("Logging in in 10 seconds");
+            try {
+                Thread.sleep(1000 * 30);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+			client.setGameState(GameState.LOGGING_IN);
+			log.info("Logging in!");
+
 
 
 
