@@ -50,9 +50,8 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
-		if (e.getGameState() == GameState.LOGIN_SCREEN)
+		if (e.getGameState() == GameState.LOGIN_SCREEN && client.getLoginIndex() == 0)
 		{
-			client.setLoginIndex(0);
 			prepareLogin();
 		}
 		if (List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
@@ -72,13 +71,11 @@ public class UnethicalAutoLoginPlugin extends Plugin
 			case 4:
 				enterAuth();
 				break;
-//			case 24:
-//				prepareLogin();
-//				client.getCallbacks().post(new LoginIndexChanged(2));
-//				break;
+			case 24:
+				prepareLogin();
+				client.getCallbacks().post(new LoginIndexChanged(2));
+				break;
 		}
-		prepareLogin();
-		client.getCallbacks().post(new LoginIndexChanged(2));
 	}
 
 
