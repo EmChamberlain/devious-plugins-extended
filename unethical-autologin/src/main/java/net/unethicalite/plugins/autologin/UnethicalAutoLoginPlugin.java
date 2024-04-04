@@ -58,6 +58,10 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		{
 			client.setGameState(GameState.LOGIN_SCREEN);
 		}
+		if (client.getCurrentLoginField() == 1)
+		{
+			client.setGameState(GameState.LOGGING_IN);
+		}
 	}
 
 	@Subscribe
