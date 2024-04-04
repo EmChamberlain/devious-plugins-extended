@@ -150,6 +150,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		client.setUsername(config.username());
 		client.setPassword(config.password());
 		client.login(false);
+		client.setGameState(GameState.LOGGING_IN);
 		//Mouse.click(299, 322, true);
 	}
 
