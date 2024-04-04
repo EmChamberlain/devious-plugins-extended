@@ -24,6 +24,9 @@ import net.unethicalite.api.widgets.Widgets;
 import org.jboss.aerogear.security.otp.Totp;
 import org.pf4j.Extension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginDescriptor(name = "Unethical Auto Login", enabledByDefault = false)
 @Extension
 @Slf4j
@@ -47,9 +50,14 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
-		if (e.getGameState() == GameState.LOGIN_SCREEN && client.getLoginIndex() == 0)
+		if (e.getGameState() == GameState.LOGIN_SCREEN)
 		{
+			client.setLoginIndex(0);
 			prepareLogin();
+		}
+		if (List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
+		{
+			client.setGameState(GameState.LOGIN_SCREEN);
 		}
 	}
 
@@ -64,11 +72,13 @@ public class UnethicalAutoLoginPlugin extends Plugin
 			case 4:
 				enterAuth();
 				break;
-			case 24:
-				prepareLogin();
-				client.getCallbacks().post(new LoginIndexChanged(2));
-				break;
+//			case 24:
+//				prepareLogin();
+//				client.getCallbacks().post(new LoginIndexChanged(2));
+//				break;
 		}
+		prepareLogin();
+		client.getCallbacks().post(new LoginIndexChanged(2));
 	}
 
 
