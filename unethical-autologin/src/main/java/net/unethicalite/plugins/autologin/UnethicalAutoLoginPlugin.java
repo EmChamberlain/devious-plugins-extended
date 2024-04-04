@@ -52,6 +52,10 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
+		if (List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
+		{
+			return;
+		}
 		if (config.useWorld())
 		{
 			World selectedWorld = Worlds.getFirst(config.world());
@@ -64,13 +68,13 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		{
 			prepareLogin();
 		}
-		if (!List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
+		else
 		{
 			client.setGameState(GameState.LOGIN_SCREEN);
 		}
 		if (client.getCurrentLoginField() == 1)
 		{
-			log.info("Logging in in 10 seconds");
+			log.info("Logging in in 30 seconds");
             try {
                 Thread.sleep(1000 * 30);
             } catch (InterruptedException ex) {
@@ -78,11 +82,8 @@ public class UnethicalAutoLoginPlugin extends Plugin
             }
 			client.setGameState(GameState.LOGGING_IN);
 			log.info("Logging in!");
-
-
-
-
 		}
+
 	}
 
 	@Subscribe
