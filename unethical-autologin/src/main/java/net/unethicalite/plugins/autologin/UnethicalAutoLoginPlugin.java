@@ -73,7 +73,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
                 try {
                     Thread.sleep(1000 * 30);
                 } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
+                    ex.printStackTrace();
                 }
                 client.setGameState(GameState.LOGGING_IN);
 			});
