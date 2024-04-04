@@ -78,13 +78,22 @@
   "name": "Unethical Auto Login",
   "description": "Automatically logs in specified account in config",
   "id": "unethicalautologin-plugin",
-  "releases": [{
-    "date": "2023-12-16",
-    "sha512sum": "0549C9D3B19F4667B2EFCD0528DBE6853C7AC2FB9D4BF5982F55B03320534310F2A84B42EFF2CB9BF4D969CCB082D8783831E222F2292F1892C7B8E8E0A957B4",
-    "version": "0.0.4",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.0.4.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2023-12-16",
+      "sha512sum": "E0006802E2B3462089167D0137A89B03A8D2BF0D5B39914636CF80A6E712E84EC158AF9145C1BD924FA21D4E08B9C40CCCA16BF7B95A902D5C7824AEBD777741",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-03",
+      "sha512sum": "4F264E865B865C23A5DA4A1E46DB53B3063185C1BA6801D3AEC266B99ED4194CC4A613D5D013F3B53DC8DB9BFA19807E784E51F7075A274F0FDABE62B4F0EC67",
+      "version": "0.0.5",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

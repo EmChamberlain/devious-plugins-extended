@@ -71,14 +71,6 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 	}
 
-	@Subscribe
-	private void onWorldHopped(WorldHopped e)
-	{
-		if (config.lastWorld())
-		{
-			configManager.setConfiguration("hootautologin", "world", e.getWorldId());
-		}
-	}
 
 	@Subscribe
 	private void onWidgetHiddenChanged(WidgetLoaded e)
@@ -99,7 +91,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 	}
 
-	@Subscribe
+	/*@Subscribe
 	private void onLobbyWorldSelectToggled(LobbyWorldSelectToggled e)
 	{
 		if (e.isOpened())
@@ -117,7 +109,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 
 		client.promptCredentials(false);
-	}
+	}*/
 
 	@Subscribe
 	private void onPluginChanged(PluginChanged e)
