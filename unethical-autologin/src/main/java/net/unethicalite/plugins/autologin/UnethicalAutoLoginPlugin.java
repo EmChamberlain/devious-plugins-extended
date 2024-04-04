@@ -80,7 +80,7 @@ public class UnethicalAutoLoginPlugin extends Plugin
             } catch (InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
-			client.setGameState(GameState.LOGGING_IN);
+			login();
 			log.info("Logging in!");
 		}
 
