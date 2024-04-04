@@ -148,6 +148,13 @@
       "version": "0.0.13",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.0.13.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-04",
+      "sha512sum": "B1C126D018BC507328DDBEC7DC417DFB9843C0E32DD628039230E9DC1EFA8B06BF01AD53810294AE8DE0FCEAE8CA1894D092BED73C8CDE308828E5602602CEE1",
+      "version": "0.0.14",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.0.14.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

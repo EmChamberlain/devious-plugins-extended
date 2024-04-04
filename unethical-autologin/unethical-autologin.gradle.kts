@@ -1,4 +1,4 @@
-version = "0.0.13"
+version = "0.0.14"
 
 project.extra["PluginName"] = "Unethical Auto Login"
 project.extra["PluginDescription"] = "Automatically logs in specified account in config"

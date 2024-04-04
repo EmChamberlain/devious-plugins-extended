@@ -27,6 +27,7 @@ import org.pf4j.Extension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @PluginDescriptor(name = "Unethical Auto Login", enabledByDefault = false)
 @Extension
@@ -69,13 +70,10 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		}
 		if (client.getCurrentLoginField() == 1)
 		{
-			CompletableFuture.runAsync(() -> {
-                try {
-                    Thread.sleep(1000 * 30);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                client.setGameState(GameState.LOGGING_IN);
+			log.info("Logging in asyc in 10 seconds");
+			CompletableFuture.delayedExecutor(10, TimeUnit.SECONDS).execute(() -> {
+				client.setGameState(GameState.LOGGING_IN);
+				log.info("Logging in!");
 			});
 
 
