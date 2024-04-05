@@ -207,6 +207,7 @@ public class ChopperPlugin extends LoopedPlugin
 				else
 				{
 					Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
+					log.info("Deposit widget: {}", depositInventoryWidget);
 					if (depositInventoryWidget == null)
 					{
 						bankInteractable.interact("Bank", "Deposit");
@@ -222,7 +223,8 @@ public class ChopperPlugin extends LoopedPlugin
 			}
 			else
 			{
-				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
+				Widget closeWidget = getWidget(/*WidgetID.BANK_GROUP_ID,*/ x -> x != null &&  x.equals("Close"));
+				log.info("Close widget: {}", closeWidget);
 				if(closeWidget != null)
 				{
 					closeWidget.interact();
