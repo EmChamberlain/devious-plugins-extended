@@ -206,10 +206,10 @@ public class ChopperPlugin extends LoopedPlugin
 				}
 				else
 				{
-					Widget depositInventoryWidget = getWidget(x -> x.equals("Deposit inventory"));
+					Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
 					if (depositInventoryWidget == null)
 					{
-						depositInventoryWidget.interact("Bank", "Deposit");
+						bankInteractable.interact("Bank", "Deposit");
 						return 555;
 					}
 					else
@@ -222,7 +222,7 @@ public class ChopperPlugin extends LoopedPlugin
 			}
 			else
 			{
-				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x.equals("Close"));
+				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
 				if(closeWidget != null)
 				{
 					closeWidget.interact();
@@ -281,11 +281,11 @@ public class ChopperPlugin extends LoopedPlugin
 
 	private static Interactable getBankInteractable()
 	{
-		TileObject nearestObject = TileObjects.getNearest(x -> x.hasAction("Bank", "Deposit"));
+		TileObject nearestObject = TileObjects.getNearest(x -> x != null && x.hasAction("Bank", "Deposit"));
 		if (nearestObject != null)
 			return nearestObject;
 		else
-			return NPCs.getNearest(x -> x.hasAction("Bank", "Deposit"));
+			return NPCs.getNearest(x -> x != null && x.hasAction("Bank", "Deposit"));
 	}
 
 	private static Widget getWidget(Predicate<String> predicate)
