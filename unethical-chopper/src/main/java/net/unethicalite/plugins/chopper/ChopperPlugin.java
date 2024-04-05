@@ -202,22 +202,22 @@ public class ChopperPlugin extends LoopedPlugin
 				if (bankInteractable == null)
 				{
 					Movement.walk(startLocation);
-					return 444;
+					return 1000;
 				}
 				else
 				{
 					Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
-					log.info("Deposit widget: {}", depositInventoryWidget);
+					log.debug("Deposit widget: {}", depositInventoryWidget);
 					if (depositInventoryWidget == null)
 					{
 						bankInteractable.interact("Bank", "Deposit");
-						return 555;
+						return 1000;
 					}
 					else
 					{
-						log.info("	{}", (Object) depositInventoryWidget.getActions());
+						log.debug("	{}", (Object) depositInventoryWidget.getActions());
 						depositInventoryWidget.interact("Deposit inventory");
-						return 666;
+						return 1000;
 					}
 
 				}
@@ -227,12 +227,12 @@ public class ChopperPlugin extends LoopedPlugin
 				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
 				if (closeWidget == null)
 					closeWidget = getWidget(WidgetID.BANK_INVENTORY_GROUP_ID, x -> x != null &&  x.equals("Close"));
-				log.info("Close widget: {}", closeWidget);
+				log.debug("Close widget: {}", closeWidget);
 				if(closeWidget != null)
 				{
-					log.info("	{}", (Object) closeWidget.getActions());
+					log.debug("	{}", (Object) closeWidget.getActions());
 					closeWidget.interact("Close");
-					return 777;
+					return 1000;
 				}
 			}
 		}
