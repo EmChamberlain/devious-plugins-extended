@@ -225,7 +225,7 @@ public class ChopperPlugin extends LoopedPlugin
 			}
 			else
 			{
-				Widget closeWidget = getWidget(/*WidgetID.BANK_GROUP_ID,*/ x -> x != null &&  x.equals("Close"));
+				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
 				log.info("Close widget: {}", closeWidget);
 				if(closeWidget != null)
 				{
