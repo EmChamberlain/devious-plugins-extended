@@ -113,7 +113,7 @@ public class ChopperPlugin extends LoopedPlugin
 				log.info("Script started");
 			}
 		}
-		else if(event.getKey().toLowerCase().contains("bankTile"))
+		else if(event.getKey().toLowerCase().contains("banktile"))
 		{
 			bankLocation = Players.getLocal().getWorldLocation();
 			configManager.setConfiguration("unethical-chopper", "bankTile", String.format("%s %s %s", bankLocation.getX(), bankLocation.getY(), bankLocation.getPlane()));
