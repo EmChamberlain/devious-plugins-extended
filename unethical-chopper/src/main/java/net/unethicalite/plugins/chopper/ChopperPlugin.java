@@ -6,28 +6,35 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.GameObject;
 import net.runelite.api.Tile;
+import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.unethicalite.api.entities.Players;
-import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.Interactable;
+import net.unethicalite.api.SceneEntity;
+import net.unethicalite.api.entities.*;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.movement.pathfinder.GlobalCollisionMap;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.scene.Tiles;
+import net.unethicalite.api.widgets.Widgets;
+import net.unethicalite.client.Static;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static net.unethicalite.api.entities.TileObjects.getNearest;
 
 @Extension
 @PluginDescriptor(
@@ -172,6 +179,42 @@ public class ChopperPlugin extends LoopedPlugin
 				}
 			}
 		}
+		else if (config.bank())
+		{
+			if (Inventory.isFull())
+			{
+				Interactable bankInteractable = getBankInteractable();
+				if (bankInteractable == null)
+				{
+					Movement.walk(startLocation);
+					return 444;
+				}
+				else
+				{
+					Widget depositInventoryWidget = getWidget(x -> x.equals("Deposit inventory"));
+					if (depositInventoryWidget == null)
+					{
+						bankInteractable.interact("Bank", "Deposit");
+						return 555;
+					}
+					else
+					{
+						depositInventoryWidget.interact();
+						return 666;
+					}
+
+				}
+			}
+			else
+			{
+				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x.equals("Close"));
+				if(closeWidget != null)
+				{
+					closeWidget.interact();
+					return 777;
+				}
+			}
+		}
 		else
 		{
 			if (logs != null && !local.isAnimating())
@@ -189,6 +232,7 @@ public class ChopperPlugin extends LoopedPlugin
 		if (tree == null)
 		{
 			log.debug("Could not find any trees");
+			Movement.walk(startLocation);
 			return 1000;
 		}
 
@@ -218,5 +262,59 @@ public class ChopperPlugin extends LoopedPlugin
 					&& isEmptyTile(tile)
 					&& Reachable.isWalkable(tile.getWorldLocation()))
 				.collect(Collectors.toUnmodifiableList());
+	}
+
+	private static Interactable getBankInteractable()
+	{
+		TileObject nearestObject = TileObjects.getNearest(x -> x.hasAction("Bank", "Deposit"));
+		if (nearestObject != null)
+			return nearestObject;
+		else
+			return NPCs.getNearest(x -> x.hasAction("Bank", "Deposit"));
+	}
+
+	private static Widget getWidget(Predicate<String> predicate)
+	{
+		return Arrays.stream(Static.getClient().getWidgets())
+				.filter(Objects::nonNull)
+				.flatMap(Arrays::stream)
+				.filter(
+						w -> predicate.test(w.getName())
+								|| predicate.test(w.getText())
+								|| w.getActions() != null
+								&& Arrays.stream(w.getActions()).anyMatch(predicate)
+				)
+				.findFirst().orElse(null);
+	}
+
+	private static List<Widget> getFlatChildren(Widget widget)
+	{
+		final var list = new ArrayList<Widget>();
+		list.add(widget);
+		if (widget.getChildren() != null)
+		{
+			list.addAll(
+					Arrays.stream(widget.getChildren())
+							.flatMap(w -> getFlatChildren(w).stream())
+							.collect(Collectors.toList())
+			);
+		}
+
+		return list;
+	}
+
+	private static Widget getWidget(int groupId, Predicate<String> predicate)
+	{
+		return Widgets.get(groupId).stream().flatMap(w -> getFlatChildren(w).stream())
+				.collect(Collectors.toList())
+				.stream()
+				.filter(Objects::nonNull)
+				.filter(
+						w -> predicate.test(w.getName())
+								|| predicate.test(w.getText())
+								|| w.getActions() != null
+								&& Arrays.stream(w.getActions()).anyMatch(predicate)
+				)
+				.findFirst().orElse(null);
 	}
 }

@@ -223,13 +223,22 @@
   "name": "Unethical Chopper",
   "description": "Chops trees",
   "id": "unethicalchopper-plugin",
-  "releases": [{
-    "date": "2023-12-16",
-    "sha512sum": "35935E7040AC46BFFD0F2282D171FFB0FBE6B87DA6F2E48C4A1E5B2DB0265B405BEF5D6A25190E801B4E6425073C9D96CFF6D5F2534EA66B645ECB228E5C30CB",
-    "version": "0.0.3",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-chopper-0.0.3.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2023-12-16",
+      "sha512sum": "35935E7040AC46BFFD0F2282D171FFB0FBE6B87DA6F2E48C4A1E5B2DB0265B405BEF5D6A25190E801B4E6425073C9D96CFF6D5F2534EA66B645ECB228E5C30CB",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-chopper-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-05",
+      "sha512sum": "0954CA337DABB2842F639A68BCF4AA5E282E7A0E254FC9E77661B9D87920C4EBB0DEE9F0A4A15A4DB8B83AF3AF437EC6598F9F76D56B71DA735EF850ACA2928E",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-chopper-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

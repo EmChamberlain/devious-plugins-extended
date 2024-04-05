@@ -31,6 +31,17 @@ public interface ChopperConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "bank",
+			name = "Bank",
+			description = "Bank while chopping",
+			position = 2
+	)
+	default boolean bank()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 		keyName = "Start",
 		name = "Start/Stop",
 		description = "Start/Stop button",
