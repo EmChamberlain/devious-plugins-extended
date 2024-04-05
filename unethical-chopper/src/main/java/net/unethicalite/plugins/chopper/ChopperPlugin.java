@@ -208,8 +208,6 @@ public class ChopperPlugin extends LoopedPlugin
 				{
 					Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
 					log.info("Deposit widget: {}", depositInventoryWidget);
-					if (depositInventoryWidget != null)
-						log.info("	{}", (Object) depositInventoryWidget.getActions());
 					if (depositInventoryWidget == null)
 					{
 						bankInteractable.interact("Bank", "Deposit");
@@ -217,6 +215,7 @@ public class ChopperPlugin extends LoopedPlugin
 					}
 					else
 					{
+						log.info("	{}", (Object) depositInventoryWidget.getActions());
 						depositInventoryWidget.interact("Deposit inventory");
 						return 666;
 					}
@@ -226,10 +225,13 @@ public class ChopperPlugin extends LoopedPlugin
 			else
 			{
 				Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
+				if (closeWidget == null)
+					closeWidget = getWidget(WidgetID.BANK_INVENTORY_GROUP_ID, x -> x != null &&  x.equals("Close"));
 				log.info("Close widget: {}", closeWidget);
 				if(closeWidget != null)
 				{
-					closeWidget.interact();
+					log.info("	{}", (Object) closeWidget.getActions());
+					closeWidget.interact("Close");
 					return 777;
 				}
 			}
@@ -322,10 +324,9 @@ public class ChopperPlugin extends LoopedPlugin
 
 	private static Widget getWidget(int groupId, Predicate<String> predicate)
 	{
-		return Widgets.get(groupId).stream().flatMap(w -> getFlatChildren(w).stream())
-				.collect(Collectors.toList())
-				.stream()
+		return Widgets.get(groupId).stream()
 				.filter(Objects::nonNull)
+				.flatMap(w -> getFlatChildren(w).stream())
 				.filter(
 						w -> w.getActions() != null
 								&& Arrays.stream(w.getActions()).anyMatch(predicate)
