@@ -154,6 +154,7 @@ public class ChopperPlugin extends LoopedPlugin
 			var tinderbox = Inventory.getFirst("Tinderbox");
 			if (logs != null && tinderbox != null)
 			{
+				fireArea = generateFireArea(3);
 				var emptyTile = fireArea == null || fireArea.isEmpty() ? null : fireArea.stream()
 						.filter(t ->
 						{
@@ -165,7 +166,7 @@ public class ChopperPlugin extends LoopedPlugin
 
 				if (fireArea.isEmpty() || emptyTile == null)
 				{
-					fireArea = generateFireArea(3);
+					fireArea = generateFireArea(5);
 					log.debug("Generating fire area");
 					return 1000;
 				}
