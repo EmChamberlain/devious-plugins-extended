@@ -49,6 +49,9 @@ public class ChopperPlugin extends LoopedPlugin
 	private ChopperConfig config;
 
 	@Inject
+	private ConfigManager configManager;
+
+	@Inject
 	private OverlayManager overlayManager;
 
 	@Inject
@@ -63,6 +66,7 @@ public class ChopperPlugin extends LoopedPlugin
 	private List<Tile> fireArea;
 
 	private WorldPoint startLocation = null;
+	private WorldPoint bankLocation = null;
 
 	@Getter(AccessLevel.PROTECTED)
 	private boolean scriptStarted;
@@ -83,27 +87,38 @@ public class ChopperPlugin extends LoopedPlugin
 	@Subscribe
 	public void onConfigButtonPressed(ConfigButtonClicked event)
 	{
-		if (!event.getGroup().contains("unethical-chopper") || !event.getKey().toLowerCase().contains("start"))
+		if (!event.getGroup().contains("unethical-chopper"))
 		{
 			return;
 		}
 
-		if (scriptStarted)
+		if (event.getKey().toLowerCase().contains("start"))
 		{
-			scriptStarted = false;
-		}
-		else
-		{
-			var local = Players.getLocal();
-			if (local == null)
+			if (scriptStarted)
 			{
-				return;
+				scriptStarted = false;
 			}
-			startLocation = local.getWorldLocation();
-			fireArea = generateFireArea(3);
-			this.scriptStarted = true;
-			log.info("Script started");
+			else
+			{
+				var local = Players.getLocal();
+				if (local == null)
+				{
+					return;
+				}
+				startLocation = local.getWorldLocation();
+				String[] split = config.bankTile().split(" ");
+				bankLocation = new WorldPoint(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+				fireArea = generateFireArea(3);
+				this.scriptStarted = true;
+				log.info("Script started");
+			}
 		}
+		else if(event.getKey().toLowerCase().contains("bankTile"))
+		{
+			bankLocation = Players.getLocal().getWorldLocation();
+			configManager.setConfiguration("unethical-chopper", "bankTile", String.format("%s %s %s", bankLocation.getX(), bankLocation.getY(), bankLocation.getPlane()));
+		}
+
 	}
 
 	protected boolean isEmptyTile(Tile tile)
@@ -194,7 +209,7 @@ public class ChopperPlugin extends LoopedPlugin
 					Widget depositInventoryWidget = getWidget(x -> x.equals("Deposit inventory"));
 					if (depositInventoryWidget == null)
 					{
-						bankInteractable.interact("Bank", "Deposit");
+						depositInventoryWidget.interact("Bank", "Deposit");
 						return 555;
 					}
 					else

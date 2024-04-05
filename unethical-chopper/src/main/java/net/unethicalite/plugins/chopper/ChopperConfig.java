@@ -41,12 +41,36 @@ public interface ChopperConfig extends Config
 		return false;
 	}
 
+
+	@ConfigItem(
+			keyName = "bankTile",
+			name = "Bank tile",
+			description = "",
+			position = 3,
+			enabledBy = "bank"
+	)
+	default String bankTile()
+	{
+		return "0 0 0";
+	}
+
+
 	@ConfigItem(
 		keyName = "Start",
 		name = "Start/Stop",
 		description = "Start/Stop button",
 		position = 2)
 	default Button startStopButton()
+	{
+		return new Button();
+	}
+
+	@ConfigItem(
+			keyName = "bankTileButton",
+			name = "Set bankTile",
+			description = "Set bankTile",
+			position = 3)
+	default Button bankTileButton()
 	{
 		return new Button();
 	}
