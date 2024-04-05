@@ -265,6 +265,13 @@
       "version": "0.0.8",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-chopper-0.0.8.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-05",
+      "sha512sum": "9358805DF174CDFB6757406C1E6549F91604F90EDD6F16B46517C4E29B0AD7CED2A7CDB55A9B0179ECF4203CAE2FA0AC66356F89AD9FAE884E3A1AE8CB1760CE",
+      "version": "0.0.9",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-chopper-0.0.9.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

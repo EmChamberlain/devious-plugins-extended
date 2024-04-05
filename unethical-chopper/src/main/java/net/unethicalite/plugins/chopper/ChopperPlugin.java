@@ -208,6 +208,8 @@ public class ChopperPlugin extends LoopedPlugin
 				{
 					Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
 					log.info("Deposit widget: {}", depositInventoryWidget);
+					if (depositInventoryWidget != null)
+						log.info("	{}", (Object) depositInventoryWidget.getActions());
 					if (depositInventoryWidget == null)
 					{
 						bankInteractable.interact("Bank", "Deposit");
@@ -215,7 +217,7 @@ public class ChopperPlugin extends LoopedPlugin
 					}
 					else
 					{
-						depositInventoryWidget.interact();
+						depositInventoryWidget.interact("Deposit inventory");
 						return 666;
 					}
 
@@ -296,9 +298,7 @@ public class ChopperPlugin extends LoopedPlugin
 				.filter(Objects::nonNull)
 				.flatMap(Arrays::stream)
 				.filter(
-						w -> predicate.test(w.getName())
-								|| predicate.test(w.getText())
-								|| w.getActions() != null
+						w -> w.getActions() != null
 								&& Arrays.stream(w.getActions()).anyMatch(predicate)
 				)
 				.findFirst().orElse(null);
@@ -327,9 +327,7 @@ public class ChopperPlugin extends LoopedPlugin
 				.stream()
 				.filter(Objects::nonNull)
 				.filter(
-						w -> predicate.test(w.getName())
-								|| predicate.test(w.getText())
-								|| w.getActions() != null
+						w -> w.getActions() != null
 								&& Arrays.stream(w.getActions()).anyMatch(predicate)
 				)
 				.findFirst().orElse(null);
