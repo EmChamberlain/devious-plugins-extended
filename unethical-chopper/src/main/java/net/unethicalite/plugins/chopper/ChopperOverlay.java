@@ -49,7 +49,7 @@ class ChopperOverlay extends Overlay
 			Tile tile = Tiles.getAt(t.getWorldLocation());
 			if (plugin.isEmptyTile(tile))
 			{
-				tile.getWorldLocation().outline(client, graphics2D, Color.GREEN, "Empty tile");
+				tile.getWorldLocation().outline(client, graphics2D, Color.GREEN, "");
 			}
 		}
 
