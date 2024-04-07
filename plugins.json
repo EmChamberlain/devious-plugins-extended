@@ -409,13 +409,22 @@
   "name": "Unethical Pest Control",
   "description": "Does pest control",
   "id": "unethicalpestcontrol-plugin",
-  "releases": [{
-    "date": "2024-04-07",
-    "sha512sum": "BCD55CC60AA251002E9DF887207E98D7B0D1856C63C7EC17C28721958A978E32C831F48491AC4D95D46B08756E906ED114EE9A4E8736804A1228EEF3B86B03E9",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-07",
+      "sha512sum": "BCD55CC60AA251002E9DF887207E98D7B0D1856C63C7EC17C28721958A978E32C831F48491AC4D95D46B08756E906ED114EE9A4E8736804A1228EEF3B86B03E9",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-07",
+      "sha512sum": "67FB82A3FA7C690492A0642F8D4F31427BFBDDAAA2321C42BD80F60BAE25B828FF6E44DA53DCE6F3037574EC2A6FF1C928665A02C87A777A91D30EEA844D463B",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

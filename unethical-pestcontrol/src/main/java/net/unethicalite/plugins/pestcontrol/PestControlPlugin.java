@@ -36,8 +36,8 @@ import static net.unethicalite.api.entities.TileObjects.getNearest;
 
 @Extension
 @PluginDescriptor(
-        name = "Unethical PestControl",
-        description = "Chops trees",
+        name = "Unethical Pest Control",
+        description = "Does pest control",
         enabledByDefault = false
 )
 @Slf4j
@@ -91,7 +91,7 @@ public class PestControlPlugin extends LoopedPlugin
     @Subscribe
     public void onConfigButtonPressed(ConfigButtonClicked event)
     {
-        if (!event.getGroup().contains("unethical-PestControl"))
+        if (!event.getGroup().contains("unethical-pestcontrol"))
         {
             return;
         }
