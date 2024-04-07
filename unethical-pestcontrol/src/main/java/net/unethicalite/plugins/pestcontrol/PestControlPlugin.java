@@ -231,7 +231,7 @@ public class PestControlPlugin extends LoopedPlugin
             }
             else if (plankInteractable != null && !in_lander)
             {
-                plankInteractable.interact();
+                plankInteractable.interact("Cross");
                 log.info("Interacting with plank");
                 return 1000;
             }
