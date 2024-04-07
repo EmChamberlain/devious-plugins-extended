@@ -138,7 +138,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private NPC getNearestAttackableNPC()
     {
-        return NPCs.getNearest(x -> x != null && x.hasAction("Attack"));
+        return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && x.getHealthRatio() > 0);
     }
 
 
