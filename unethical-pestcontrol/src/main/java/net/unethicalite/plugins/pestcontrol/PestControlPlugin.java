@@ -188,6 +188,12 @@ public class PestControlPlugin extends LoopedPlugin
             }
             else
             {
+                if (local.isMoving())
+                {
+                    log.info("Currently moving, idling.");
+                    return 250;
+                }
+
                 Movement.walkTo(guardPoint);
                 log.info("Walking to guard point");
                 return 1000;
@@ -205,8 +211,14 @@ public class PestControlPlugin extends LoopedPlugin
             {
                 int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 1 : 6;
 
-                if (!local.isMoving() && local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
+                if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
                 {
+                    if (local.isMoving())
+                    {
+                        log.info("Currently moving, idling.");
+                        return 250;
+                    }
+
                     log.info("Moving to target");
                     Movement.walkTo(closestAttackable.getWorldLocation());
                     return 1000;
