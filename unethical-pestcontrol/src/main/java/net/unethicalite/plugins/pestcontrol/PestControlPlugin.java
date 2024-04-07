@@ -23,6 +23,7 @@ import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.movement.pathfinder.GlobalCollisionMap;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.scene.Tiles;
+import net.unethicalite.api.widgets.Prayers;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 import org.pf4j.Extension;
@@ -157,6 +158,13 @@ public class PestControlPlugin extends LoopedPlugin
         {
             log.info("Local player is null");
             return 1000;
+        }
+
+        if (Prayers.getPoints() > 0 && !Prayers.isQuickPrayerEnabled())
+        {
+            log.info("Enabling quick prayers");
+            Prayers.toggleQuickPrayer(true);
+            return 500;
         }
 
 
