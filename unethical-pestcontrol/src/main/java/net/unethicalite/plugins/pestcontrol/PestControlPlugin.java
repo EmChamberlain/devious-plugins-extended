@@ -138,7 +138,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private NPC getNearestWalkableAttackableNPC()
     {
-        return Combat.getAttackableNPC(x -> x != null && Reachable.isWalkable(x.getWorldLocation()));
+        return Combat.getAttackableNPC(Objects::nonNull);
     }
 
 
@@ -211,7 +211,13 @@ public class PestControlPlugin extends LoopedPlugin
             {
                 int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 2 : 7;
 
-                if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
+                if (!Reachable.isWalled(local.getWorldLocation(), closestAttackable.getWorldLocation()))
+                {
+                    closestAttackable.interact("Attack");
+                    log.info("Attacking closest reachable");
+                    return 1000;
+                }
+                else if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
                 {
                     if (local.isMoving())
                     {
@@ -226,7 +232,7 @@ public class PestControlPlugin extends LoopedPlugin
                 else
                 {
                     closestAttackable.interact("Attack");
-                    log.info("Attacking closest");
+                    log.info("Attacking closest default");
                     return 1000;
                 }
             }
