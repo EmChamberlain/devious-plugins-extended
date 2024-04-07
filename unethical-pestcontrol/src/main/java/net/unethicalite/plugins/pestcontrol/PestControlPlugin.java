@@ -125,9 +125,9 @@ public class PestControlPlugin extends LoopedPlugin
                 && !collisionMap.fullBlock(tile.getWorldLocation());
     }
 
-    private NPC getNearestAttackableNPC()
+    private NPC getNearestWalkableAttackableNPC()
     {
-        return NPCs.getNearest(x -> x != null && x.hasAction("Attack"));
+        return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && Reachable.isWalkable(x.getWorldLocation()));
     }
 
 
@@ -152,7 +152,7 @@ public class PestControlPlugin extends LoopedPlugin
     private int handlePestControl()
     {
         var local = Players.getLocal();
-        var closestAttackable = getNearestAttackableNPC();
+        var closestAttackable = getNearestWalkableAttackableNPC();
 
         if (local == null)
         {
@@ -170,9 +170,18 @@ public class PestControlPlugin extends LoopedPlugin
 
         if (closestAttackable == null)
         {
-            Movement.walkTo(guardPoint);
-            log.info("Walking to guard point");
-            return 1000;
+            if (local.getWorldLocation().distanceTo(guardPoint) <= 3)
+            {
+                log.info("At guard point, idling.");
+                return 1000;
+            }
+            else
+            {
+                Movement.walkTo(guardPoint);
+                log.info("Walking to guard point");
+                return 1000;
+            }
+
         }
         else
         {
