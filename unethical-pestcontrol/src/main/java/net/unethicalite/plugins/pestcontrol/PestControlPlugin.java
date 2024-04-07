@@ -217,9 +217,17 @@ public class PestControlPlugin extends LoopedPlugin
                     log.info("Attacking closest reachable");
                     return 1000;
                 }
-                else if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
+                else if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) <= maxDist)
                 {
-                    if (local.isMoving())
+                    closestAttackable.interact("Attack");
+                    log.info("Attacking closest reachable");
+                    return 1000;
+
+
+                }
+                else
+                {
+                    if (local.getWorldLocation().distanceTo(Movement.getDestination()) > 3)
                     {
                         log.info("Currently moving, idling.");
                         return 50;
@@ -228,12 +236,6 @@ public class PestControlPlugin extends LoopedPlugin
                     log.info("Moving to target");
                     Movement.walkTo(closestAttackable.getWorldLocation());
                     return 50;
-                }
-                else
-                {
-                    closestAttackable.interact("Attack");
-                    log.info("Attacking closest default");
-                    return 1000;
                 }
             }
         }
