@@ -170,9 +170,9 @@ public class PestControlPlugin extends LoopedPlugin
         var local = Players.getLocal();
         var closestAttackable = getNearestAttackableNPC();
         var voidKnight = NPCs.getNearest("Void Knight");
-        var portal = getPortal();
+        /*var portal = getPortal();
         if (portal != null)
-            closestAttackable = portal;
+            closestAttackable = portal;*/
 
 
         if (voidKnight != null)
