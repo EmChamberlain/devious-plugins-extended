@@ -209,7 +209,7 @@ public class PestControlPlugin extends LoopedPlugin
             }
             else
             {
-                int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 2 : 7;
+                int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 0 : 7;
 
                 if (!Reachable.isWalled(local.getWorldLocation(), closestAttackable.getWorldLocation()))
                 {
@@ -222,8 +222,6 @@ public class PestControlPlugin extends LoopedPlugin
                     closestAttackable.interact("Attack");
                     log.info("Attacking closest reachable");
                     return 1000;
-
-
                 }
                 else
                 {
