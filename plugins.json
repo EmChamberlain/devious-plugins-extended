@@ -406,6 +406,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Pest Control",
+  "description": "Does pest control",
+  "id": "unethicalpestcontrol-plugin",
+  "releases": [{
+    "date": "2024-04-07",
+    "sha512sum": "BCD55CC60AA251002E9DF887207E98D7B0D1856C63C7EC17C28721958A978E32C831F48491AC4D95D46B08756E906ED114EE9A4E8736804A1228EEF3B86B03E9",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Pickpocket",
   "description": "Configurable pickpocketer",
   "id": "unethicalpickpocket-plugin",
