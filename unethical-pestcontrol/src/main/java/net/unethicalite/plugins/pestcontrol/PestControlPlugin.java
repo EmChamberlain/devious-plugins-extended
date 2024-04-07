@@ -1,6 +1,8 @@
 package net.unethicalite.plugins.pestcontrol;
 
 import com.google.inject.Provides;
+import com.openosrs.client.game.PlayerManager;
+import com.openosrs.client.util.WeaponStyle;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +14,14 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.http.api.worlds.WorldRegion;
 import net.unethicalite.api.Interactable;
 import net.unethicalite.api.entities.*;
+import net.unethicalite.api.game.Combat;
+import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
@@ -54,6 +59,12 @@ public class PestControlPlugin extends LoopedPlugin
     private OverlayManager overlayManager;
 
     @Inject
+    private ItemManager itemManager;
+
+    @Inject
+    private PlayerManager playerManager;
+
+    @Inject
     private Client client;
 
     @Inject
@@ -71,7 +82,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private static final int PEST_CONTROL_REGION = 10537;
 
-    private static final  WorldPoint guardPoint = new WorldPoint(2656, 2591, 0);
+    private static final  WorldPoint guardPoint = new WorldPoint(2657, 2590, 0);
     private static final WorldPoint noviceLanderCorner = new WorldPoint(2661, 2639, 0);
     private static final WorldPoint intermediateLanderCorner = new WorldPoint(2639, 2643, 0);
     private static final WorldPoint expertLanderCorner = new WorldPoint(2633, 2650, 0);
@@ -127,7 +138,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private NPC getNearestWalkableAttackableNPC()
     {
-        return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && Reachable.isWalkable(x.getWorldLocation()));
+        return Combat.getAttackableNPC(x -> x != null && Reachable.isWalkable(x.getWorldLocation()));
     }
 
 
@@ -192,9 +203,20 @@ public class PestControlPlugin extends LoopedPlugin
             }
             else
             {
-                closestAttackable.interact("Attack");
-                log.info("Attacking closest");
-                return 1000;
+                int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 1 : 6;
+
+                if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
+                {
+                    log.info("Moving to target");
+                    Movement.walkTo(closestAttackable.getWorldLocation());
+                    return 1000;
+                }
+                else
+                {
+                    closestAttackable.interact("Attack");
+                    log.info("Attacking closest");
+                    return 1000;
+                }
             }
         }
     }
