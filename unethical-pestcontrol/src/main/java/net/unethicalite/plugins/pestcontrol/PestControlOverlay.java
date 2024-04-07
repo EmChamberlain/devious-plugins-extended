@@ -34,6 +34,11 @@ class PestControlOverlay extends Overlay
     @Override
     public Dimension render(Graphics2D graphics2D)
     {
+        if (plugin.guardPoint != null)
+        {
+            Tile tile = Tiles.getAt(plugin.guardPoint.getWorldLocation());
+            tile.getWorldLocation().outline(client, graphics2D, Color.RED, "Guard Point");
+        }
         return null;
     }
 }

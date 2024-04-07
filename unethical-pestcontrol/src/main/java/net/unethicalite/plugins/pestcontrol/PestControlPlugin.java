@@ -82,7 +82,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private static final int PEST_CONTROL_REGION = 10537;
 
-    private static final  WorldPoint guardPoint = new WorldPoint(2657, 2590, 0);
+    protected WorldPoint guardPoint = new WorldPoint(2657, 2590, 0);
     private static final WorldPoint noviceLanderCorner = new WorldPoint(2661, 2639, 0);
     private static final WorldPoint intermediateLanderCorner = new WorldPoint(2639, 2643, 0);
     private static final WorldPoint expertLanderCorner = new WorldPoint(2633, 2650, 0);
@@ -138,7 +138,7 @@ public class PestControlPlugin extends LoopedPlugin
 
     private NPC getNearestAttackableNPC()
     {
-        return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && x.getHealthRatio() > 0);
+        return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && x.getHealthRatio() != 0);
     }
 
 
@@ -164,6 +164,12 @@ public class PestControlPlugin extends LoopedPlugin
     {
         var local = Players.getLocal();
         var closestAttackable = getNearestAttackableNPC();
+        var voidKnight = NPCs.getNearest("Void Knight");
+        if (voidKnight != null)
+        {
+            log.info("Setting guard point: {}", voidKnight.getWorldLocation());
+            guardPoint = voidKnight.getWorldLocation();
+        }
 
         if (local == null)
         {
