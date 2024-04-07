@@ -241,7 +241,7 @@ public class PestControlPlugin extends LoopedPlugin
                 }
                 else
                 {
-                    if (local.getWorldLocation().distanceTo(Movement.getDestination()) > 2)
+                    if (local.getWorldLocation().distanceTo(Movement.getDestination()) > 0)
                     {
                         log.info("Currently moving, idling.");
                         return 50;
