@@ -205,7 +205,7 @@ public class PestControlPlugin extends LoopedPlugin
             {
                 int maxDist = Combat.getCurrentWeaponStyle() == WeaponStyle.MELEE ? 1 : 6;
 
-                if (local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
+                if (!local.isMoving() && local.getWorldLocation().distanceTo(closestAttackable.getWorldLocation()) > maxDist)
                 {
                     log.info("Moving to target");
                     Movement.walkTo(closestAttackable.getWorldLocation());
