@@ -154,21 +154,29 @@ public class PestControlPlugin extends LoopedPlugin
         var closestAttackable = getNearestAttackableNPC();
 
         if (local == null)
+        {
+            log.info("Local player is null");
             return 1000;
+        }
 
 
         if (closestAttackable == null)
         {
             Movement.walkTo(guardPoint);
+            log.info("Walking to guard point");
             return 1000;
         }
         else
         {
             if (!targetDeadOrNoTarget())
+            {
+                log.info("Have target, idling");
                 return 1000;
+            }
             else
             {
                 closestAttackable.interact("Attack");
+                log.info("Attacking closest");
                 return 1000;
             }
         }
@@ -187,20 +195,28 @@ public class PestControlPlugin extends LoopedPlugin
     @Override
     protected int loop()
     {
-        if (cooldown > 0 || !scriptStarted)
+        if (cooldown > 0)
         {
+            log.info("Cooling down");
+            return -1;
+        }
+        if (!scriptStarted)
+        {
+            log.info("Script not started");
             return -1;
         }
 
         var local = Players.getLocal();
         if (local == null)
         {
+            log.info("Local player is null in loop");
             return -1;
         }
 
         if (local.getWorldLocation().getRegionID() == PEST_CONTROL_REGION)
         {
-            //We are currently actively playing pest control
+            //We are currently actively playing pest control\
+            log.info("Handling pest control");
             return handlePestControl();
         }
         else
@@ -210,16 +226,19 @@ public class PestControlPlugin extends LoopedPlugin
             if (plankInteractable == null && !in_lander)
             {
                 Movement.walkTo(startLocation);
+                log.info("Walking to start");
                 return 1000;
             }
             else if (plankInteractable != null && !in_lander)
             {
                 plankInteractable.interact();
+                log.info("Interacting with plank");
                 return 1000;
             }
             else
             {
                 //wait for pest control to start
+                log.info("Wait for pest control to start");
                 return 1000;
             }
         }
@@ -240,14 +259,7 @@ public class PestControlPlugin extends LoopedPlugin
         return configManager.getConfig(PestControlConfig.class);
     }
 
-    private List<Tile> generateFireArea(int radius)
-    {
-        return Tiles.getSurrounding(Players.getLocal().getWorldLocation(), radius).stream()
-                .filter(tile -> tile != null
-                        && isEmptyTile(tile)
-                        && Reachable.isWalkable(tile.getWorldLocation()))
-                .collect(Collectors.toUnmodifiableList());
-    }
+
 
     private Interactable getPlankInteractable()
     {

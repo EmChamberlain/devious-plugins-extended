@@ -423,6 +423,13 @@
       "version": "0.0.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-07",
+      "sha512sum": "4F8670BFA1BE5F1EE30E89C7047BFE66B48084E953FF752498FF2FB3D630B07C90B492F25542E873F4CE97EC61E80D33748EBECE55DA2DB0866ECC91F8EF3AA3",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pestcontrol-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
