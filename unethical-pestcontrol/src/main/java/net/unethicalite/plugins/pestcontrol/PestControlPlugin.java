@@ -216,7 +216,7 @@ public class PestControlPlugin extends LoopedPlugin
         if (local.getWorldLocation().getRegionID() == PEST_CONTROL_REGION)
         {
             //We are currently actively playing pest control\
-            log.info("Handling pest control");
+            log.info("Handling pest control in region: {}", local.getWorldLocation().getRegionID());
             return handlePestControl();
         }
         else
