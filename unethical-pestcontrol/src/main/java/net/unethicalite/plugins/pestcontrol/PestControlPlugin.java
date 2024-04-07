@@ -141,6 +141,11 @@ public class PestControlPlugin extends LoopedPlugin
         return NPCs.getNearest(x -> x != null && x.hasAction("Attack") && x.getHealthRatio() != 0);
     }
 
+    private NPC getPortal()
+    {
+        return NPCs.getNearest(x -> x != null && x.getName().contains("Portal") && x.getHealthRatio() != 0 && x.hasAction("Attack"));
+    }
+
 
     private boolean targetDeadOrNoTarget()
     {
@@ -165,6 +170,11 @@ public class PestControlPlugin extends LoopedPlugin
         var local = Players.getLocal();
         var closestAttackable = getNearestAttackableNPC();
         var voidKnight = NPCs.getNearest("Void Knight");
+        var portal = getPortal();
+        if (portal != null)
+            closestAttackable = portal;
+
+
         if (voidKnight != null)
         {
             log.info("Setting guard point: {}", voidKnight.getWorldLocation());
