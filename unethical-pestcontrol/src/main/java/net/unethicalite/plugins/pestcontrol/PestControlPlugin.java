@@ -184,19 +184,19 @@ public class PestControlPlugin extends LoopedPlugin
             if (local.getWorldLocation().distanceTo(guardPoint) <= 3)
             {
                 log.info("At guard point, idling.");
-                return 1000;
+                return 50;
             }
             else
             {
                 if (local.isMoving())
                 {
                     log.info("Currently moving, idling.");
-                    return 250;
+                    return 50;
                 }
 
                 Movement.walkTo(guardPoint);
                 log.info("Walking to guard point");
-                return 1000;
+                return 50;
             }
 
         }
@@ -205,7 +205,7 @@ public class PestControlPlugin extends LoopedPlugin
             if (!targetDeadOrNoTarget())
             {
                 log.info("Have target, idling");
-                return 1000;
+                return 50;
             }
             else
             {
@@ -216,12 +216,12 @@ public class PestControlPlugin extends LoopedPlugin
                     if (local.isMoving())
                     {
                         log.info("Currently moving, idling.");
-                        return 250;
+                        return 50;
                     }
 
                     log.info("Moving to target");
                     Movement.walkTo(closestAttackable.getWorldLocation());
-                    return 1000;
+                    return 50;
                 }
                 else
                 {
