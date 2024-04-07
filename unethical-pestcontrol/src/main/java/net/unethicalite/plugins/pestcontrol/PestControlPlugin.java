@@ -68,7 +68,7 @@ public class PestControlPlugin extends LoopedPlugin
     @Getter(AccessLevel.PROTECTED)
     private boolean scriptStarted;
 
-    private static final int PEST_CONTROL_REGION = 10536;
+    private static final int PEST_CONTROL_REGION = 10537;
 
     private static final  WorldPoint guardPoint = new WorldPoint(2656, 2591, 0);
     private static final WorldPoint noviceLanderCorner = new WorldPoint(2661, 2639, 0);
@@ -212,10 +212,9 @@ public class PestControlPlugin extends LoopedPlugin
             log.info("Local player is null in loop");
             return -1;
         }
-
-        if (local.getWorldLocation().getRegionID() == PEST_CONTROL_REGION)
+        if (local.getWorldLocation().getRegionID() != PEST_CONTROL_REGION)
         {
-            //We are currently actively playing pest control\
+            //We are currently actively playing pest control
             log.info("Handling pest control in region: {}", local.getWorldLocation().getRegionID());
             return handlePestControl();
         }
