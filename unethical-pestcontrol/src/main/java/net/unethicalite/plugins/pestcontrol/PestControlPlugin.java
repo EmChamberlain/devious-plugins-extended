@@ -178,7 +178,7 @@ public class PestControlPlugin extends LoopedPlugin
         if (voidKnight != null)
         {
             log.info("Setting guard point: {}", voidKnight.getWorldLocation());
-            guardPoint = voidKnight.getWorldLocation();
+            guardPoint = new WorldPoint(voidKnight.getWorldLocation().getX(), voidKnight.getWorldLocation().getY() + 1, voidKnight.getWorldLocation().getPlane());
         }
 
         if (local == null)
