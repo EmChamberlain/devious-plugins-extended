@@ -7,10 +7,9 @@ import net.runelite.client.config.ConfigItem;
 @ConfigGroup("unethical-prayerflicker")
 public interface PrayerFlickerConfig extends Config
 {
-
     @ConfigItem(
-            keyName = "enabled",
-            name = "Enabled",
+            keyName = "prayerFlickerEnabled",
+            name = "Prayer Flicker Enabled",
             description = "Whether to prayer flick or not",
             position = 0
     )

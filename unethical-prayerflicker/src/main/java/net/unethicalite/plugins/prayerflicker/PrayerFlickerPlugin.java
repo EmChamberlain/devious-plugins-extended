@@ -31,6 +31,18 @@ public class PrayerFlickerPlugin extends Plugin
     @Inject
     private PrayerFlickerConfig config;
 
+    @Override
+    protected void startUp()
+    {
+        return;
+    }
+
+    @Override
+    public void shutDown()
+    {
+        return;
+    }
+
     private void invokeAction(MenuAutomated entry, int x, int y)
     {
         GameThread.invoke(() ->
