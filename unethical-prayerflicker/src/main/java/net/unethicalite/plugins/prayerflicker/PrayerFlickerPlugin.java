@@ -12,15 +12,17 @@ import net.unethicalite.api.game.GameThread;
 import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.widgets.Prayers;
 import net.unethicalite.api.widgets.Widgets;
+import org.pf4j.Extension;
 
 
 import javax.inject.Inject;
-@Slf4j
+@Extension
 @PluginDescriptor(
         name = "Unethical Prayer Flicker",
         description = "Auto prayer flicker",
         enabledByDefault = false
 )
+@Slf4j
 public class PrayerFlickerPlugin extends Plugin
 {
     @Inject

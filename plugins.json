@@ -627,9 +627,16 @@
     },
     {
       "date": "2024-04-09",
-      "sha512sum": "181B63B9CCC3148EF642E1EE82048DA3E733208FA508B7B00923FA9BD179BE450ADF7990271FEC5B9A3492BDF54F51BDD84C66920147787C391DE5E87C22E3EA",
+      "sha512sum": "F41426E51F640FADF032081313FB260E4AD45D2F3667537764A62EDBBB665335B7E8B5655421A99E336DD776F2056C70833D3163C665737CCD4B9C83671A8856",
       "version": "0.0.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-09",
+      "sha512sum": "BE1E7D475017113E0B6FD1FE4E5ACDBDEB0C596666D746D18702A287F3FF0174182916BE1E2D2B333AD76A7EAFE8976A1B7B1719B214C202148D6B1600F37BB7",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.3.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
