@@ -1,11 +1,9 @@
 package net.unethicalite.plugins.prayerflicker;
 
-import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
-import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -21,7 +19,7 @@ import javax.inject.Inject;
 @PluginDescriptor(
         name = "Unethical Prayer Flicker",
         description = "Auto prayer flicker",
-        tags = {"combat", "flicking", "overlay"}
+        enabledByDefault = false
 )
 public class PrayerFlickerPlugin extends Plugin
 {
@@ -30,12 +28,6 @@ public class PrayerFlickerPlugin extends Plugin
 
     @Inject
     private PrayerFlickerConfig config;
-
-    @Provides
-    PrayerFlickerConfig provideConfig(ConfigManager configManager)
-    {
-        return configManager.getConfig(PrayerFlickerConfig.class);
-    }
 
     private void invokeAction(MenuAutomated entry, int x, int y)
     {
@@ -70,5 +62,4 @@ public class PrayerFlickerPlugin extends Plugin
             }
         }
     }
-
 }

@@ -617,13 +617,22 @@
   "name": "Unethical Prayer Flicker",
   "description": "Auto prayer flicker",
   "id": "unethicalprayerflicker-plugin",
-  "releases": [{
-    "date": "2024-04-09",
-    "sha512sum": "289EBC05FE64786A710ACB4226911D038C81A8AEFD26746159802458F48B05B58630C569718D7AD21D0D565BA07D98576E349F5B622B5D61A9416E139A2BF4BF",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-09",
+      "sha512sum": "289EBC05FE64786A710ACB4226911D038C81A8AEFD26746159802458F48B05B58630C569718D7AD21D0D565BA07D98576E349F5B622B5D61A9416E139A2BF4BF",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-09",
+      "sha512sum": "181B63B9CCC3148EF642E1EE82048DA3E733208FA508B7B00923FA9BD179BE450ADF7990271FEC5B9A3492BDF54F51BDD84C66920147787C391DE5E87C22E3EA",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
