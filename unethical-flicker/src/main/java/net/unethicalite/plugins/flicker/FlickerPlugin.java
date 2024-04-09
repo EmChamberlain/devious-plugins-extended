@@ -1,4 +1,4 @@
-package net.unethicalite.plugins.prayerflicker;
+package net.unethicalite.plugins.flicker;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
@@ -18,18 +18,18 @@ import org.pf4j.Extension;
 import javax.inject.Inject;
 @Extension
 @PluginDescriptor(
-        name = "Unethical Prayer Flicker",
-        description = "Auto prayer flicker",
+        name = "Unethical Flicker",
+        description = "Auto flicker",
         enabledByDefault = false
 )
 @Slf4j
-public class PrayerFlickerPlugin extends Plugin
+public class FlickerPlugin extends Plugin
 {
     @Inject
     private Client client;
 
     @Inject
-    private PrayerFlickerConfig config;
+    private FlickerConfig config;
 
     @Override
     protected void startUp()

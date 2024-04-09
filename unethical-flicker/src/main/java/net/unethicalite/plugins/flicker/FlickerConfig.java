@@ -1,15 +1,15 @@
-package net.unethicalite.plugins.prayerflicker;
+package net.unethicalite.plugins.flicker;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("unethical-prayerflicker")
-public interface PrayerFlickerConfig extends Config
+@ConfigGroup("unethical-flicker")
+public interface FlickerConfig extends Config
 {
     @ConfigItem(
-            keyName = "prayerFlickerEnabled",
-            name = "Prayer Flicker Enabled",
+            keyName = "flickerEnabled",
+            name = "Flicker Enabled",
             description = "Whether to prayer flick or not",
             position = 0
     )

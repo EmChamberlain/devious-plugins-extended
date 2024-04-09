@@ -1,7 +1,7 @@
-version = "0.0.5"
+version = "0.0.6"
 
-project.extra["PluginName"] = "Unethical Prayer Flicker"
-project.extra["PluginDescription"] = "Auto prayer flicker"
+project.extra["PluginName"] = "Unethical Flicker"
+project.extra["PluginDescription"] = "Auto flicker"
 
 tasks {
     jar {

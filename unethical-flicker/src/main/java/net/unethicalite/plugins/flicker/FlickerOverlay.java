@@ -1,28 +1,24 @@
-package net.unethicalite.plugins.prayerflicker;
+package net.unethicalite.plugins.flicker;
 
 import com.google.inject.Singleton;
-import net.unethicalite.api.scene.Tiles;
 import net.runelite.api.Client;
-import net.runelite.api.Tile;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
 import javax.inject.Inject;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.List;
 
 @Singleton
-class PrayerFlickerOverlay extends Overlay
+class FlickerOverlay extends Overlay
 {
     private final Client client;
-    private final PrayerFlickerPlugin plugin;
-    private final PrayerFlickerConfig config;
+    private final FlickerPlugin plugin;
+    private final FlickerConfig config;
 
     @Inject
-    private PrayerFlickerOverlay(Client client, PrayerFlickerPlugin plugin, PrayerFlickerConfig config)
+    private FlickerOverlay(Client client, FlickerPlugin plugin, FlickerConfig config)
     {
         this.client = client;
         this.plugin = plugin;
