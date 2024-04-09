@@ -46,7 +46,7 @@ include("m-autoswitcher")
 include("m-powerfisher")
 include("m-wintertodt")
 
-include("unethical-prayerflicker")
+include("unethical-flicker")
 include("unethical-pestcontrol")
 
 //include("example-kotlin")
@@ -60,6 +60,3 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-include("prayerflicker")
-include("unethical-pestcontrol")
-include("unethical-prayerflicker")
