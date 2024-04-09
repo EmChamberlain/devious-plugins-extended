@@ -46,7 +46,7 @@ include("m-autoswitcher")
 include("m-powerfisher")
 include("m-wintertodt")
 
-include("prayerflicker")
+include("unethical-prayerflicker")
 include("unethical-pestcontrol")
 
 //include("example-kotlin")
@@ -62,3 +62,4 @@ for (project in rootProject.children) {
 }
 include("prayerflicker")
 include("unethical-pestcontrol")
+include("unethical-prayerflicker")

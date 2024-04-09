@@ -40,28 +40,6 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
-  "name": "prayerflicker",
-  "description": "flicks prayers",
-  "id": "prayerflicker-plugin",
-  "releases": [
-    {
-      "date": "2024-04-02",
-      "sha512sum": "A02463CA5595701B368C52C8B04FA8D037C9CC5D1EBE25CC9F6DBEFBBE867D8663D4AF225D21F25E8C2C9B43886B221E69AC82FB74E68CD1C9A44231EDF95B11",
-      "version": "0.0.4",
-      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/prayerflicker-0.0.4.jar?raw=true",
-      "requires": "^1.0.0"
-    },
-    {
-      "date": "2024-04-02",
-      "sha512sum": "D8364F9D3E5E5A426CF303B07262FB9A1C6C96038D4DD516DB82C050BC7973C2D5CC4F4C920913B6302AF89AA22148624A7BAA54878CE36FA92D9D9575715ACA",
-      "version": "0.0.5",
-      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/prayerflicker-0.0.5.jar?raw=true",
-      "requires": "^1.0.0"
-    }
-  ]
-}, {
-  "projectUrl": "",
-  "provider": "EmChamberlain",
   "name": "Unethical Agility",
   "description": "Completes Rooftop agility courses",
   "id": "unethicalagility-plugin",
@@ -631,6 +609,19 @@
     "sha512sum": "533F6AC78E9B8A280B632425B3DA03BE60634DE019A6F3FA239998A6F98D78FB4488106BFD579AB4BA5A9893539270AFD0330A7095D9FB4CD56EF3A2214C8C5A",
     "version": "0.0.6",
     "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayer-0.0.6.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
+  "name": "Unethical Prayer Flicker",
+  "description": "Auto prayer flicker",
+  "id": "unethicalprayerflicker-plugin",
+  "releases": [{
+    "date": "2024-04-09",
+    "sha512sum": "289EBC05FE64786A710ACB4226911D038C81A8AEFD26746159802458F48B05B58630C569718D7AD21D0D565BA07D98576E349F5B622B5D61A9416E139A2BF4BF",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.1.jar?raw=true",
     "requires": "^1.0.0"
   }]
 }, {

@@ -28,8 +28,10 @@ package net.unethicalite;
 import com.google.inject.Provides;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -42,11 +44,17 @@ import net.unethicalite.*;
 import net.runelite.client.ui.ClientUI;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.HotkeyListener;
+import net.unethicalite.api.events.MenuAutomated;
+import net.unethicalite.api.game.GameThread;
+import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.widgets.Prayers;
+import net.unethicalite.api.widgets.Widgets;
+import net.unethicalite.client.managers.interaction.InteractionManager;
 
 
 import javax.inject.Inject;
-
+import java.util.HashMap;
+@Slf4j
 @PluginDescriptor(
         name = "Auto Prayer Flicker",
         description = "Auto prayer flicker",
@@ -64,8 +72,6 @@ public class PrayerFlickerPlugin extends Plugin
     @Inject
     private OverlayManager overlayManager;
 
-    @Inject
-    private net.unethicalite.PrayerFlicker prayFlick;
 
     @Inject
     private PrayerFlickerConfig config;
@@ -76,6 +82,7 @@ public class PrayerFlickerPlugin extends Plugin
     @Inject
     private KeyManager keyManager;
 
+
     private final HotkeyListener hotkeyListener = new HotkeyListener(()->this.config.hotkey())
     {
         @Override
@@ -83,9 +90,9 @@ public class PrayerFlickerPlugin extends Plugin
         {
             if ( PluginOn == true )
             {
-                prayFlick.DeactivatePrayers();
+                Prayers.disableAll();
             }
-            prayFlick.SwitchFlickingState( !PluginOn );
+            PluginOn = !PluginOn;
         }
     };
 
@@ -99,7 +106,6 @@ public class PrayerFlickerPlugin extends Plugin
     protected void startUp()
     {
         keyManager.registerKeyListener(hotkeyListener);
-        overlayManager.add(prayFlick);
         PluginOn = false;
     }
 
@@ -107,29 +113,40 @@ public class PrayerFlickerPlugin extends Plugin
     protected void shutDown()
     {
         keyManager.unregisterKeyListener(hotkeyListener);
-        overlayManager.remove(prayFlick);
+    }
+
+    private void invokeAction(MenuAutomated entry, int x, int y)
+    {
+        GameThread.invoke(() ->
+        {
+            MousePackets.queueClickPacket(x, y);
+            client.invokeMenuAction(entry.getOption(), entry.getTarget(), entry.getIdentifier(),
+                    entry.getOpcode().getId(), entry.getParam0(), entry.getParam1(), x, y);
+        });
     }
 
     @Subscribe
     public void onGameTick(GameTick tick)
     {
-        prayersActive = isAnyPrayerActive();
-
-        if ( PluginOn )
+        if (!PluginOn)
+            return;
+        for (Prayer pray : Prayer.values())
         {
-            prayFlick.onTick( prayersActive );
-        }
-    }
-
-    private boolean isAnyPrayerActive()
-    {
-        for ( Prayer pray : Prayer.values() ) //Check if any prayers are active
-        {
-            if ( client.isPrayerActive(pray) )
+            if (Prayers.isEnabled(pray))
             {
-                return true;
+                Widget widget = Widgets.get(pray.getWidgetInfo());
+                if (widget == null) {
+                    return;
+                }
+                invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                try {
+                    Thread.sleep((long)((Math.random() * 50) + 25));
+                } catch (InterruptedException e) {
+                    log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                }
+                invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
             }
         }
-        return false;
     }
+
 }
