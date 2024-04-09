@@ -362,6 +362,13 @@
       "version": "0.0.7",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.7.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-09",
+      "sha512sum": "682A877997043A0FA7F8338F8F0915BDFC8854B843A430CD903CBD371BA24817B87B81D4CF072C81D6A78E386C4E9FF89C3BF29C985C975ACEE3954A0174F661",
+      "version": "0.0.8",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

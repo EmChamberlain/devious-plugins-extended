@@ -68,7 +68,7 @@ public class FlickerPlugin extends Plugin
                 }
                 invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
                 try {
-                    Thread.sleep((long)((Math.random() * 50) + 25));
+                    Thread.sleep((long)((Math.random() * 10) + 5));
                 } catch (InterruptedException e) {
                     log.info("Sleep failed in PrayerFlicker: {}", e.toString());
                 }
