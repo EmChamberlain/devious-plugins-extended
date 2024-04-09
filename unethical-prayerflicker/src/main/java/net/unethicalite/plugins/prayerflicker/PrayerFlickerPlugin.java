@@ -42,7 +42,7 @@ public class PrayerFlickerPlugin extends Plugin
     }
 
     @Subscribe
-    public void onGameTick(GameTick tick)
+    private void onGameTick(GameTick tick)
     {
         if (!config.enabled())
             return;

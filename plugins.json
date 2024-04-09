@@ -638,6 +638,13 @@
       "version": "0.0.3",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.3.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-09",
+      "sha512sum": "4DFE09012BBFC9307745BC460CB69D4AFAC50741E13C7CB14AA645927904A737201C9D4DC7EDA742D59D23E1F60FF2903459542C4862E675A7986FD111D931F7",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-prayerflicker-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
