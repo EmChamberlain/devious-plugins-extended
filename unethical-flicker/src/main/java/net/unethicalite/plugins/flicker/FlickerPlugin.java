@@ -28,8 +28,8 @@ public class FlickerPlugin extends Plugin
     @Inject
     private Client client;
 
-    @Inject
-    private FlickerConfig config;
+//    @Inject
+//    private FlickerConfig config;
 
     @Override
     protected void startUp()
@@ -56,8 +56,8 @@ public class FlickerPlugin extends Plugin
     @Subscribe
     private void onGameTick(GameTick tick)
     {
-        if (!config.enabled())
-            return;
+//        if (!config.enabled())
+//            return;
         for (Prayer pray : Prayer.values())
         {
             if (Prayers.isEnabled(pray))

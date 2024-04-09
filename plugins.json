@@ -348,13 +348,22 @@
   "name": "Unethical Flicker",
   "description": "Auto flicker",
   "id": "unethicalflicker-plugin",
-  "releases": [{
-    "date": "2024-04-09",
-    "sha512sum": "8747B032B6ACB4B73BF7BE9FC23E5706877DF66081527D9F37A5476C1BDBA7A79942849123B979718A7138BE4D214BC3316C530D56F798A35D1025769DE5AA17",
-    "version": "0.0.6",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.6.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-09",
+      "sha512sum": "8747B032B6ACB4B73BF7BE9FC23E5706877DF66081527D9F37A5476C1BDBA7A79942849123B979718A7138BE4D214BC3316C530D56F798A35D1025769DE5AA17",
+      "version": "0.0.6",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.6.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-09",
+      "sha512sum": "2F977F68D262A4E5DA350312798D9FE866CF98DA478A3DD75C7166F643425D9CEC46E0B1F4DE353377076887449E8A1DF34A1A7D8BD6FFD955313412BC31884D",
+      "version": "0.0.7",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.7.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
