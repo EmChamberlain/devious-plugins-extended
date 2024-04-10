@@ -127,7 +127,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             if(acceptWidget != null)
             {
                 log.info("Accepting");
-                invokeAction(acceptWidget.getMenu("Continue"), acceptWidget.getCanvasLocation().getX(), acceptWidget.getCanvasLocation().getY());
+                client.invokeMenuAction("Continue", "", 0, MenuAction.WIDGET_CONTINUE.getId(), -1, 8454150, acceptWidget.getCanvasLocation().getX(), acceptWidget.getCanvasLocation().getY());
                 return 1000;
             }
 
