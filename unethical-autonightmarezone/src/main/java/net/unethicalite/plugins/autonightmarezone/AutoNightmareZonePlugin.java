@@ -159,7 +159,8 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                 {
                     if(Bank.isNotedWithdrawMode())
                         Bank.setWithdrawMode(false);
-                    Item bankedFoodItem = Bank.getFirst(config.foodToUse());
+                    Item bankedFoodItem = Bank.getFirst(x -> x.getName().contains(config.foodToUse()));
+
                     bankedFoodItem.interact("Withdraw-10");
                     try {
                         Thread.sleep(1000);

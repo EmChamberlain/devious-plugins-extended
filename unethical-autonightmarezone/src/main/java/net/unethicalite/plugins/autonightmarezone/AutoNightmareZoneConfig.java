@@ -20,12 +20,12 @@ public interface AutoNightmareZoneConfig extends Config
     @ConfigItem(
             keyName = "foodToUse",
             name = "foodToUse",
-            description = "The id of the food to use",
+            description = "The food to use",
             position = 2
     )
-    default int foodToUse()
+    default String foodToUse()
     {
-        return 373;
+        return "Swordfish";
     }
 
 }
