@@ -47,6 +47,7 @@ include("m-powerfisher")
 include("m-wintertodt")
 
 include("unethical-flicker")
+include("unethical-quickflicker")
 include("unethical-pestcontrol")
 
 //include("example-kotlin")

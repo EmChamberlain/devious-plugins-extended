@@ -643,6 +643,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Quick Flicker",
+  "description": "Auto quick flicker",
+  "id": "unethicalquickflicker-plugin",
+  "releases": [{
+    "date": "2024-04-09",
+    "sha512sum": "3B9D19129B8CE0A79C6E141900C4576814ECC9DA587AC78F62E66F81713F20647A7BFAD5CAE9AB3838E2254335A65A3ACE2B5D2F54F99701F5970B193811CD45",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quickflicker-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Tempoross",
   "description": "Completes Tempoross",
   "id": "unethicaltempoross-plugin",
