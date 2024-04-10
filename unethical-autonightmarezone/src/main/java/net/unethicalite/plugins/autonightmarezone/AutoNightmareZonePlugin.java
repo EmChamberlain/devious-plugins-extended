@@ -120,7 +120,6 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             boolean previousRumbleDialog = Dialog.hasOption(x -> x.contains("Previous:"));
             boolean yesDialog = Dialog.hasOption("Yes");
             Widget acceptWidget = Widgets.fromId(8454150);
-            Widget bankCloseWidget = Widgets.get(WidgetID.BANK_GROUP_ID, x -> x.hasAction("Close"));
             if(previousRumbleDialog)
             {
                 log.info("Selecting previous");
@@ -149,7 +148,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                     Movement.walkTo(bankLocation);
                     return 1000;
                 }
-                else if (bankCloseWidget == null)
+                else if (!Bank.isOpen())
                 {
                     log.info("Opening bank");
                     bankBooth.interact("Bank");
@@ -157,31 +156,27 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                 }
                 else
                 {
-                    if(Bank.isNotedWithdrawMode())
-                        Bank.setWithdrawMode(false);
-                    Widget bankedFoodItemWidget = Widgets.get(WidgetInfo.BANK_ITEM_CONTAINER.getGroupId(), x -> x.getName().contains(config.foodToUse()));
 
-                    if (bankedFoodItemWidget == null)
+                    if(Bank.isNotedWithdrawMode())
+                    {
+                        log.info("Setting to item withdraw mode");
+                        Bank.setWithdrawMode(false);
+                        return 1000;
+                    }
+                    Item bankedFoodItem = Bank.getFirst(x -> x.getName().contains(config.foodToUse()));
+                    if (bankedFoodItem == null)
                     {
                         log.info("Out of food! Idling.");
                         return 1000;
                     }
-                    MenuAutomated menuAutomated = MenuAutomated.builder().option("Withdraw-10").target(bankedFoodItemWidget.getName()).identifier(4).opcode(MenuAction.CC_OP).param0(61).param1(786445).build();
-                    log.info("Attempting to withdraw 10 first");
-                    client.interact(menuAutomated);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
-                    }
-                    log.info("Attempting to withdraw 10 second");
-                    client.interact(menuAutomated);
+                    log.info("Attempting to withdraw previous amount");
+                    Bank.withdrawLastQuantity(x -> x.getName().contains(config.foodToUse()), Bank.WithdrawMode.ITEM);
                     return 500;
                 }
             }
-            else if(bankCloseWidget != null)
+            else if(Bank.isOpen())
             {
-                bankCloseWidget.interact("Close");
+                Bank.close();
                 return 1000;
             }
             else if(dominicNPC == null)
