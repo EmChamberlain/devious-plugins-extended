@@ -108,7 +108,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
         if(localPlayer.getWorldLocation().getRegionID() == YANILLE_REGION_ID)
         {
             //We are in yanille and not in the nightmare zone
-            NPC dominicNPC = NPCs.getNearest("Dominic");
+            NPC dominicNPC = NPCs.getNearest("Dominic Onion");
             Interactable potionInteractable = TileObjects.getNearest("Potion");
             Widget previousRumbleDialog = Widgets.get(WidgetInfo.DIALOG_OPTION_OPTIONS.getGroupId(), x -> x.getText().contains("Previous:"));
             Widget yesDialog = Widgets.get(WidgetInfo.DIALOG_OPTION_OPTIONS.getGroupId(), x -> x.getText().contains("Yes"));
