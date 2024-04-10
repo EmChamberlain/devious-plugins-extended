@@ -162,13 +162,22 @@
   "name": "Unethical Auto NightmareZone",
   "description": "Automatically does nightmare zone for you",
   "id": "unethicalautonightmarezone-plugin",
-  "releases": [{
-    "date": "2024-04-10",
-    "sha512sum": "C020117C2AC0CFD5F66EAE8A13806C6750EA22A18A42F2615F7BBEF01596E3AB675A6FEFE191E4B97A62C0F2B1BA1990ECF280D2FE8E4A8B4FE46A163469B270",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-10",
+      "sha512sum": "C020117C2AC0CFD5F66EAE8A13806C6750EA22A18A42F2615F7BBEF01596E3AB675A6FEFE191E4B97A62C0F2B1BA1990ECF280D2FE8E4A8B4FE46A163469B270",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-10",
+      "sha512sum": "7FF13D1AA1E88654FF0FB9E83711CDC6BC27010D10CAE08EDE2EAFD14649672446129595034DFA29B5D3657DB5A6956EE78275BD8CACDC8F48712C1742C52437",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
