@@ -20,6 +20,7 @@ import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
 import net.unethicalite.api.game.GameThread;
+import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -113,6 +114,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             Interactable potionInteractable = TileObjects.getNearest("Potion");
             boolean previousRumbleDialog = Dialog.hasOption(x -> x.contains("Previous:"));
             boolean yesDialog = Dialog.hasOption("Yes");
+            Widget acceptWidget = Widgets.fromId(8454150);
             if(previousRumbleDialog)
             {
                 Dialog.chooseOption(4);
@@ -123,6 +125,11 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             {
                 Dialog.chooseOption(1);
                 log.info("Saying yes");
+                return 1000;
+            }
+            if(acceptWidget != null)
+            {
+                Mouse.click(acceptWidget.getClickPoint().getAwtPoint(), true);
                 return 1000;
             }
 

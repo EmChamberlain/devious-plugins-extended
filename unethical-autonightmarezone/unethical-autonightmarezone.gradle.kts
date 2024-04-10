@@ -1,4 +1,4 @@
-version = "0.0.12"
+version = "0.0.13"
 
 project.extra["PluginName"] = "Unethical Auto NightmareZone"
 project.extra["PluginDescription"] = "Automatically does nightmare zone for you"
