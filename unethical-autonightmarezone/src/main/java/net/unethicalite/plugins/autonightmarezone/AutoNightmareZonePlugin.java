@@ -117,46 +117,47 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             Widget acceptWidget = Widgets.fromId(8454150);
             if(previousRumbleDialog)
             {
-                Dialog.chooseOption(4);
                 log.info("Selecting previous");
+                Dialog.chooseOption(4);
                 return 1000;
             }
             if(yesDialog)
             {
-                Dialog.chooseOption(1);
                 log.info("Saying yes");
+                Dialog.chooseOption(1);
                 return 1000;
             }
             if(acceptWidget != null)
             {
-                Mouse.click(acceptWidget.getCanvasLocation().getAwtPoint(), true);
+                log.info("Accepting");
+                acceptWidget.interact("Continue");
                 return 1000;
             }
 
             if(dominicNPC == null)
             {
-                Movement.walkTo(potionLocation);
                 log.info("Moving to potion location because no dominic");
+                Movement.walkTo(potionLocation);
                 return 250;
             }
             else if (potionInteractable == null)
             {
-                dominicNPC.interact("Dream");
                 log.info("Dreaming with dominic");
+                dominicNPC.interact("Dream");
                 return 1000;
             }
             else
             {
                 if(potionInteractable == null)
                 {
-                    Movement.walkTo(potionLocation);
                     log.info("Moving to potion location because no potion");
+                    Movement.walkTo(potionLocation);
                     return 250;
                 }
                 else
                 {
-                    potionInteractable.interact("Drink");
                     log.info("Drinking dream potion");
+                    potionInteractable.interact("Drink");
                     return 1000;
                 }
 
@@ -210,18 +211,18 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
     {
         if(!Prayers.isQuickPrayerEnabled())
         {
-            Prayers.toggleQuickPrayer(true);
             log.info("Enabling quick prayers");
+            Prayers.toggleQuickPrayer(true);
             return 250;
         }
+        log.info("Handling power up");
         if(handlePowerUps())
         {
-            log.info("Handling power up");
             return 1000;
         }
+        log.info("Handling attacking new target");
         if(handleAttackNearestWithPriority())
         {
-            log.info("Attacking new target");
             return 250;
         }
         log.info("Idling in nightmare zone");
