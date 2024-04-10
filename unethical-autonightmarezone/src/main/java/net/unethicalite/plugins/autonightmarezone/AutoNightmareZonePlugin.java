@@ -23,6 +23,7 @@ import net.unethicalite.api.game.GameThread;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.plugins.LoopedPlugin;
+import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Prayers;
 import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
@@ -110,17 +111,17 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             //We are in yanille and not in the nightmare zone
             NPC dominicNPC = NPCs.getNearest("Dominic Onion");
             Interactable potionInteractable = TileObjects.getNearest("Potion");
-            Widget previousRumbleDialog = Widgets.get(WidgetInfo.DIALOG_OPTION_OPTIONS.getGroupId(), x -> x.getText().contains("Previous:"));
-            Widget yesDialog = Widgets.get(WidgetInfo.DIALOG_OPTION_OPTIONS.getGroupId(), x -> x.getText().contains("Yes"));
-            if(previousRumbleDialog != null)
+            boolean previousRumbleDialog = Dialog.hasOption("Previous:");
+            boolean yesDialog = Dialog.hasOption("Yes");
+            if(previousRumbleDialog)
             {
-                previousRumbleDialog.interact(0);
+                Dialog.chooseOption("Previous:");
                 log.info("Selecting previous");
                 return 1000;
             }
-            if(yesDialog != null)
+            if(yesDialog)
             {
-                yesDialog.interact(0);
+                Dialog.chooseOption("Yes");
                 log.info("Saying yes");
                 return 1000;
             }
