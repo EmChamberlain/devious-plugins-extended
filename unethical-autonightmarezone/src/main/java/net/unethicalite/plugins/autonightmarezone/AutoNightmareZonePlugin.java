@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.autonightmarezone;
 
+import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
 import net.runelite.api.Client;
@@ -10,6 +11,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.events.InteractingChanged;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.Interactable;
@@ -42,6 +44,12 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
     @Inject
     AutoNightmareZoneConfig config;
 
+    @Provides
+    AutoNightmareZoneConfig getConfig(ConfigManager configManager)
+    {
+        return configManager.getConfig(AutoNightmareZoneConfig.class);
+    }
+
     @Inject
     private Client client;
 
@@ -72,6 +80,10 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
         toAttackNames.add("Bouncer");
         toAttackNames.add("Black Demon");
         toAttackNames.add("Jungle Demon");
+    }
+    @Override
+    protected void shutDown() throws Exception {
+        return;
     }
     @Subscribe
     public void onInteractingChanged(InteractingChanged event)
