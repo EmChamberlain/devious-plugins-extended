@@ -204,6 +204,20 @@
       "version": "0.0.6",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.6.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-10",
+      "sha512sum": "C5ADF5FA35433FE84EEA01D00AF2B7B2568E41E5067144EC962AC7D8B6CE13B05CDE029EEF5FF21D236CE33936E6CBCEFDA797D4FB4215951746508F33037D7C",
+      "version": "0.0.7",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.7.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-10",
+      "sha512sum": "E1278BB5174D048ECE948AF92A2F01C07A8CD7B10B92542EBFC08F25E1295FACC97E2704840860701D4407DCBA055CCFD1CF6DA23583D073D9C8C0B1ABB0E985",
+      "version": "0.0.8",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autonightmarezone-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

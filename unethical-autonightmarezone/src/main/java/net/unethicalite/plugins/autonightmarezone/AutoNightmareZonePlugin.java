@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.autonightmarezone;
 
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
@@ -26,8 +27,6 @@ import net.unethicalite.api.widgets.Prayers;
 import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 
 @Extension
@@ -36,7 +35,6 @@ import java.util.ArrayList;
         description = "Does NightmareZone for you",
         enabledByDefault = false
 )
-@Singleton
 @Slf4j
 public class AutoNightmareZonePlugin extends LoopedPlugin
 {
@@ -60,7 +58,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
 
     private NPC lastInteracted = null;
 
-    private static final ArrayList<String> toAttackNames = new ArrayList<>();
+    private ArrayList<String> toAttackNames = new ArrayList<>();
 
     @Override
     protected void startUp() throws Exception {
@@ -83,6 +81,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
     }
     @Override
     protected void shutDown() throws Exception {
+        super.shutDown();
         return;
     }
     @Subscribe
