@@ -129,7 +129,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             }
             if(acceptWidget != null)
             {
-                Mouse.click(acceptWidget.getClickPoint().getAwtPoint(), true);
+                Mouse.click(acceptWidget.getOriginalX(), acceptWidget.getOriginalY(), true);
                 return 1000;
             }
 
