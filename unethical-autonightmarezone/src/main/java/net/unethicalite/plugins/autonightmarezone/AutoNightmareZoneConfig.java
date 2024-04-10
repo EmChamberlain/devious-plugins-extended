@@ -17,5 +17,16 @@ public interface AutoNightmareZoneConfig extends Config
     {
         return false;
     }
+    @ConfigItem(
+            keyName = "foodToUse",
+            name = "foodToUse",
+            description = "The id of the food to use",
+            position = 2
+    )
+    default int foodToUse()
+    {
+        return 373;
+    }
+
 }
 

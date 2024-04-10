@@ -8,6 +8,7 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.InteractingChanged;
 import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -17,7 +18,10 @@ import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
 import net.unethicalite.api.game.GameThread;
+import net.unethicalite.api.input.Keyboard;
 import net.unethicalite.api.input.Mouse;
+import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -27,6 +31,7 @@ import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Extension
 @PluginDescriptor(
@@ -54,6 +59,8 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
 
 
     private static final WorldPoint potionLocation = new WorldPoint(2604, 3115, 0);
+    private static final WorldPoint bankLocation = new WorldPoint(2613, 3094, 0);
+
 
     private NPC lastInteracted = null;
 
@@ -109,40 +116,86 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             //We are in yanille and not in the nightmare zone
             NPC dominicNPC = NPCs.getNearest("Dominic Onion");
             Interactable potionInteractable = TileObjects.getNearest("Potion");
+            Interactable overloadPotion = TileObjects.getNearest("Overload potion");
             boolean previousRumbleDialog = Dialog.hasOption(x -> x.contains("Previous:"));
             boolean yesDialog = Dialog.hasOption("Yes");
             Widget acceptWidget = Widgets.fromId(8454150);
+            Widget bankCloseWidget = Widgets.get(WidgetID.BANK_GROUP_ID, x -> x.hasAction("Close"));
             if(previousRumbleDialog)
             {
                 log.info("Selecting previous");
                 Dialog.chooseOption(4);
                 return 1000;
             }
-            if(yesDialog)
+            else if(yesDialog)
             {
                 log.info("Saying yes");
                 Dialog.chooseOption(1);
                 return 1000;
             }
-            if(acceptWidget != null)
+            else if(acceptWidget != null)
             {
                 log.info("Accepting");
                 MenuAutomated menuAutomated = MenuAutomated.builder().option("Continue").target("").identifier(0).opcode(MenuAction.WIDGET_CONTINUE).param0(-1).param1(8454150).build();
                 client.interact(menuAutomated);
                 return 1000;
             }
-
-            if(dominicNPC == null)
+            else if(!Inventory.contains(x -> x.hasAction("Eat")))
+            {
+                Interactable bankBooth = TileObjects.getNearest("Bank booth");
+                if(bankBooth == null)
+                {
+                    log.info("Walking to bank");
+                    Movement.walkTo(bankLocation);
+                    return 1000;
+                }
+                else if (bankCloseWidget == null)
+                {
+                    log.info("Opening bank");
+                    bankBooth.interact("Bank");
+                    return 1000;
+                }
+                else
+                {
+                    Bank.withdraw(config.foodToUse(), 20, Bank.WithdrawMode.ITEM);
+                    return 1000;
+                }
+            }
+            else if(bankCloseWidget != null)
+            {
+                bankCloseWidget.interact("Close");
+                return 1000;
+            }
+            else if(dominicNPC == null)
             {
                 log.info("Moving to potion location because no dominic");
                 Movement.walkTo(potionLocation);
                 return 250;
             }
-            else if (potionInteractable == null)
+            else if(potionInteractable == null)
             {
                 log.info("Dreaming with dominic");
                 dominicNPC.interact("Dream");
                 return 1000;
+            }
+            else if(!Inventory.contains(x -> x.getName().contains("Overload")) && overloadPotion != null)
+            {
+                log.info("Opening overload barrel");
+                overloadPotion.interact("Take");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log.info("Couldn't sleep in nightmare zone plugin", e.toString());
+                }
+                Keyboard.type(4);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    log.info("Couldn't sleep in nightmare zone plugin", e.toString());
+                }
+                Keyboard.sendEnter();
+                return 500;
+
             }
             else
             {
