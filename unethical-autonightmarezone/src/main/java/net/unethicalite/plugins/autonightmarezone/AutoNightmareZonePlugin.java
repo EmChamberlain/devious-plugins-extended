@@ -3,10 +3,7 @@ package net.unethicalite.plugins.autonightmarezone;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Actor;
-import net.runelite.api.Client;
-import net.runelite.api.NPC;
-import net.runelite.api.Tile;
+import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.InteractingChanged;
@@ -130,7 +127,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             if(acceptWidget != null)
             {
                 log.info("Accepting");
-                acceptWidget.interact("Continue");
+                invokeAction(acceptWidget.getMenu("Continue"), acceptWidget.getCanvasLocation().getX(), acceptWidget.getCanvasLocation().getY());
                 return 1000;
             }
 
