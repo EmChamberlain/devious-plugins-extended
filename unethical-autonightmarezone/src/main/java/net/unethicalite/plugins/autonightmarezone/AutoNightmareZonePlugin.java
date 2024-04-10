@@ -159,9 +159,21 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                 {
                     if(Bank.isNotedWithdrawMode())
                         Bank.setWithdrawMode(false);
-                    Item bankedFoodItem = Bank.getFirst(x -> x.getName().contains(config.foodToUse()));
-                    bankedFoodItem.interact(4);
-                    return 1000;
+                    Widget bankedFoodItemWidget = Widgets.get(WidgetInfo.BANK_ITEM_CONTAINER.getGroupId(), x -> x.getName().contains(config.foodToUse()));
+                    bankedFoodItemWidget.interact("Withdraw-X");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
+                    }
+                    Keyboard.type(20);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
+                    }
+                    Keyboard.sendEnter();
+                    return 500;
                 }
             }
             else if(bankCloseWidget != null)
@@ -188,13 +200,13 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    log.info("Couldn't sleep in nightmare zone plugin", e.toString());
+                    log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
                 }
                 Keyboard.type(4);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    log.info("Couldn't sleep in nightmare zone plugin", e.toString());
+                    log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
                 }
                 Keyboard.sendEnter();
                 return 500;
@@ -202,19 +214,9 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             }
             else
             {
-                if(potionInteractable == null)
-                {
-                    log.info("Moving to potion location because no potion");
-                    Movement.walkTo(potionLocation);
-                    return 250;
-                }
-                else
-                {
-                    log.info("Drinking dream potion");
-                    potionInteractable.interact("Drink");
-                    return 1000;
-                }
-
+                log.info("Drinking dream potion");
+                potionInteractable.interact("Drink");
+                return 1000;
             }
         }
         else
