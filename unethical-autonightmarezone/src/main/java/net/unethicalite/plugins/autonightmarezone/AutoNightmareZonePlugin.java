@@ -115,13 +115,13 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             boolean yesDialog = Dialog.hasOption("Yes");
             if(previousRumbleDialog)
             {
-                Dialog.chooseOption("Previous:");
+                Dialog.chooseOption(4);
                 log.info("Selecting previous");
                 return 1000;
             }
             if(yesDialog)
             {
-                Dialog.chooseOption("Yes");
+                Dialog.chooseOption(1);
                 log.info("Saying yes");
                 return 1000;
             }
