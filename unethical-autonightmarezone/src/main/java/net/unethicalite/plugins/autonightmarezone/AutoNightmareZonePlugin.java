@@ -160,19 +160,22 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                     if(Bank.isNotedWithdrawMode())
                         Bank.setWithdrawMode(false);
                     Widget bankedFoodItemWidget = Widgets.get(WidgetInfo.BANK_ITEM_CONTAINER.getGroupId(), x -> x.getName().contains(config.foodToUse()));
-                    bankedFoodItemWidget.interact("Withdraw-X");
+
+                    if (bankedFoodItemWidget == null)
+                    {
+                        log.info("Out of food! Idling.");
+                        return 1000;
+                    }
+                    MenuAutomated menuAutomated = MenuAutomated.builder().option("Withdraw-10").target(bankedFoodItemWidget.getName()).identifier(4).opcode(MenuAction.CC_OP).param0(61).param1(786445).build();
+                    log.info("Attempting to withdraw 10 first");
+                    client.interact(menuAutomated);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
                     }
-                    Keyboard.type(20);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
-                    }
-                    Keyboard.sendEnter();
+                    log.info("Attempting to withdraw 10 second");
+                    client.interact(menuAutomated);
                     return 500;
                 }
             }
