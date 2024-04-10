@@ -111,7 +111,7 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             //We are in yanille and not in the nightmare zone
             NPC dominicNPC = NPCs.getNearest("Dominic Onion");
             Interactable potionInteractable = TileObjects.getNearest("Potion");
-            boolean previousRumbleDialog = Dialog.hasOption("Previous:");
+            boolean previousRumbleDialog = Dialog.hasOption(x -> x.contains("Previous:"));
             boolean yesDialog = Dialog.hasOption("Yes");
             if(previousRumbleDialog)
             {
