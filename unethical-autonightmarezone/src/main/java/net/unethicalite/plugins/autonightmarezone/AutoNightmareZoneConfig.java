@@ -10,7 +10,8 @@ public interface AutoNightmareZoneConfig extends Config
     @ConfigItem(
             keyName = "isEnabled",
             name = "Enabled",
-            description = "Whether the plugin is enabled or not"
+            description = "Whether the plugin is enabled or not",
+            position = 1
     )
     default boolean isEnabled()
     {
