@@ -127,7 +127,8 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             if(acceptWidget != null)
             {
                 log.info("Accepting");
-                client.invokeMenuAction("Continue", "", 0, MenuAction.WIDGET_CONTINUE.getId(), -1, 8454150, acceptWidget.getCanvasLocation().getX(), acceptWidget.getCanvasLocation().getY());
+                MenuAutomated menuAutomated = MenuAutomated.builder().option("Continue").target("").identifier(0).opcode(MenuAction.WIDGET_CONTINUE).param0(-1).param1(8454150).build();
+                client.setPendingAutomation(menuAutomated);
                 return 1000;
             }
 
