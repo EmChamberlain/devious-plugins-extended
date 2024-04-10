@@ -157,7 +157,16 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
                 }
                 else
                 {
-                    Bank.withdraw(config.foodToUse(), 20, Bank.WithdrawMode.ITEM);
+                    if(Bank.isNotedWithdrawMode())
+                        Bank.setWithdrawMode(false);
+                    Item bankedFoodItem = Bank.getFirst(config.foodToUse());
+                    bankedFoodItem.interact("Withdraw-10");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        log.info("Couldn't sleep in nightmare zone plugin", e.toString());
+                    }
+                    bankedFoodItem.interact("Withdraw-10");
                     return 1000;
                 }
             }
