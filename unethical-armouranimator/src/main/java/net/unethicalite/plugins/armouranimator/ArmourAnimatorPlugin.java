@@ -146,7 +146,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
                         Bank.close();
                         return 1000;
                     }
-                    else if (animator == null || !Reachable.isWalkable(animator.getWorldLocation()))
+                    else if (animator == null || !Reachable.isWalkable(animator.getWorldLocation().dy(1)))
                     {
                         log.info("Walking to animator location");
                         Movement.walkTo(animatorLocation);
