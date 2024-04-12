@@ -75,13 +75,15 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
             }
             else
             {
-                log.info("Attacking target");
+
                 if(Reachable.isWalkable(animatedAttackableNPC.getWorldLocation()))
                 {
+                    log.info("Attacking target");
                     animatedAttackableNPC.interact("Attack");
                 }
                 else
                 {
+                    log.info("Walking to target");
                     Movement.walkTo(animatedAttackableNPC.getWorldLocation());
                 }
                 return 500;
@@ -93,7 +95,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
             if (tokens != null)
             {
                 tokens.interact("Take");
-                return 50;
+                return 250;
             }
             else
             {
@@ -101,7 +103,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
                 if (closestArmourPiece != null)
                 {
                     closestArmourPiece.interact("Take");
-                    return 50;
+                    return 250;
                 }
                 else
                 {
@@ -150,7 +152,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
                     {
                         log.info("Walking to animator location");
                         Movement.walkTo(animatorLocation);
-                        return 500;
+                        return 1000;
                     }
                     else
                     {
