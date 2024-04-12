@@ -50,6 +50,7 @@ include("unethical-flicker")
 include("unethical-quickflicker")
 include("unethical-pestcontrol")
 include("unethical-autonightmarezone")
+include("unethical-armouranimator")
 
 //include("example-kotlin")
 

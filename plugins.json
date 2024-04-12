@@ -53,6 +53,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Armour Animator",
+  "description": "Automatically animates amrour for you",
+  "id": "unethicalarmouranimator-plugin",
+  "releases": [{
+    "date": "2024-04-11",
+    "sha512sum": "B8ADA946AE45A79B330789C081A8A42CBFA207C4189AACFBF27CDEF07FBFE1E6FDFF1B47061D51F27838740E0435812283A90E42C8C6FDBADD38EC969A36D4AE",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-armouranimator-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Auto Login",
   "description": "Automatically logs in specified account in config",
   "id": "unethicalautologin-plugin",
