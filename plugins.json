@@ -70,6 +70,13 @@
       "version": "0.0.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-armouranimator-0.0.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-11",
+      "sha512sum": "70483102FF38E825E2DEC4FBDA201B032446A96191622CBD9A2D8F76524CF5469E36D5C57A6440AEB738166378F1EEAD410DF85127CF66452E4A1FB2420A8394",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-armouranimator-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

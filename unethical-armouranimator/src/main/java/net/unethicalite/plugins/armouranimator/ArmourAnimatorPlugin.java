@@ -89,7 +89,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
         }
         else
         {
-            TileItem tokens = TileItems.getNearest("token");
+            TileItem tokens = TileItems.getNearest(x -> x != null && x.hasAction("Take") && x.getName().contains("token"));
             if (tokens != null)
             {
                 tokens.interact("Take");
@@ -97,7 +97,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
             }
             else
             {
-                TileItem closestArmourPiece = TileItems.getNearest("platebody", "platelegs", "full helm");
+                TileItem closestArmourPiece = TileItems.getNearest(x -> x != null && x.hasAction("Take") && (x.getName().contains("platebody") || x.getName().contains("platelegs") || x.getName().contains("full helm")));
                 if (closestArmourPiece != null)
                 {
                     closestArmourPiece.interact("Take");
