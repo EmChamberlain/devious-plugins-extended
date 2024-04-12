@@ -65,7 +65,7 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
         {
             return 1000;
         }
-        NPC animatedAttackableNPC = NPCs.getNearest( x -> x.hasAction("Attack") && x.getName().toLowerCase().contains("animated") && x.getHealthRatio() != 0);
+        NPC animatedAttackableNPC = NPCs.getNearest( x -> x.hasAction("Attack") && x.getName().toLowerCase().contains("animated") && x.getHealthRatio() != 0 && (x.getInteracting() == client.getLocalPlayer()));
         if(animatedAttackableNPC != null)
         {
             if (!targetDeadOrNoTarget())
