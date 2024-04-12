@@ -154,6 +154,11 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
                         Movement.walkTo(animatorLocation);
                         return 1000;
                     }
+                    else if (Inventory.getFirst(x -> x.getName().contains("platebody") || x.getName().contains("platelegs") || x.getName().contains("full helm")) == null)
+                    {
+                        log.info("No items to animate! idling");
+                        return 1000;
+                    }
                     else
                     {
                         log.info("Animating");
