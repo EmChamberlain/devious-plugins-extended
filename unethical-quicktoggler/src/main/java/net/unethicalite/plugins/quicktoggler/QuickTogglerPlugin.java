@@ -127,6 +127,8 @@ public class QuickTogglerPlugin extends Plugin
                 prayerToPray = Prayer.PROTECT_FROM_MELEE;
                 break;
             }
+            if (whiteListString.isEmpty())
+                continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
         }
         for (String whiteListString : rangedStrings)
@@ -136,6 +138,8 @@ public class QuickTogglerPlugin extends Plugin
                 prayerToPray = Prayer.PROTECT_FROM_MISSILES;
                 break;
             }
+            if (whiteListString.isEmpty())
+                continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
         }
         for (String whiteListString : magicStrings)
@@ -145,6 +149,8 @@ public class QuickTogglerPlugin extends Plugin
                 prayerToPray = Prayer.PROTECT_FROM_MAGIC;
                 break;
             }
+            if (whiteListString.isEmpty())
+                continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
         }
 
