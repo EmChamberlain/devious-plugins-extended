@@ -684,13 +684,22 @@
   "name": "Unethical Overhead Switcher",
   "description": "Switches overhead depending on range to target",
   "id": "unethicaloverheadswitcher-plugin",
-  "releases": [{
-    "date": "2024-04-13",
-    "sha512sum": "D3908287456F7E1D54C2FDA808BD96C8B35845224A6E95938D743DC37A81D774CB23E929F67A7D2E125AE0A43E5D90332D839A48A0EC3CD5C75BD505DF51AB3F",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-13",
+      "sha512sum": "D3908287456F7E1D54C2FDA808BD96C8B35845224A6E95938D743DC37A81D774CB23E929F67A7D2E125AE0A43E5D90332D839A48A0EC3CD5C75BD505DF51AB3F",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-13",
+      "sha512sum": "EEC009C09145CE852045741FAAB2AD40544FA103824D643C0E5618B25C954C1E15A8FB8907BF65B0A49CADF0BEA75CD0EA76EE5857E14AAE8C9ADB0EBE6B6057",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

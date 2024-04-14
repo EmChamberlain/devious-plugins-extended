@@ -23,8 +23,8 @@ import org.pf4j.Extension;
 import javax.inject.Inject;
 @Extension
 @PluginDescriptor(
-        name = "Unethical Flicker",
-        description = "Auto flicker",
+        name = "Unethical Overhead Switcher",
+        description = " Overhead Switcher",
         enabledByDefault = false
 )
 @Slf4j
