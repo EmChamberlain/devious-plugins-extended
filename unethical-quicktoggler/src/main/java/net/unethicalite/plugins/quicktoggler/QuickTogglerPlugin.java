@@ -152,6 +152,8 @@ public class QuickTogglerPlugin extends Plugin
 
         if (enemyNPC != null && prayerToPray != null)
         {
+            if (!Prayers.isQuickPrayerEnabled())
+                Prayers.toggleQuickPrayer(true);
             if (!Prayers.isEnabled(prayerToPray))
             {
                 Widget prayersContainer = client.getWidget(ComponentID.QUICK_PRAYER_PRAYERS);
