@@ -7,6 +7,7 @@ import net.runelite.api.NPC;
 import net.runelite.api.Prayer;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
@@ -78,43 +79,159 @@ public class OverheadSwitcherPlugin extends Plugin
         if (!config.isEnabled())
             return;
 
-        enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobToTest()));
+        enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()) && !x.getName().contains(config.mobBlacklist()));
         if (enemyNPC != null)
         {
-
-            Prayer rangedPrayerToUse = config.prayRanged() ? Prayer.PROTECT_FROM_MISSILES : Prayer.PROTECT_FROM_MAGIC;
-            Prayer prayerToUse = enemyNPC.getWorldArea().canMelee(client, client.getLocalPlayer().getWorldArea()) ? Prayer.PROTECT_FROM_MELEE : rangedPrayerToUse;
-
-            if (Prayers.isEnabled(prayerToUse))
+            if (enemyNPC.getWorldArea().canMelee(client, client.getLocalPlayer().getWorldArea()))
             {
-                Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
-                if (widget != null) {
-                    invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
-                    try {
-                        Thread.sleep((long)((Math.random() * 10) + 5));
-                    } catch (InterruptedException e) {
-                        log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                if (config.quickPrayMelee())
+                {
+                    if (Prayers.isQuickPrayerEnabled())
+                    {
+                        Widget widget = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+                        if (widget == null) {
+                            return;
+                        }
+                        invokeAction(widget.getMenu("Deactivate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
                     }
-                    invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                    else
+                    {
+                        Widget widget = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+                        if (widget == null) {
+                            return;
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Deactivate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
+                    }
+                }
+                else
+                {
+                    Prayer prayerToUse = Prayer.PROTECT_FROM_MELEE;
+                    if (Prayers.isEnabled(prayerToUse))
+                    {
+                        Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
+                        if (widget != null) {
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                        }
+                    }
+                    else
+                    {
+                        Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
+                        if (widget != null) {
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                        }
+                    }
                 }
             }
             else
             {
-                Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
-                if (widget != null) {
-                    invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
-                    try {
-                        Thread.sleep((long)((Math.random() * 10) + 5));
-                    } catch (InterruptedException e) {
-                        log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                if (!config.quickPrayMelee())
+                {
+                    if (Prayers.isQuickPrayerEnabled())
+                    {
+                        Widget widget = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+                        if (widget == null) {
+                            return;
+                        }
+                        invokeAction(widget.getMenu("Deactivate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
                     }
-                    invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
-                    try {
-                        Thread.sleep((long)((Math.random() * 10) + 5));
-                    } catch (InterruptedException e) {
-                        log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                    else
+                    {
+                        Widget widget = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+                        if (widget == null) {
+                            return;
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Deactivate"), widget.getOriginalX(), widget.getOriginalY());
+                        try {
+                            Thread.sleep((long)((Math.random() * 10) + 5));
+                        } catch (InterruptedException e) {
+                            log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                        }
+                        invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
                     }
-                    invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                }
+                else
+                {
+                    Prayer prayerToUse = config.prayRanged() ? Prayer.PROTECT_FROM_MISSILES : Prayer.PROTECT_FROM_MAGIC;
+                    if (Prayers.isEnabled(prayerToUse))
+                    {
+                        Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
+                        if (widget != null) {
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                        }
+                    }
+                    else
+                    {
+                        Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
+                        if (widget != null) {
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                            try {
+                                Thread.sleep((long)((Math.random() * 10) + 5));
+                            } catch (InterruptedException e) {
+                                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+                            }
+                            invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
+                        }
+                    }
                 }
             }
 

@@ -19,12 +19,23 @@ public interface OverheadSwitcherConfig extends Config
         return false;
     }
     @ConfigItem(
-            keyName = "mobToTest",
-            name = "mobToTest",
-            description = "mobToTest",
+            keyName = "mobWhitelist",
+            name = "mobWhitelist",
+            description = "mobWhitelist",
             position = 1
     )
-    default String mobToTest()
+    default String mobWhitelist()
+    {
+        return "";
+    }
+
+    @ConfigItem(
+            keyName = "mobBlacklist",
+            name = "mobBlacklist",
+            description = "mobBlacklist",
+            position = 2
+    )
+    default String mobBlacklist()
     {
         return "";
     }
@@ -33,9 +44,20 @@ public interface OverheadSwitcherConfig extends Config
             keyName = "prayRanged",
             name = "prayRanged",
             description = "prayRanged",
-            position = 2
+            position = 3
     )
     default boolean prayRanged()
+    {
+        return true;
+    }
+
+    @ConfigItem(
+            keyName = "quickPrayMelee",
+            name = "quickPrayMelee",
+            description = "quickPrayMelee",
+            position = 4
+    )
+    default boolean quickPrayMelee()
     {
         return true;
     }
