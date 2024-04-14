@@ -123,35 +123,30 @@ public class QuickTogglerPlugin extends Plugin
         for (String whiteListString : meleeStrings)
         {
             if (enemyNPC != null)
-            {
-                prayerToPray = Prayer.PROTECT_FROM_MELEE;
                 break;
-            }
             if (whiteListString.isEmpty())
                 continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
+            prayerToPray = Prayer.PROTECT_FROM_MELEE;
         }
         for (String whiteListString : rangedStrings)
         {
             if (enemyNPC != null)
-            {
-                prayerToPray = Prayer.PROTECT_FROM_MISSILES;
                 break;
-            }
             if (whiteListString.isEmpty())
                 continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
+            prayerToPray = Prayer.PROTECT_FROM_MISSILES;
         }
         for (String whiteListString : magicStrings)
         {
             if (enemyNPC != null)
-            {
-                prayerToPray = Prayer.PROTECT_FROM_MAGIC;
                 break;
-            }
             if (whiteListString.isEmpty())
                 continue;
             enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
+            prayerToPray = Prayer.PROTECT_FROM_MAGIC;
+
         }
 
 
