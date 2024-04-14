@@ -22,6 +22,8 @@ import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
+import java.util.Objects;
+
 @Extension
 @PluginDescriptor(
         name = "Unethical Overhead Switcher",
@@ -77,9 +79,14 @@ public class OverheadSwitcherPlugin extends Plugin
     private void onGameTick(GameTick tick)
     {
         if (!config.isEnabled())
+        {
+            Prayers.disableAll();
             return;
+        }
 
-        enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()) && !x.getName().contains(config.mobBlacklist()));
+        enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()));
+        if (config.mobBlacklist() != null && !config.mobBlacklist().isEmpty())
+            enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()) && !x.getName().contains(config.mobBlacklist()));
         if (enemyNPC != null)
         {
             if (enemyNPC.getWorldArea().canMelee(client, client.getLocalPlayer().getWorldArea()))
