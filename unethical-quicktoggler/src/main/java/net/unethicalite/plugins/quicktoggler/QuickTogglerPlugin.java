@@ -25,6 +25,7 @@ import org.pf4j.Extension;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Extension
 @PluginDescriptor(
@@ -113,42 +114,27 @@ public class QuickTogglerPlugin extends Plugin
         }
 
 
-        String[] meleeStrings = config.meleeWhitelist().split(",");
-        String[] rangedStrings = config.rangedWhitelist().split(",");
-        String[] magicStrings = config.magicWhitelist().split(",");
+        var meleeInts = Arrays.stream(config.meleeWhitelist().split(",")).map(x -> Integer.parseInt(x)).collect(Collectors.toList());
+        var rangedInts = Arrays.stream(config.rangedWhitelist().split(",")).map(x -> Integer.parseInt(x)).collect(Collectors.toList());
+        var magicInts = Arrays.stream(config.magicWhitelist().split(",")).map(x -> Integer.parseInt(x)).collect(Collectors.toList());
 
-        enemyNPC = null;
         Prayer prayerToPray = null;
 
-        for (String whiteListString : meleeStrings)
+        enemyNPC = NPCs.getNearest(x -> x != null && x.getHealthRatio() != 0 && x.hasAction("Attack") && !x.isDead() && (meleeInts.contains(x.getId()) || rangedInts.contains(x.getId()) || magicInts.contains(x.getId())));
+        if (enemyNPC == null)
+            return;
+        if (enemyNPC != null && meleeInts.contains(enemyNPC.getId()))
         {
-            if (enemyNPC != null)
-                break;
-            if (whiteListString.isEmpty())
-                continue;
-            enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
             prayerToPray = Prayer.PROTECT_FROM_MELEE;
         }
-        for (String whiteListString : rangedStrings)
+        if (enemyNPC != null && rangedInts.contains(enemyNPC.getId()))
         {
-            if (enemyNPC != null)
-                break;
-            if (whiteListString.isEmpty())
-                continue;
-            enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
             prayerToPray = Prayer.PROTECT_FROM_MISSILES;
         }
-        for (String whiteListString : magicStrings)
+        if (enemyNPC != null && magicInts.contains(enemyNPC.getId()))
         {
-            if (enemyNPC != null)
-                break;
-            if (whiteListString.isEmpty())
-                continue;
-            enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
             prayerToPray = Prayer.PROTECT_FROM_MAGIC;
-
         }
-
 
         if (enemyNPC != null && prayerToPray != null)
         {
