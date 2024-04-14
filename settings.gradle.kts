@@ -52,6 +52,7 @@ include("unethical-pestcontrol")
 include("unethical-autonightmarezone")
 include("unethical-armouranimator")
 include("unethical-overheadswitcher")
+include("unethical-quicktoggler")
 
 //include("example-kotlin")
 
@@ -64,4 +65,4 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-include("unethical-overheadswitcher")
+

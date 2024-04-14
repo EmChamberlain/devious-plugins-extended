@@ -995,6 +995,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Quick Toggler",
+  "description": "Switches toggled overhead so quick flicker works automatically",
+  "id": "unethicalquicktoggler-plugin",
+  "releases": [{
+    "date": "2024-04-13",
+    "sha512sum": "EBF69797B1DF8B6BB7DE4F727B029B402A2615FD331395103AA8FAE122CE2E65EF2A801987334B72A48C7E8B3D093D0B0B60B862B7C74684B28E09C9CEB35DDE",
+    "version": "0.0.2",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quicktoggler-0.0.2.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Tempoross",
   "description": "Completes Tempoross",
   "id": "unethicaltempoross-plugin",
