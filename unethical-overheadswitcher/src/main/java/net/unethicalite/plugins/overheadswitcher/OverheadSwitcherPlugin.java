@@ -91,7 +91,7 @@ public class OverheadSwitcherPlugin extends Plugin
             for (String attackString : attackListStrings)
             {
                 NPC nearest = NPCs.getNearest(Integer.parseInt(attackString));
-                if (nearest != null && nearest.hasAction("Attack") && nearest.getHealthRatio() != 0 && !nearest.isDead());
+                if (nearest != null && nearest.hasAction("Attack") && nearest.getHealthRatio() != 0 && !nearest.isDead())
                 {
                     nearest.interact("Attack");
                     break;
