@@ -152,7 +152,7 @@ public class QuickTogglerPlugin extends Plugin
 
         if (enemyNPC != null && prayerToPray != null)
         {
-            if (!Prayers.isQuickPrayerEnabled())
+            if (!Prayers.isQuickPrayerEnabled() && Prayers.getPoints() > 0)
                 Prayers.toggleQuickPrayer(true);
             if (!Prayers.isEnabled(prayerToPray))
             {
