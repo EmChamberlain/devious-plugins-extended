@@ -1,4 +1,4 @@
-version = "0.0.5"
+version = "0.0.6"
 
 project.extra["PluginName"] = "Unethical Overhead Switcher"
 project.extra["PluginDescription"] = "Switches overhead depending on range to target"

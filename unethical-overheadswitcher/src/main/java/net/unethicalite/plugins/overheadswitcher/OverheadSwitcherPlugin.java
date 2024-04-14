@@ -22,6 +22,7 @@ import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Extension
@@ -84,9 +85,22 @@ public class OverheadSwitcherPlugin extends Plugin
             return;
         }
 
-        enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()));
-        if (config.mobBlacklist() != null && !config.mobBlacklist().isEmpty())
-            enemyNPC = NPCs.getNearest(x -> x.getName().contains(config.mobWhitelist()) && !x.getName().contains(config.mobBlacklist()));
+
+        String[] whiteListStrings = config.mobWhitelist().split(",");
+        String[] blackListStrings = config.mobBlacklist().split(",");
+
+        enemyNPC = null;
+
+        for (String whiteListString : whiteListStrings)
+        {
+            Integer whiteListID = Integer.parseInt(whiteListString);
+            if (Arrays.stream(blackListStrings).anyMatch(x -> Integer.parseInt(x) == whiteListID))
+                continue;
+            enemyNPC = NPCs.getNearest(whiteListID);
+            if (enemyNPC != null)
+                break;
+        }
+
         if (enemyNPC != null)
         {
             if (enemyNPC.getWorldArea().canMelee(client, client.getLocalPlayer().getWorldArea()))
