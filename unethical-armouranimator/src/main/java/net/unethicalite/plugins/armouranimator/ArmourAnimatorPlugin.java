@@ -111,8 +111,8 @@ public class ArmourAnimatorPlugin extends LoopedPlugin
                     TileObject animator = TileObjects.getNearest(x -> x.hasAction("Animate"));
                     if(foodItem == null)
                     {
-                        Interactable bankBooth = TileObjects.getNearest("Bank booth");
-                        if(bankBooth == null)
+                        TileObject bankBooth = TileObjects.getNearest("Bank booth");
+                        if(bankBooth == null || !Reachable.isWalkable(bankBooth.getWorldLocation()))
                         {
                             log.info("Walking to bank");
                             Movement.walkTo(bankLocation);

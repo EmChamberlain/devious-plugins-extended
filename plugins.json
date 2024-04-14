@@ -105,6 +105,13 @@
       "version": "0.0.7",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-armouranimator-0.0.7.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-11",
+      "sha512sum": "A4206C4FEB048860CE2679E618D1F048858A26053B217D67057437C32F655D337D5CF9B8EC2DF966577D8C9FBF907F701483B9EC40888189B8B8056F25CE303E",
+      "version": "0.0.8",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-armouranimator-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -626,7 +633,7 @@
     },
     {
       "date": "2024-04-09",
-      "sha512sum": "682A877997043A0FA7F8338F8F0915BDFC8854B843A430CD903CBD371BA24817B87B81D4CF072C81D6A78E386C4E9FF89C3BF29C985C975ACEE3954A0174F661",
+      "sha512sum": "0963A80B33EB7E8A4A01A2DC272C2D6F7AE8F32EB8815FADE089D0794F698F165571EE972D83142E591696E53F15D586CC70CB403623739D2B50AE367F63F879",
       "version": "0.0.8",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.8.jar?raw=true",
       "requires": "^1.0.0"
@@ -669,6 +676,19 @@
     "sha512sum": "1BFFF290700811B8B4C3BDA7B5A549366161930CF8512482A906501388924D121468536B73F733DFD07A0B68FA69A11DE22249FF6EEF09B022181D5109C08323",
     "version": "0.0.1",
     "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-oneclick-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
+  "name": "Unethical Overhead Switcher",
+  "description": "Switches overhead depending on range to target",
+  "id": "unethicaloverheadswitcher-plugin",
+  "releases": [{
+    "date": "2024-04-13",
+    "sha512sum": "D3908287456F7E1D54C2FDA808BD96C8B35845224A6E95938D743DC37A81D774CB23E929F67A7D2E125AE0A43E5D90332D839A48A0EC3CD5C75BD505DF51AB3F",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.1.jar?raw=true",
     "requires": "^1.0.0"
   }]
 }, {
@@ -909,7 +929,7 @@
   "id": "unethicalquickflicker-plugin",
   "releases": [{
     "date": "2024-04-09",
-    "sha512sum": "3B9D19129B8CE0A79C6E141900C4576814ECC9DA587AC78F62E66F81713F20647A7BFAD5CAE9AB3838E2254335A65A3ACE2B5D2F54F99701F5970B193811CD45",
+    "sha512sum": "FEADA893D4B4F9F39C8165027F4FD0BADB16B729951FAD3740DE7123BAC4B0D28BA1FEF72A8FB386A429570C7F3ED60BF9B1E435A6EC737DCC3BFD1AC8B6DF53",
     "version": "0.0.1",
     "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quickflicker-0.0.1.jar?raw=true",
     "requires": "^1.0.0"

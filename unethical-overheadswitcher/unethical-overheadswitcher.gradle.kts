@@ -1,7 +1,7 @@
-version = "0.0.8"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Unethical Armour Animator"
-project.extra["PluginDescription"] = "Automatically animates amrour for you"
+project.extra["PluginName"] = "Unethical Overhead Switcher"
+project.extra["PluginDescription"] = "Switches overhead depending on range to target"
 
 tasks {
     jar {

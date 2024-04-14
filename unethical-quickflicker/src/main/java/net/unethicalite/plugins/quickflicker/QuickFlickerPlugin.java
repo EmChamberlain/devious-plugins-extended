@@ -1,10 +1,12 @@
 package net.unethicalite.plugins.quickflicker;
 
+import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -29,8 +31,14 @@ public class QuickFlickerPlugin extends Plugin
     @Inject
     private Client client;
 
-//    @Inject
-//    private QuickFlickerConfig config;
+    @Inject
+    private QuickFlickerConfig config;
+
+    @Provides
+    QuickFlickerConfig provideConfig(ConfigManager configManager)
+    {
+        return configManager.getConfig(QuickFlickerConfig.class);
+    }
 
     @Override
     protected void startUp()
@@ -57,8 +65,8 @@ public class QuickFlickerPlugin extends Plugin
     @Subscribe
     private void onGameTick(GameTick tick)
     {
-//        if (!config.enabled())
-//            return;
+        if (!config.enabled())
+            return;
 
         if(Prayers.isQuickPrayerEnabled())
         {
@@ -74,6 +82,5 @@ public class QuickFlickerPlugin extends Plugin
             }
             invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
         }
-
     }
 }

@@ -31,6 +31,8 @@ public class FlickerPlugin extends Plugin
 //    @Inject
 //    private FlickerConfig config;
 
+    private Prayer lastTickOverhead = null;
+
     @Override
     protected void startUp()
     {
@@ -62,6 +64,7 @@ public class FlickerPlugin extends Plugin
         {
             if (Prayers.isEnabled(pray))
             {
+
                 Widget widget = Widgets.get(pray.getWidgetInfo());
                 if (widget == null) {
                     return;
