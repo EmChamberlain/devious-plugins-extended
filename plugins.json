@@ -712,6 +712,13 @@
       "version": "0.0.4",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.4.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-13",
+      "sha512sum": "E23FFE3469107D6C74E907E865251B0067E8E4AF22416129B35363C643B32BC82AA21E86AE83404B40331189B478026E3CB01BF1187115F65F04CC932C9927DA",
+      "version": "0.0.5",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-overheadswitcher-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

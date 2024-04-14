@@ -131,6 +131,7 @@ public class OverheadSwitcherPlugin extends Plugin
                 else
                 {
                     Prayer prayerToUse = Prayer.PROTECT_FROM_MELEE;
+                    Prayers.disableAll();
                     if (Prayers.isEnabled(prayerToUse))
                     {
                         Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
@@ -207,6 +208,7 @@ public class OverheadSwitcherPlugin extends Plugin
                 else
                 {
                     Prayer prayerToUse = config.prayRanged() ? Prayer.PROTECT_FROM_MISSILES : Prayer.PROTECT_FROM_MAGIC;
+                    Prayers.disableAll();
                     if (Prayers.isEnabled(prayerToUse))
                     {
                         Widget widget = Widgets.get(prayerToUse.getWidgetInfo());
