@@ -101,16 +101,12 @@ public class OverheadSwitcherPlugin extends Plugin
 
 
         String[] whiteListStrings = config.mobWhitelist().split(",");
-        String[] blackListStrings = config.mobBlacklist().split(",");
 
         enemyNPC = null;
 
         for (String whiteListString : whiteListStrings)
         {
-            Integer whiteListID = Integer.parseInt(whiteListString);
-            if (Arrays.stream(blackListStrings).anyMatch(x -> Integer.parseInt(x) == whiteListID))
-                continue;
-            enemyNPC = NPCs.getNearest(whiteListID);
+            enemyNPC = NPCs.getNearest(Integer.parseInt(whiteListString));
             if (enemyNPC != null)
                 break;
         }

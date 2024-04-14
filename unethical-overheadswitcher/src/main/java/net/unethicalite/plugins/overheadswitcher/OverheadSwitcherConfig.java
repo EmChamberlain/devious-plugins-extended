@@ -30,21 +30,10 @@ public interface OverheadSwitcherConfig extends Config
     }
 
     @ConfigItem(
-            keyName = "mobBlacklist",
-            name = "mobBlacklist",
-            description = "mobBlacklist",
-            position = 2
-    )
-    default String mobBlacklist()
-    {
-        return "";
-    }
-
-    @ConfigItem(
             keyName = "prayRanged",
             name = "prayRanged",
             description = "prayRanged",
-            position = 3
+            position = 2
     )
     default boolean prayRanged()
     {
@@ -55,7 +44,7 @@ public interface OverheadSwitcherConfig extends Config
             keyName = "quickPrayMelee",
             name = "quickPrayMelee",
             description = "quickPrayMelee",
-            position = 4
+            position = 3
     )
     default boolean quickPrayMelee()
     {
@@ -66,7 +55,7 @@ public interface OverheadSwitcherConfig extends Config
             keyName = "attackOrder",
             name = "attackOrder",
             description = "attackOrder",
-            position = 5
+            position = 4
     )
     default String attackOrder()
     {
@@ -77,7 +66,7 @@ public interface OverheadSwitcherConfig extends Config
             keyName = "attackRepeatedly",
             name = "attackRepeatedly",
             description = "attackRepeatedly",
-            position = 6
+            position = 5
     )
     default boolean attackRepeatedly()
     {
