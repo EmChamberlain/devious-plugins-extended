@@ -62,6 +62,28 @@ public interface OverheadSwitcherConfig extends Config
         return true;
     }
 
+    @ConfigItem(
+            keyName = "attackOrder",
+            name = "attackOrder",
+            description = "attackOrder",
+            position = 5
+    )
+    default String attackOrder()
+    {
+        return "";
+    }
+
+    @ConfigItem(
+            keyName = "attackRepeatedly",
+            name = "attackRepeatedly",
+            description = "attackRepeatedly",
+            position = 6
+    )
+    default boolean attackRepeatedly()
+    {
+        return true;
+    }
+
 
 
 }

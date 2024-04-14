@@ -85,6 +85,20 @@ public class OverheadSwitcherPlugin extends Plugin
             return;
         }
 
+        if (config.attackRepeatedly() && !config.attackOrder().isEmpty())
+        {
+            String[] attackListStrings = config.attackOrder().split(",");
+            for (String attackString : attackListStrings)
+            {
+                NPC nearest = NPCs.getNearest(Integer.parseInt(attackString));
+                if (nearest != null && nearest.hasAction("Attack") && nearest.getHealthRatio() != 0 && !nearest.isDead());
+                {
+                    nearest.interact("Attack");
+                    break;
+                }
+            }
+        }
+
 
         String[] whiteListStrings = config.mobWhitelist().split(",");
         String[] blackListStrings = config.mobBlacklist().split(",");
