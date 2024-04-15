@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.Item;
 import net.runelite.api.NPC;
 import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldPoint;
@@ -184,16 +185,17 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleClickWidget()
     {
-        var chatboxWidget = Widgets.get(WidgetInfo.CHATBOX_MESSAGES);
+        var chatboxWidget = client.getWidget(ComponentID.CHATBOX_MESSAGES);
         if (chatboxWidget == null)
             return false;
-
+        log.info("Have chatbox widget");
         var children = getFlatChildren(chatboxWidget);
 
         if (children.isEmpty())
             return false;
-
+        log.info("Children not empty");
         Widget widget = children.stream().filter(x -> {
+            log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
             String[] splitFish = config.cookedFish().split(",");
             for (String fish : splitFish)
             {
@@ -204,9 +206,11 @@ public class FisherPlugin extends LoopedPlugin
         }).findFirst().orElse(null);
         if (widget != null)
         {
+            log.info("Found widget ID: {} | Name: {} | Text: {}", widget.getId(), widget.getName(), widget.getText());
             widget.interact(0);
             return true;
         }
+        log.info("Did not find widget");
         return false;
     }
 
@@ -294,10 +298,14 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleDepositInventory()
     {
-        Widget depositInventoryWidget = getWidget(x -> x != null && x.equals("Deposit inventory"));
-        if (depositInventoryWidget != null && Inventory.isFull())
+        if (!Bank.isOpen())
+            return false;
+
+        Item firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.cookedFish().toLowerCase()));
+
+        if (firstToDeposit != null)
         {
-            depositInventoryWidget.interact("Deposit inventory");
+            Bank.depositAll(firstToDeposit.getId());
             return true;
         }
         return false;
@@ -358,7 +366,7 @@ public class FisherPlugin extends LoopedPlugin
         if (actionTakenThisTick)
         {
             log.info("Tried to fish at spot");
-            return 1000;
+            return 5000;
         }
 
         if (config.toCook())
@@ -367,14 +375,14 @@ public class FisherPlugin extends LoopedPlugin
             if (actionTakenThisTick)
             {
                 log.info("Tried to move to cook");
-                return 1000;
+                return 2500;
             }
 
             actionTakenThisTick = handleCook();
             if (actionTakenThisTick)
             {
                 log.info("Tried to cook");
-                return 1000;
+                return 2500;
             }
         }
 
@@ -382,14 +390,14 @@ public class FisherPlugin extends LoopedPlugin
         if (actionTakenThisTick)
         {
             log.info("Tried to move to bank");
-            return 1000;
+            return 2500;
         }
 
         actionTakenThisTick = handleOpenBank();
         if (actionTakenThisTick)
         {
             log.info("Tried to open bank");
-            return 1000;
+            return 2500;
         }
 
         actionTakenThisTick = handleDepositInventory();
