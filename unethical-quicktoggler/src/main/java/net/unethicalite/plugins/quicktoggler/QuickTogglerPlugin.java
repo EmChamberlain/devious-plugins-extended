@@ -162,6 +162,8 @@ public class QuickTogglerPlugin extends Plugin
                 Widget prayersContainer = client.getWidget(ComponentID.QUICK_PRAYER_PRAYERS);
                 if (prayersContainer == null)
                 {
+                    Widget prayerOrb = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+                    prayerOrb.interact("Setup");
                     return;
                 }
                 else

@@ -1,4 +1,4 @@
-version = "0.0.9"
+version = "0.0.10"
 
 project.extra["PluginName"] = "Unethical Quick Toggler"
 project.extra["PluginDescription"] = "Switches toggled overhead so quick flicker works automatically"
