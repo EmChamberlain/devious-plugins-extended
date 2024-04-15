@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -189,7 +190,7 @@ public class FisherPlugin extends LoopedPlugin
         if (chatboxWidget == null)
             return false;
         log.info("Have chatbox widget");
-        var children = getFlatChildren(chatboxWidget);
+        var children = Stream.of(chatboxWidget).flatMap(w -> getFlatChildren(w).stream()).flatMap(w -> getFlatChildren(w).stream()).collect(Collectors.toList());
 
         if (children.isEmpty())
             return false;
