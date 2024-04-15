@@ -437,11 +437,11 @@ public class FisherPlugin extends LoopedPlugin
         }
         if (event.getKey().toLowerCase().contains("setfishtile"))
         {
-            bankWorldPoint = client.getLocalPlayer().getWorldLocation();
+            fishingWorldPoint = client.getLocalPlayer().getWorldLocation();
         }
         if (event.getKey().toLowerCase().contains("setcooktile"))
         {
-            bankWorldPoint = client.getLocalPlayer().getWorldLocation();
+            cookWorldPoint = client.getLocalPlayer().getWorldLocation();
         }
 
     }
