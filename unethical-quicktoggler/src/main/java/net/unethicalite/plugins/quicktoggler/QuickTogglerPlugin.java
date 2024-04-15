@@ -157,7 +157,7 @@ public class QuickTogglerPlugin extends Plugin
         {
             if (!Prayers.isQuickPrayerEnabled() && Prayers.getPoints() > 0)
                 Prayers.toggleQuickPrayer(true);
-            if (!isPrayerToggled(prayerToPray))
+            if (!isPrayerToggled(prayerToPray) && !Prayers.isEnabled(prayerToPray))
             {
                 Widget prayersContainer = client.getWidget(ComponentID.QUICK_PRAYER_PRAYERS);
                 if (prayersContainer == null)
@@ -173,7 +173,7 @@ public class QuickTogglerPlugin extends Plugin
                         String prayerString = prayerToPray.name().toLowerCase().replace('_',' ').strip();
                         if (widgetString.contains(prayerString))
                         {
-                            nextInteractionTick = client.getTickCount() + 5;
+                            nextInteractionTick = client.getTickCount() + 3;
                             invokeAction(prayerWidget.getMenu(0), prayerWidget.getCanvasLocation().getX(), prayerWidget.getCanvasLocation().getY());
                             return;
                         }
