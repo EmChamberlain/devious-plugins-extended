@@ -154,6 +154,8 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleDropFish()
     {
+        if (true)
+            return false;
         if (isCooking() || isFishing() || Bank.isOpen())
             return false;
         var burntFish = Inventory.getFirst(x -> x.getName().toLowerCase().contains("burnt"));
