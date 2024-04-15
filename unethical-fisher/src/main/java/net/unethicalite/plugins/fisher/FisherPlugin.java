@@ -190,7 +190,7 @@ public class FisherPlugin extends LoopedPlugin
         if (chatboxWidget == null)
             return false;
         log.info("Have chatbox widget");
-        var children = Stream.of(chatboxWidget).flatMap(w -> getFlatChildren(w).stream()).flatMap(w -> getFlatChildren(w).stream()).collect(Collectors.toList());
+        var children = getFlatChildren(chatboxWidget);
 
         if (children.isEmpty())
             return false;
