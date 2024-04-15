@@ -613,6 +613,28 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Fisher",
+  "description": "Fishes and cooks",
+  "id": "unethicalfisher-plugin",
+  "releases": [
+    {
+      "date": "2024-04-15",
+      "sha512sum": "7D5F7E646B1F902876F5621FB7F844C27DF972A7D013D271819BEB2BB25F4EA0F00C8A5034845A171D8F458314EA5D2798431D9AC454143A51F630E3209A205A",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-fisher-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-15",
+      "sha512sum": "300C7B9F0D136A0367526884489CCC81ADE3F8D1A8E1F64655211A2E9BA51A60C53515725053FC442A40B0F9CA2B63D95FAB49394CF5BA515EF489566CF53960",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-fisher-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Flicker",
   "description": "Auto flicker",
   "id": "unethicalflicker-plugin",
