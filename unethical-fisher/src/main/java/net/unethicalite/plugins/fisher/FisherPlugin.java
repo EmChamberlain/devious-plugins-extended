@@ -325,8 +325,14 @@ public class FisherPlugin extends LoopedPlugin
     @Override
     public int loop()
     {
-        if(!config.isEnabled())
+        if (!config.isEnabled())
             return 1000;
+
+        if (config.getCookedFishList() == null || config.getCookedFishList().isEmpty())
+        {
+            log.info("No cooked fish list. Idling.");
+            return 1000;
+        }
 
         boolean actionTakenThisTick = handleDropFish();
         if (actionTakenThisTick)
