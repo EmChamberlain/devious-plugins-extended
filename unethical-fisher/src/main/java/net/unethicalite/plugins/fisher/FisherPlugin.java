@@ -188,9 +188,9 @@ public class FisherPlugin extends LoopedPlugin
 
         if (children.length == 0)
             return false;
-        log.info("Children not empty");
+        //log.info("Children not empty");
         Widget widget = Arrays.stream(children).filter(x -> {
-            log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
+            //log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
             String[] splitFish = config.cookedFish().split(",");
             for (String fish : splitFish)
             {
@@ -201,11 +201,11 @@ public class FisherPlugin extends LoopedPlugin
         }).findFirst().orElse(null);
         if (widget != null)
         {
-            log.info("Found widget ID: {} | Name: {} | Text: {}", widget.getId(), widget.getName(), widget.getText());
+            //log.info("Found widget ID: {} | Name: {} | Text: {}", widget.getId(), widget.getName(), widget.getText());
             widget.interact(0);
             return true;
         }
-        log.info("Did not find widget");
+        //log.info("Did not find widget");
         return false;
     }
 
@@ -347,14 +347,14 @@ public class FisherPlugin extends LoopedPlugin
         if (actionTakenThisTick)
         {
             log.info("Tried to click on widget");
-            return 1000;
+            return 5000;
         }
 
         actionTakenThisTick = handleMoveToFishingSpot();
         if (actionTakenThisTick)
         {
             log.info("Tried to move to fish");
-            return 1000;
+            return 2500;
         }
 
         actionTakenThisTick = handleFishAtSpot();

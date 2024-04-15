@@ -672,6 +672,13 @@
       "version": "0.0.9",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-fisher-0.0.9.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-15",
+      "sha512sum": "9BDE7D7CC93ED2BB6B515D3FF2D67923D02B0218AFA526D77FB356F6FC8686EEC29A47281E5F65A144E7DC0B6715D3BC200967C3E1D39A36F1BD5CA1BE3AEB72",
+      "version": "0.0.10",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-fisher-0.0.10.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
