@@ -8,6 +8,17 @@ import net.runelite.client.config.ConfigItem;
 @ConfigGroup("unethical-fisher")
 public interface FisherConfig extends Config
 {
+
+    @ConfigItem(
+            keyName = "isEnabled",
+            name = "isEnabled",
+            description = "Whether the plugin is enabled or not",
+            position = 0
+    )
+    default boolean isEnabled()
+    {
+        return false;
+    }
     @ConfigItem(
             keyName = "identifierAction",
             name = "identifierAction",

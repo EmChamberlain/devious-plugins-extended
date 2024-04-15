@@ -277,7 +277,7 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleOpenBank()
     {
-        if (isFishing() || isCooking())
+        if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable bankInteractable = getNearestBankNPC();
         if (bankInteractable != null && Inventory.isFull() && Inventory.contains(x -> {
@@ -295,8 +295,13 @@ public class FisherPlugin extends LoopedPlugin
     {
         if (!Bank.isOpen())
             return false;
-
-        Item firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.cookedFish().toLowerCase()));
+        Item firstToDeposit = null;
+        for (String fishString : Arrays.stream(config.cookedFish().split(",")).map(String::toLowerCase).collect(Collectors.toList()))
+        {
+            firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.cookedFish().toLowerCase()));
+            if (firstToDeposit != null)
+                break;
+        }
 
         if (firstToDeposit != null)
         {
@@ -336,6 +341,9 @@ public class FisherPlugin extends LoopedPlugin
     @Override
     public int loop()
     {
+        if(!config.isEnabled())
+            return 1000;
+
         boolean actionTakenThisTick = handleDropFish();
         if (actionTakenThisTick)
         {
