@@ -296,7 +296,7 @@ public class FisherPlugin extends LoopedPlugin
         if (!Bank.isOpen())
             return false;
 
-        Item firstToDeposit = Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.cookedFish().toLowerCase()));
+        Item firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.cookedFish().toLowerCase()));
 
         if (firstToDeposit != null)
         {
