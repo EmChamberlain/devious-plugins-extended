@@ -80,6 +80,23 @@ public class QuickTogglerPlugin extends Plugin
         return configManager.getConfig(QuickTogglerConfig.class);
     }
 
+    private boolean isPrayerToggled(Prayer prayer)
+    {
+        if (prayer == Prayer.PROTECT_FROM_MELEE)
+        {
+            return (client.getVarbitValue(4102) & 0x4000) > 0;
+        }
+        if (prayer == Prayer.PROTECT_FROM_MISSILES)
+        {
+            return (client.getVarbitValue(4102) & 0x2000) > 0;
+        }
+        if (prayer == Prayer.PROTECT_FROM_MAGIC)
+        {
+            return (client.getVarbitValue(4102) & 0x1000) > 0;
+        }
+        return false;
+    }
+
     @Subscribe
     private void onGameTick(GameTick tick)
     {
@@ -140,7 +157,7 @@ public class QuickTogglerPlugin extends Plugin
         {
             if (!Prayers.isQuickPrayerEnabled() && Prayers.getPoints() > 0)
                 Prayers.toggleQuickPrayer(true);
-            if (!Prayers.isEnabled(prayerToPray))
+            if (!isPrayerToggled(prayerToPray))
             {
                 Widget prayersContainer = client.getWidget(ComponentID.QUICK_PRAYER_PRAYERS);
                 if (prayersContainer == null)

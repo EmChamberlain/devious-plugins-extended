@@ -1040,6 +1040,13 @@
       "version": "0.0.7",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quicktoggler-0.0.7.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-15",
+      "sha512sum": "ECEC5190651B7209C05AF3BF55F494845E3F6C7AA4DE031CE8EDFF6F3F14D454E57CDE82B0533502603EE1BB7D4A84A56F8A9790F6D42DD22E327E4C7BA2E53C",
+      "version": "0.0.8",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quicktoggler-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
