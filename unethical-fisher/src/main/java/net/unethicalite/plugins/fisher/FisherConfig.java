@@ -100,4 +100,11 @@ public interface FisherConfig extends Config
             position = 8)
     default boolean toCook(){return true;}
 
+    @ConfigItem(
+            keyName = "toBank",
+            name = "toBank",
+            description = "Whether to bank the fish or not",
+            position = 9)
+    default boolean toBank(){return true;}
+
 }

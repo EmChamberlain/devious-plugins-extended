@@ -56,7 +56,7 @@ public class FisherPlugin extends LoopedPlugin
     @Inject private OverlayManager overlayManager;
     private boolean overlayEnabled;
 
-    private static final List<Integer> fishingAnimations = List.of(618, 619, 622, 6703, 6704, 6707, 6708, 6709, 7261);
+    private static final List<Integer> fishingAnimations = List.of(618, 619, 622, 6703, 6704, 6707, 6708, 6709, 7261, 1193);
     private static final List<Integer> cookingAnimations = List.of(883, 896, 897);
 
     private int cookingUntil = 0;
@@ -88,6 +88,8 @@ public class FisherPlugin extends LoopedPlugin
         Interactable nearestNPC = NPCs.getNearest(object -> object != null && object.getActions() != null && Arrays.asList(object.getActions()).contains("Bank") && Reachable.isInteractable(object));
         if (nearestNPC == null)
             nearestNPC = TileObjects.getNearest(object -> object != null && object.getActions() != null && Arrays.asList(object.getActions()).contains("Bank") && Reachable.isInteractable(object));
+        if (nearestNPC == null)
+            nearestNPC = TileObjects.getNearest(object -> object != null && object.getActions() != null && object.getName().toLowerCase().contains("bank chest") && Reachable.isInteractable(object));
         // get nearest npc that has a "Bank" option
         return nearestNPC;
     }
@@ -154,15 +156,16 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleDropFish()
     {
-        if (true)
-            return false;
         if (isCooking() || isFishing() || Bank.isOpen())
             return false;
-        var burntFish = Inventory.getFirst(x -> x.getName().toLowerCase().contains("burnt"));
-        if (burntFish != null)
+        for (String fish : getCookedFishList())
         {
-            burntFish.interact("Drop");
-            return true;
+            var fishToDrop = Inventory.getFirst(x -> x.getName().toLowerCase().contains(fish) && x.hasAction("Drop"));
+            if (fishToDrop != null)
+            {
+                fishToDrop.interact("Drop");
+                return true;
+            }
         }
         return false;
     }
@@ -183,7 +186,7 @@ public class FisherPlugin extends LoopedPlugin
             //log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
             for (String fish : getCookedFishList())
             {
-                if (x.getName().toLowerCase().contains(fish.toLowerCase()))
+                if (x.getName().toLowerCase().contains(fish.toLowerCase()) && !x.getName().toLowerCase().contains("poison"))
                     return true;
             }
             return false;
@@ -274,7 +277,7 @@ public class FisherPlugin extends LoopedPlugin
             return getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
         }))
         {
-            bankInteractable.interact("Bank");
+            bankInteractable.interact("Bank", "Deposit", "Use");
             return true;
         }
         return false;
@@ -354,14 +357,7 @@ public class FisherPlugin extends LoopedPlugin
             return 1000;
         }
 
-        boolean actionTakenThisTick = handleDropFish();
-        if (actionTakenThisTick)
-        {
-            log.info("Tried to drop fish");
-            return 50;
-        }
-
-        actionTakenThisTick = handleClickWidget();
+        boolean actionTakenThisTick = handleClickWidget();
         if (actionTakenThisTick)
         {
             log.info("Tried to click on widget");
@@ -399,40 +395,54 @@ public class FisherPlugin extends LoopedPlugin
             }
         }
 
-        actionTakenThisTick = handleMoveToBank();
-        if (actionTakenThisTick)
+        if (config.toBank())
         {
-            log.info("Tried to move to bank");
-            return 2500;
+            actionTakenThisTick = handleMoveToBank();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to move to bank");
+                return 2500;
+            }
+
+            actionTakenThisTick = handleOpenBank();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to open bank");
+                return 2500;
+            }
+
+            actionTakenThisTick = handleDepositInventory();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to deposit inventory");
+                return 1000;
+            }
+
+            actionTakenThisTick = handleWithdrawFishingItem();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to withdraw fishing item");
+                return 1000;
+            }
+
+            actionTakenThisTick = handleCloseBank();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to close bank");
+                return 1000;
+            }
+        }
+        else
+        {
+            actionTakenThisTick = handleDropFish();
+            if (actionTakenThisTick)
+            {
+                log.info("Tried to drop fish");
+                return 50;
+            }
         }
 
-        actionTakenThisTick = handleOpenBank();
-        if (actionTakenThisTick)
-        {
-            log.info("Tried to open bank");
-            return 2500;
-        }
 
-        actionTakenThisTick = handleDepositInventory();
-        if (actionTakenThisTick)
-        {
-            log.info("Tried to deposit inventory");
-            return 1000;
-        }
-
-        actionTakenThisTick = handleWithdrawFishingItem();
-        if (actionTakenThisTick)
-        {
-            log.info("Tried to withdraw fishing item");
-            return 1000;
-        }
-
-        actionTakenThisTick = handleCloseBank();
-        if (actionTakenThisTick)
-        {
-            log.info("Tried to close bank");
-            return 1000;
-        }
 
         log.info("Nothing to do so idling.");
         return 1000;
