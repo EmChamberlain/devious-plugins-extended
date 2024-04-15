@@ -93,11 +93,6 @@ public interface FisherConfig extends Config
             position = 7)
     default String cookedFish(){return "swordfish,tuna";}
 
-    default List<String> getCookedFishList()
-    {
-        return Arrays.stream(cookedFish().split(",")).map(String::toLowerCase).collect(Collectors.toList());
-    }
-
     @ConfigItem(
             keyName = "toCook",
             name = "toCook",

@@ -141,6 +141,11 @@ public class FisherPlugin extends LoopedPlugin
                 .findFirst().orElse(null);
     }
 
+    private List<String> getCookedFishList()
+    {
+        return Arrays.stream(config.cookedFish().split(",")).map(String::toLowerCase).collect(Collectors.toList());
+    }
+
     public WorldPoint bankWorldPoint = new WorldPoint(2814, 3437, 0);
 
     //TODO: Implement below
@@ -174,7 +179,7 @@ public class FisherPlugin extends LoopedPlugin
         //log.info("Children not empty");
         Widget widget = Arrays.stream(children).filter(x -> {
             //log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
-            for (String fish : config.getCookedFishList())
+            for (String fish : getCookedFishList())
             {
                 if (x.getName().toLowerCase().contains(fish.toLowerCase()))
                     return true;
@@ -248,7 +253,7 @@ public class FisherPlugin extends LoopedPlugin
         Interactable bankInteractable = getNearestBankNPC();
         if (bankInteractable == null && Inventory.isFull() && Inventory.contains(x -> {
             String inventoryObjectName = x.getName().toLowerCase();
-            return config.getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
+            return getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
         }))
         {
             Movement.walkTo(bankWorldPoint);
@@ -264,7 +269,7 @@ public class FisherPlugin extends LoopedPlugin
         Interactable bankInteractable = getNearestBankNPC();
         if (bankInteractable != null && Inventory.isFull() && Inventory.contains(x -> {
             String inventoryObjectName = x.getName().toLowerCase();
-            return config.getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
+            return getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
         }))
         {
             bankInteractable.interact("Bank");
@@ -278,7 +283,7 @@ public class FisherPlugin extends LoopedPlugin
         if (!Bank.isOpen())
             return false;
         Item firstToDeposit = null;
-        for (String fishString : config.getCookedFishList())
+        for (String fishString : getCookedFishList())
         {
             firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(fishString));
             if (firstToDeposit != null)
@@ -328,7 +333,7 @@ public class FisherPlugin extends LoopedPlugin
         if (!config.isEnabled())
             return 1000;
 
-        if (config.getCookedFishList() == null || config.getCookedFishList().isEmpty())
+        if (getCookedFishList() == null || getCookedFishList().isEmpty())
         {
             log.info("No cooked fish list. Idling.");
             return 1000;
