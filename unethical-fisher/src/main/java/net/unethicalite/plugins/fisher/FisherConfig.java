@@ -5,6 +5,10 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @ConfigGroup("unethical-fisher")
 public interface FisherConfig extends Config
 {
@@ -88,6 +92,11 @@ public interface FisherConfig extends Config
             description = "Name of cooked fish seperated by comma",
             position = 7)
     default String cookedFish(){return "swordfish,tuna";}
+
+    default List<String> getCookedFishList()
+    {
+        return Arrays.stream(cookedFish().split(",")).map(String::toLowerCase).collect(Collectors.toList());
+    }
 
     @ConfigItem(
             keyName = "toCook",
