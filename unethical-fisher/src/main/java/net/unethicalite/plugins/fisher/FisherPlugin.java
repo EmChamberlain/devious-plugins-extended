@@ -154,7 +154,7 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleDropFish()
     {
-        if (isCooking() || isFishing())
+        if (isCooking() || isFishing() || Bank.isOpen())
             return false;
         var burntFish = Inventory.getFirst(x -> x.getName().toLowerCase().contains("burnt"));
         if (burntFish != null)
@@ -199,7 +199,7 @@ public class FisherPlugin extends LoopedPlugin
     private boolean handleMoveToFishingSpot()
     {
         NPC fishingNPC = getNearestFishingSpotNPC();
-        if (fishingNPC != null || Inventory.isFull() || isFishing() || !Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())))
+        if (fishingNPC != null || Inventory.isFull() || isFishing() || !Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())) || Bank.isOpen())
             return false;
 
         Movement.walkTo(fishingWorldPoint);
@@ -209,7 +209,7 @@ public class FisherPlugin extends LoopedPlugin
     private boolean handleFishAtSpot()
     {
         NPC fishingNPC = getNearestFishingSpotNPC();
-        if (fishingNPC == null || Inventory.isFull() || isFishing() || !Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())))
+        if (fishingNPC == null || Inventory.isFull() || isFishing() || !Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())) || Bank.isOpen())
             return false;
 
         if (fishingNPC.hasAction(config.fishingAction()))
@@ -222,7 +222,7 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleMoveToCook()
     {
-        if (isFishing() || isCooking())
+        if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable cookInteractable = getNearestRangeObject();
         if (cookInteractable == null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw")))
@@ -235,7 +235,7 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleCook()
     {
-        if (isFishing() || isCooking())
+        if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable cookInteractable = getNearestRangeObject();
         if (cookInteractable != null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw")))
@@ -248,7 +248,7 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleMoveToBank()
     {
-        if (isFishing() || isCooking())
+        if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable bankInteractable = getNearestBankNPC();
         if (bankInteractable == null && Inventory.isFull() && Inventory.contains(x -> {
@@ -317,7 +317,20 @@ public class FisherPlugin extends LoopedPlugin
             closeWidget = getWidget(WidgetID.BANK_INVENTORY_GROUP_ID, x -> x != null &&  x.equals("Close"));
         if (closeWidget == null || Inventory.isFull())
             return false;
-        if(closeWidget != null && !Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())))
+
+        boolean haveFishInInventory = false;
+
+        for (String fish : getCookedFishList())
+        {
+            if(Inventory.contains(x -> x.getName().toLowerCase().contains(fish)))
+            {
+                haveFishInInventory = true;
+                break;
+            }
+        }
+
+
+        if(closeWidget != null && !Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())) && !haveFishInInventory)
         {
             closeWidget.interact("Close");
             return true;
