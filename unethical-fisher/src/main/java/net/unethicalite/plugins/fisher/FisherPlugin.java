@@ -141,15 +141,8 @@ public class FisherPlugin extends LoopedPlugin
     {
         final var list = new ArrayList<Widget>();
         list.add(widget);
-        if (widget.getChildren() != null)
-        {
-            list.addAll(
-                    Arrays.stream(widget.getChildren())
-                            .flatMap(w -> getFlatChildren(w).stream())
-                            .collect(Collectors.toList())
-            );
-        }
-
+        for (var child : widget.getDynamicChildren())
+            list.addAll(getFlatChildren(child));
         return list;
     }
 
@@ -186,16 +179,17 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleClickWidget()
     {
-        var chatboxWidget = client.getWidget(ComponentID.CHATBOX_MESSAGES);
-        if (chatboxWidget == null)
-            return false;
-        log.info("Have chatbox widget");
-        var children = getFlatChildren(chatboxWidget);
+        var containerWidget = client.getWidget(17694733);
 
-        if (children.isEmpty())
+        if (containerWidget == null)
+            return false;
+
+        var children = containerWidget.getStaticChildren();
+
+        if (children.length == 0)
             return false;
         log.info("Children not empty");
-        Widget widget = children.stream().filter(x -> {
+        Widget widget = Arrays.stream(children).filter(x -> {
             log.info("Handling ID: {} | Name: {} | Text: {}", x.getId(), x.getName(), x.getText());
             String[] splitFish = config.cookedFish().split(",");
             for (String fish : splitFish)
