@@ -13,6 +13,7 @@ import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
+import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -183,15 +184,24 @@ public class FisherPlugin extends LoopedPlugin
 
     private boolean handleClickWidget()
     {
-        Widget widget = getWidget(ComponentID.CHATBOX_MESSAGES, x -> {
+        var chatboxWidget = Widgets.get(WidgetInfo.CHATBOX_MESSAGES);
+        if (chatboxWidget == null)
+            return false;
+
+        var children = getFlatChildren(chatboxWidget);
+
+        if (children.isEmpty())
+            return false;
+
+        Widget widget = children.stream().filter(x -> {
             String[] splitFish = config.cookedFish().split(",");
             for (String fish : splitFish)
             {
-                if (x.toLowerCase().contains(fish.toLowerCase()))
+                if (x.getName().toLowerCase().contains(fish.toLowerCase()))
                     return true;
             }
             return false;
-        });
+        }).findFirst().orElse(null);
         if (widget != null)
         {
             widget.interact(0);

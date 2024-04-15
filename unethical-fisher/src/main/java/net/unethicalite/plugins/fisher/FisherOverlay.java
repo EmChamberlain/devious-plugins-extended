@@ -49,7 +49,6 @@ public class FisherOverlay extends Overlay
             if (poly != null)
             {
                 OverlayUtil.renderPolygon(graphics, poly, color);
-                OverlayUtil.renderTileOverlayParagraph(graphics, TileObjects.getFirstAt(wp, Objects::nonNull), stringIn, color);;
             }
         }
     }
