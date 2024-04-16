@@ -198,12 +198,12 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             {
                 log.info("Opening overload barrel");
                 overloadPotion.interact("Take");
-                Time.sleep(5000);
-                Keyboard.type(4);
-                Time.sleep(5000);
-                Keyboard.sendEnter();
-                return 500;
-
+                if (Time.sleepUntil(Dialog::isEnterInputOpen, 5000))
+                {
+                    Keyboard.type(12);
+                    Keyboard.sendEnter();
+                }
+                return 1000;
             }
             else
             {
