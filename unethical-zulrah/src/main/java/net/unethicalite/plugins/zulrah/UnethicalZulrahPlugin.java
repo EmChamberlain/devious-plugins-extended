@@ -134,6 +134,8 @@ public class UnethicalZulrahPlugin extends TaskPlugin
 
 		ZulrahType.setMagePhaseGear(new GearSetup(rangeGearNames));
 		ZulrahType.setRangedMeleePhaseGear(new GearSetup(mageGearNames));
+		ZulrahType.setMagePrayer(config.magePrayer().getPrayer());
+		ZulrahType.setRangedPrayer(config.rangePrayer().getPrayer());
 	}
 
 	public Task[] getTasks()

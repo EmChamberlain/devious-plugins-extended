@@ -23,15 +23,6 @@ public class TogglePrayers extends ZulrahTask
 {
 	private boolean enable = false;
 
-	@Inject
-	private UnethicalZulrahConfig config;
-
-	@Provides
-	UnethicalZulrahConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(UnethicalZulrahConfig.class);
-	}
-
 	@Override
 	public boolean validate()
 	{
@@ -71,7 +62,7 @@ public class TogglePrayers extends ZulrahTask
 
 		if (canToggleOffensive())
 		{
-			Prayer offensive = getZulrahCycle().getZulrahType().getOffensivePrayer(config);
+			Prayer offensive = getZulrahCycle().getZulrahType().getOffensivePrayer();
 			if (getZulrahCycle() != null)
 			{
 				Prayers.toggle(offensive);
@@ -89,7 +80,7 @@ public class TogglePrayers extends ZulrahTask
 				&& atZulrah()
 				&& Prayers.getPoints() > 0
 				&& Skills.getLevel(Skill.PRAYER) >= 45
-				&& !Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer(config));
+				&& !Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer());
 	}
 
 	private boolean canToggleDefensive()

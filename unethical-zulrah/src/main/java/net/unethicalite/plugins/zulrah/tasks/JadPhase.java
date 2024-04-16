@@ -16,15 +16,6 @@ public class JadPhase extends ZulrahTask
 {
 	private Prayer current;
 
-	@Inject
-	private UnethicalZulrahConfig config;
-
-	@Provides
-	UnethicalZulrahConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(UnethicalZulrahConfig.class);
-	}
-
 	@Override
 	public boolean validate()
 	{
@@ -56,10 +47,10 @@ public class JadPhase extends ZulrahTask
 			current = getZulrahCycle().getZulrahType().getDefensivePrayer();
 		}
 
-		if (!Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer(config)))
+		if (!Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer()))
 		{
-			Prayers.toggle(getZulrahCycle().getZulrahType().getOffensivePrayer(config));
-			Time.sleepUntil(() -> Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer(config)), 500);
+			Prayers.toggle(getZulrahCycle().getZulrahType().getOffensivePrayer());
+			Time.sleepUntil(() -> Prayers.isEnabled(getZulrahCycle().getZulrahType().getOffensivePrayer()), 500);
 		}
 
 		if (Projectiles.getAll(e -> e.getId() == Constants.PROJECTILE_RANGED_ID).size() > 0)

@@ -22,6 +22,11 @@ public enum ZulrahType
 	@Setter
 	private GearSetup setup;
 
+	@Setter
+	private static Prayer rangedPrayer = Prayer.EAGLE_EYE;
+	@Setter
+	private static Prayer magePrayer = Prayer.MYSTIC_MIGHT;
+
 	public static void setRangedMeleePhaseGear(GearSetup gearSetup)
 	{
 		RANGE.setSetup(gearSetup);
@@ -40,14 +45,14 @@ public enum ZulrahType
 		return id;
 	}
 
-	public Prayer getOffensivePrayer(UnethicalZulrahConfig config)
+	public Prayer getOffensivePrayer()
 	{
 		if (this == ZulrahType.MAGIC)
 		{
-			return config.rangePrayer().getPrayer();
+			return rangedPrayer;
 		}
 
-		return config.magePrayer().getPrayer();
+		return magePrayer;
 	}
 
 	public Prayer getDefensivePrayer()

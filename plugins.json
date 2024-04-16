@@ -1286,6 +1286,13 @@
       "version": "0.0.3",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-zulrah-0.0.3.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-16",
+      "sha512sum": "B6E79D690F0E935152EBF627AE2886FDB2B0AC214A729C24D552C21BF8401EB6794D123C8BAA01589FA50523A087D7D249A0AFACF87572FD233FF6408D0A2E5E",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-zulrah-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }]
