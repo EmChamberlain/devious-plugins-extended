@@ -323,7 +323,7 @@ public class FisherPlugin extends LoopedPlugin
 
         for (String fish : getCookedFishList())
         {
-            if(Inventory.contains(x -> x.getName().toLowerCase().contains(fish)))
+            if(Inventory.contains(x -> x.getName().toLowerCase().contains(fish) && !x.getName().toLowerCase().contains("vessel") && !x.getName().toLowerCase().contains("karambwanji")))
             {
                 haveFishInInventory = true;
                 break;
