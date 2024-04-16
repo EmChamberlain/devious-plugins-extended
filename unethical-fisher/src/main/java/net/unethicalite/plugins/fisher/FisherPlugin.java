@@ -316,14 +316,18 @@ public class FisherPlugin extends LoopedPlugin
         Widget closeWidget = getWidget(WidgetID.BANK_GROUP_ID, x -> x != null &&  x.equals("Close"));
         if (closeWidget == null)
             closeWidget = getWidget(WidgetID.BANK_INVENTORY_GROUP_ID, x -> x != null &&  x.equals("Close"));
-        if (closeWidget == null || Inventory.isFull())
+        if (closeWidget == null || Inventory.isFull() || !Bank.isOpen())
             return false;
 
         boolean haveFishInInventory = false;
 
         for (String fish : getCookedFishList())
         {
-            if(Inventory.contains(x -> x.getName().toLowerCase().contains(fish) && !x.getName().toLowerCase().contains("vessel") && !x.getName().toLowerCase().contains("karambwanji")))
+            if(Inventory.contains(x -> {
+                if (x.getId() == 3159 || x.getId() == 3150)
+                    return false;
+                return x.getName().toLowerCase().contains(fish);
+            }))
             {
                 haveFishInInventory = true;
                 break;
