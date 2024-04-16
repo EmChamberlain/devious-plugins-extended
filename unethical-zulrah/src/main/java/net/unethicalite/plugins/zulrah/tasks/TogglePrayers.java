@@ -1,8 +1,11 @@
 package net.unethicalite.plugins.zulrah.tasks;
 
+import com.google.inject.Provides;
 import net.runelite.api.NPC;
 import net.runelite.api.Prayer;
 import net.runelite.api.Skill;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.plugins.raids.RaidsConfig;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.game.Skills;
@@ -22,6 +25,12 @@ public class TogglePrayers extends ZulrahTask
 
 	@Inject
 	private UnethicalZulrahConfig config;
+
+	@Provides
+	UnethicalZulrahConfig provideConfig(ConfigManager configManager)
+	{
+		return configManager.getConfig(UnethicalZulrahConfig.class);
+	}
 
 	@Override
 	public boolean validate()

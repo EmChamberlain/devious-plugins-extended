@@ -67,7 +67,7 @@ public class FlickerPlugin extends Plugin
 
                 Widget widget = Widgets.get(pray.getWidgetInfo());
                 if (widget == null) {
-                    return;
+                    continue;
                 }
                 invokeAction(widget.getMenu(0), widget.getOriginalX(), widget.getOriginalY());
                 try {

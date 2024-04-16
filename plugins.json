@@ -823,7 +823,7 @@
     },
     {
       "date": "2024-04-09",
-      "sha512sum": "0963A80B33EB7E8A4A01A2DC272C2D6F7AE8F32EB8815FADE089D0794F698F165571EE972D83142E591696E53F15D586CC70CB403623739D2B50AE367F63F879",
+      "sha512sum": "B96267F696385B6EBE6819E5006D7712B293AFBFE50C6F40915D745084C5E6799160A381800A15E37518C708E7134FE0EAA78FF0A8D3242BC1740A76876B0A9B",
       "version": "0.0.8",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-flicker-0.0.8.jar?raw=true",
       "requires": "^1.0.0"
@@ -1272,11 +1272,20 @@
   "name": "Unethical Zulrah",
   "description": "Kills Zulrah for you",
   "id": "unethicalzulrah-plugin",
-  "releases": [{
-    "date": "2023-12-16",
-    "sha512sum": "AD79387EFA128914A25D0057AD65F2F2FFA4E2AA51B82DB8B026EBF3F0763D437B82909EB6A01769CCE0A0A15EFE4EBE8B910F0010FBAAE6DB0CF1F788A00EC7",
-    "version": "0.0.2",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-zulrah-0.0.2.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2023-12-16",
+      "sha512sum": "AD79387EFA128914A25D0057AD65F2F2FFA4E2AA51B82DB8B026EBF3F0763D437B82909EB6A01769CCE0A0A15EFE4EBE8B910F0010FBAAE6DB0CF1F788A00EC7",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-zulrah-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-16",
+      "sha512sum": "D6962D47EF723CC360A0409972E76B0F53DEB5B376F73525A2D3448141247DFD066AF9BCDB3AFAF32B0FB252E76EF52280564209CE9A0F10FE2BA500B88B2798",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-zulrah-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }]
