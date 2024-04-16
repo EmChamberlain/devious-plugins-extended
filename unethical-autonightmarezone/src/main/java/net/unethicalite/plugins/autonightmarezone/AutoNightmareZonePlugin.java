@@ -18,7 +18,9 @@ import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
+import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.game.GameThread;
+import net.unethicalite.api.game.Skills;
 import net.unethicalite.api.input.Keyboard;
 import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.items.Bank;
@@ -271,6 +273,12 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
         {
             return 1000;
         }
+        log.info("Handling overload");
+        if (handleOverload())
+        {
+            return 1000;
+        }
+
         log.info("Handling attacking new target");
         if(handleAttackNearestWithPriority())
         {
@@ -278,6 +286,19 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
         }
         log.info("Idling in nightmare zone");
         return 250;
+    }
+
+    private boolean handleOverload()
+    {
+        var overloadPotion = Inventory.getFirst(x -> x.getName().toLowerCase().contains("overload"));
+        if(Combat.getCurrentHealth() < 55 || overloadPotion == null)
+            return false;
+        if(Skills.getBoostedLevel(Skill.STRENGTH) - Skills.getLevel(Skill.STRENGTH) < 5)
+        {
+            overloadPotion.interact("Drink");
+            return true;
+        }
+        return false;
     }
 
     private void invokeAction(MenuAutomated entry, int x, int y)
