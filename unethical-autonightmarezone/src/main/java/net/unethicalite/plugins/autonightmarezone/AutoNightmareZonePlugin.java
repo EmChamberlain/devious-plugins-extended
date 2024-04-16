@@ -227,6 +227,10 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
     private boolean handlePowerUps()
     {
         Interactable powerUp = TileObjects.getNearest("Zapper", "Recurrent Damage", "Power Surge");
+        if(powerUp == null)
+        {
+            powerUp = TileObjects.getNearest(26264, 26265);
+        }
         if(powerUp != null)
         {
             powerUp.interact("Activate");
