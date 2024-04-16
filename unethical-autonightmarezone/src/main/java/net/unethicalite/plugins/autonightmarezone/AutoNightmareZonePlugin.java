@@ -14,6 +14,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.Interactable;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
@@ -195,17 +196,9 @@ public class AutoNightmareZonePlugin extends LoopedPlugin
             {
                 log.info("Opening overload barrel");
                 overloadPotion.interact("Take");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
-                }
+                Time.sleep(5000);
                 Keyboard.type(4);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    log.info("Couldn't sleep in nightmare zone plugin: {}", e.toString());
-                }
+                Time.sleep(5000);
                 Keyboard.sendEnter();
                 return 500;
 
