@@ -368,7 +368,7 @@ public class FisherPlugin extends LoopedPlugin
         if (actionTakenThisTick)
         {
             log.info("Tried to move to fish");
-            return 2500;
+            return 500;
         }
 
         actionTakenThisTick = handleFishAtSpot();
@@ -384,7 +384,7 @@ public class FisherPlugin extends LoopedPlugin
             if (actionTakenThisTick)
             {
                 log.info("Tried to move to cook");
-                return 2500;
+                return 500;
             }
 
             actionTakenThisTick = handleCook();
@@ -401,7 +401,7 @@ public class FisherPlugin extends LoopedPlugin
             if (actionTakenThisTick)
             {
                 log.info("Tried to move to bank");
-                return 2500;
+                return 500;
             }
 
             actionTakenThisTick = handleOpenBank();
