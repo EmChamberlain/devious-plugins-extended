@@ -286,7 +286,7 @@ public class FisherPlugin extends LoopedPlugin
         Item firstToDeposit = null;
         for (String fishString : getCookedFishList())
         {
-            firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(fishString));
+            firstToDeposit = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(fishString) && !x.getName().toLowerCase().contains("vessel") && !x.getName().toLowerCase().contains("karambwanji"));
             if (firstToDeposit != null)
                 break;
         }
