@@ -50,7 +50,9 @@ import java.util.stream.Stream;
 public class FisherPlugin extends LoopedPlugin
 {
     @Inject private Client client;
-    @Inject private FisherConfig config;
+
+    @Inject private ConfigManager configManager;
+    @Inject public FisherConfig config;
     @Inject private FisherOverlay overlay;
 
     @Inject private OverlayManager overlayManager;
@@ -148,12 +150,6 @@ public class FisherPlugin extends LoopedPlugin
         return Arrays.stream(config.cookedFish().split(",")).map(String::toLowerCase).collect(Collectors.toList());
     }
 
-    public WorldPoint bankWorldPoint = new WorldPoint(2814, 3437, 0);
-
-    //TODO: Implement below
-    public WorldPoint cookWorldPoint = new WorldPoint(2814, 3440, 0);
-    public WorldPoint fishingWorldPoint = new WorldPoint(2848, 3431, 0);
-
     private boolean handleDropFish()
     {
         if (isCooking() || isFishing() || Bank.isOpen())
@@ -207,7 +203,7 @@ public class FisherPlugin extends LoopedPlugin
         if (fishingNPC != null || Inventory.isFull() || isFishing() || !Inventory.contains(x -> x.getName().toLowerCase().contains(config.fishingItem().toLowerCase())) || Bank.isOpen())
             return false;
 
-        Movement.walkTo(fishingWorldPoint);
+        Movement.walkTo(config.fishWorldPoint());
         return true;
     }
 
@@ -230,9 +226,9 @@ public class FisherPlugin extends LoopedPlugin
         if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable cookInteractable = getNearestRangeObject();
-        if (cookInteractable == null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw")))
+        if (cookInteractable == null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw") && !x.getName().toLowerCase().contains("karambwanji")))
         {
-            Movement.walkTo(cookWorldPoint);
+            Movement.walkTo(config.cookWorldPoint());
             return true;
         }
         return false;
@@ -243,7 +239,7 @@ public class FisherPlugin extends LoopedPlugin
         if (isFishing() || isCooking() || Bank.isOpen())
             return false;
         Interactable cookInteractable = getNearestRangeObject();
-        if (cookInteractable != null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw")))
+        if (cookInteractable != null && Inventory.isFull() && Inventory.contains(x -> x.getName().toLowerCase().contains("raw") && !x.getName().toLowerCase().contains("karambwanji")))
         {
             cookInteractable.interact("Cook");
             return true;
@@ -261,7 +257,7 @@ public class FisherPlugin extends LoopedPlugin
             return getCookedFishList().stream().anyMatch(inventoryObjectName::contains);
         }))
         {
-            Movement.walkTo(bankWorldPoint);
+            Movement.walkTo(config.bankWorldPoint());
             return true;
         }
         return false;
@@ -464,15 +460,15 @@ public class FisherPlugin extends LoopedPlugin
 
         if (event.getKey().toLowerCase().contains("setbanktile"))
         {
-            bankWorldPoint = client.getLocalPlayer().getWorldLocation();
+            configManager.setConfiguration("unethical-fisher", "bankWorldPoint", client.getLocalPlayer().getWorldLocation());
         }
         if (event.getKey().toLowerCase().contains("setfishtile"))
         {
-            fishingWorldPoint = client.getLocalPlayer().getWorldLocation();
+            configManager.setConfiguration("unethical-fisher", "fishWorldPoint", client.getLocalPlayer().getWorldLocation());
         }
         if (event.getKey().toLowerCase().contains("setcooktile"))
         {
-            cookWorldPoint = client.getLocalPlayer().getWorldLocation();
+            configManager.setConfiguration("unethical-fisher", "cookWorldPoint", client.getLocalPlayer().getWorldLocation());
         }
 
     }

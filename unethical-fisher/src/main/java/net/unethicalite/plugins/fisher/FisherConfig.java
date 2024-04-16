@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.fisher;
 
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -106,5 +107,26 @@ public interface FisherConfig extends Config
             description = "Whether to bank the fish or not",
             position = 9)
     default boolean toBank(){return true;}
+
+    @ConfigItem(
+            keyName = "bankWorldPoint",
+            name = "bankWorldPoint",
+            description = "",
+            position = 10)
+    default WorldPoint bankWorldPoint(){return new WorldPoint(2814, 3437, 0);}
+
+    @ConfigItem(
+            keyName = "cookWorldPoint",
+            name = "cookWorldPoint",
+            description = "",
+            position = 11)
+    default WorldPoint cookWorldPoint(){return new WorldPoint(2814, 3440, 0);}
+
+    @ConfigItem(
+            keyName = "fishWorldPoint",
+            name = "fishWorldPoint",
+            description = "",
+            position = 12)
+    default WorldPoint fishWorldPoint(){return new WorldPoint(2848, 3431, 0);}
 
 }

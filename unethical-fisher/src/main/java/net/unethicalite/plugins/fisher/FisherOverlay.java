@@ -34,9 +34,9 @@ public class FisherOverlay extends Overlay
     public Dimension render(Graphics2D graphics)
     {
 
-        renderTile(graphics, plugin.fishingWorldPoint, Color.decode("#ff0000"), "fish");
-        renderTile(graphics, plugin.bankWorldPoint, Color.decode("#00ff00"), "bank");
-        renderTile(graphics, plugin.cookWorldPoint, Color.decode("#0000ff"), "cook");
+        renderTile(graphics, plugin.config.fishWorldPoint(), Color.decode("#ff0000"), "fish");
+        renderTile(graphics, plugin.config.bankWorldPoint(), Color.decode("#00ff00"), "bank");
+        renderTile(graphics, plugin.config.cookWorldPoint(), Color.decode("#0000ff"), "cook");
         return null;
     }
 
