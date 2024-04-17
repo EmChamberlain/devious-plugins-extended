@@ -81,8 +81,7 @@ public class LogoutPlugin extends Plugin
 					inventoryGlory.interact("Wear");
 					boolean timedOut = !Time.sleepUntil(() -> Equipment.contains(x -> x.hasAction(gloryTeleAction)), 2000);
 					if (timedOut) log.info("Timed out for equipping glory");
-					teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
-					teleAction = gloryTeleAction;
+					return;
 				}
 			}
 
