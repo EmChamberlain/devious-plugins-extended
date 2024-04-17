@@ -57,16 +57,20 @@ public class ActionerPlugin extends Plugin
         if (!config.isEnabled())
             return;
 
-        Item item = Inventory.getFirst(x -> x.getName().toLowerCase().contains(config.item().toLowerCase()) && x.hasAction(config.action()));
+        Item item = Inventory.getFirst(x -> x.getId() == config.item());
         if (item == null)
         {
-            log.info("No item found with action");
+            log.info("No item");
         }
         else
         {
             if (item.hasAction(config.action()))
             {
                 item.interact(config.action());
+            }
+            else
+            {
+                log.info("No action for item: {}", item.getName());
             }
         }
     }

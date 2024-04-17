@@ -43,13 +43,22 @@
   "name": "Unethical Actioner",
   "description": "Automatically actions",
   "id": "unethicalactioner-plugin",
-  "releases": [{
-    "date": "2024-04-17",
-    "sha512sum": "7D53A0DE154C9C67F2B384C81308C5C5DFEFBCBDCBFBFF0407DFB35BAF82E1CA73531CA8A24D6DD0F3E3410AA8F3A7A5CA6C5CEFA7A1BB08656CCAA514E68140",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-17",
+      "sha512sum": "7D53A0DE154C9C67F2B384C81308C5C5DFEFBCBDCBFBFF0407DFB35BAF82E1CA73531CA8A24D6DD0F3E3410AA8F3A7A5CA6C5CEFA7A1BB08656CCAA514E68140",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-17",
+      "sha512sum": "C39044B7143305C34BBA9FAB35073E956233FA0FB065482D15612BCA234B686D12252BBDF5D5689579DEF8DB860EAE03AD0DA0FBE35D79C7E227388AC259A5FB",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

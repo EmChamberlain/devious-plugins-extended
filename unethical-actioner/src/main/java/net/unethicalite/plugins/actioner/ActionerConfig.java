@@ -24,9 +24,9 @@ public interface ActionerConfig extends Config
             description = "item",
             position = 1
     )
-    default String item()
+    default int item()
     {
-        return "item";
+        return 1;
     }
 
     @ConfigItem(
