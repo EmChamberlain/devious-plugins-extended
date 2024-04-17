@@ -42,6 +42,9 @@ public class LogoutPlugin extends Plugin
 	@Subscribe
 	private void onClientTick(ClientTick e)
 	{
+		if (!config.isEnabled())
+			return;
+
 		int wildyLevel = Game.getWildyLevel();
 		if (wildyLevel < 1)
 		{
@@ -55,7 +58,11 @@ public class LogoutPlugin extends Plugin
 		if (pker != null || config.test())
 		{
 			if(config.test())
+			{
+				log.info("Untesting");
 				configManager.setConfiguration("unethical-logout", "test", false);
+				log.info("Untested");
+			}
 
 			String gloryTeleAction = "Edgeville";
 			Item teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
@@ -63,10 +70,14 @@ public class LogoutPlugin extends Plugin
 			String teleAction = gloryTeleAction;
 
 			if (teleItem == null)
+			{
+				log.info("No equipped glory");
 				teleItem = Inventory.getFirst(x -> x.getName().toLowerCase().contains("amulet of glory("));
+			}
 
 			if (teleItem == null)
 			{
+				log.info("No inventory glory");
 				String tabletTeleAction = "Break";
 				teleItem = Inventory.getFirst(x -> x.hasAction(tabletTeleAction));
 				teleAction = tabletTeleAction;
