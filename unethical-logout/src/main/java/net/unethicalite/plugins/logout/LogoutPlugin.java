@@ -51,20 +51,11 @@ public class LogoutPlugin extends Plugin
 		{
 			return;
 		}
-		wildyLevel += 1; // Just for safety
 		Player local = Players.getLocal();
 		int combatLevel = local.getCombatLevel();
-		final int finalWildyLevel = wildyLevel;
-		Player pker = Players.getNearest(player -> player != local && isDangerousPlayer(finalWildyLevel, combatLevel, player, config.logIfSkulledOnly()));
+		Player pker = Players.getNearest(player -> player != local && isDangerousPlayer(wildyLevel, combatLevel, player, config.logIfSkulledOnly()));
 		if (pker != null || config.test())
 		{
-			if(config.test())
-			{
-				log.info("Untesting");
-				configManager.setConfiguration("unethical-logout", "test", false);
-				log.info("Untested");
-			}
-
 			String gloryTeleAction = "Edgeville";
 			Item teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
 			String teleAction = gloryTeleAction;
@@ -81,7 +72,8 @@ public class LogoutPlugin extends Plugin
 					inventoryGlory.interact("Wear");
 					boolean timedOut = !Time.sleepUntil(() -> Equipment.contains(x -> x.hasAction(gloryTeleAction)), 2000);
 					if (timedOut) log.info("Timed out for equipping glory");
-					return;
+					teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
+					teleAction = gloryTeleAction;
 				}
 			}
 
@@ -104,7 +96,6 @@ public class LogoutPlugin extends Plugin
 					log.info("Could not teleport so logging");
 					client.setMouseIdleTicks(Integer.MAX_VALUE);
 					client.setKeyboardIdleTicks(Integer.MAX_VALUE);
-					return;
 				}
 				log.info("Teled out");
 			}
@@ -115,6 +106,12 @@ public class LogoutPlugin extends Plugin
 				client.setKeyboardIdleTicks(Integer.MAX_VALUE);
 			}
 
+			if(config.test())
+			{
+				log.info("Untesting");
+				configManager.setConfiguration("unethical-logout", "test", false);
+				log.info("Untested");
+			}
 		}
 	}
 
