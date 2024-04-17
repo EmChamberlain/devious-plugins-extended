@@ -876,13 +876,22 @@
   "name": "Unethical Logout",
   "description": "Logs you out if a pker is near",
   "id": "unethicallogout-plugin",
-  "releases": [{
-    "date": "2023-12-16",
-    "sha512sum": "BDB3F56516CEFAD9AF638E0C6966FE98C2886D15F2B40ABD4D2C5573B7D25665F3AC0AEF34BC015BD673540BD30BF52BE1D2F2979DC51C548D39EDFE7F02724D",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-logout-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2023-12-16",
+      "sha512sum": "BDB3F56516CEFAD9AF638E0C6966FE98C2886D15F2B40ABD4D2C5573B7D25665F3AC0AEF34BC015BD673540BD30BF52BE1D2F2979DC51C548D39EDFE7F02724D",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-logout-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-17",
+      "sha512sum": "8376121A51DCFA0373055D566931B8FAF3B1C9CC3F6885F7AB2426229F4376DABF3F246984BD07C87EAC323BBE8C8522EC9788D5CE929C07CA8933E37A717237",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-logout-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
