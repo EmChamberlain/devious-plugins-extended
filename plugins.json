@@ -40,6 +40,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Actioner",
+  "description": "Automatically actions",
+  "id": "unethicalactioner-plugin",
+  "releases": [{
+    "date": "2024-04-17",
+    "sha512sum": "7D53A0DE154C9C67F2B384C81308C5C5DFEFBCBDCBFBFF0407DFB35BAF82E1CA73531CA8A24D6DD0F3E3410AA8F3A7A5CA6C5CEFA7A1BB08656CCAA514E68140",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Agility",
   "description": "Completes Rooftop agility courses",
   "id": "unethicalagility-plugin",
