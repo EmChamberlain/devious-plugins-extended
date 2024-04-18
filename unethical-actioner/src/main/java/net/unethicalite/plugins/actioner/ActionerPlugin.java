@@ -96,6 +96,21 @@ public class ActionerPlugin extends Plugin
         if (!config.isEnabled())
             return;
 
+        if (config.stopIfAnimating())
+        {
+            var local = client.getLocalPlayer();
+            if (local != null)
+            {
+                if (local.isAnimating())
+                    return;
+            }
+            else
+            {
+                log.info("local is null so stopping");
+                return;
+            }
+        }
+
         if (config.use() && !config.isItem())
             configManager.setConfiguration("unethical-actioner", "isItem", true);
 

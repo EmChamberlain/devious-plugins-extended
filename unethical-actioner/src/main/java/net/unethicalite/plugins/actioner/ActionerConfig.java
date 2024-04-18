@@ -97,4 +97,15 @@ public interface ActionerConfig extends Config
         return "list,comma,seperated";
     }
 
+    @ConfigItem(
+            keyName = "stopIfAnimating",
+            name = "stopIfAnimating",
+            description = "stopIfAnimating",
+            position = 8
+    )
+    default boolean stopIfAnimating()
+    {
+        return false;
+    }
+
 }
