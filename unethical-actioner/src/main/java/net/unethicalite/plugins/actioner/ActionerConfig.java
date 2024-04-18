@@ -119,4 +119,15 @@ public interface ActionerConfig extends Config
         return false;
     }
 
+
+    @ConfigItem(
+            keyName = "maxRange",
+            name = "maxRange",
+            description = "maxRange",
+            position = 10
+    )
+    default int maxRange()
+    {
+        return 1;
+    }
 }

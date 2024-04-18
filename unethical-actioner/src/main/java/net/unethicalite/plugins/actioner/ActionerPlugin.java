@@ -160,6 +160,11 @@ public class ActionerPlugin extends Plugin
                     interactable = NPCs.getNearest(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
                 }
             }
+            if (interactable != null && ((Locatable) interactable).getWorldLocation().distanceTo(client.getLocalPlayer().getWorldLocation()) > config.maxRange())
+            {
+                log.info("Found one but not in range");
+                interactable = null;
+            }
         }
 
         if (interactable != null)
