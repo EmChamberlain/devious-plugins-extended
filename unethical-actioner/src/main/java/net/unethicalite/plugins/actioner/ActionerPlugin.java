@@ -13,6 +13,8 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.PluginChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.EntityNameable;
+import net.unethicalite.api.Interactable;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.LobbyWorldSelectToggled;
@@ -26,9 +28,12 @@ import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @PluginDescriptor(name = "Unethical Actioner", enabledByDefault = false)
 @Extension
@@ -50,21 +55,69 @@ public class ActionerPlugin extends Plugin
         return configManager.getConfig(ActionerConfig.class);
     }
 
+    private List<Integer> getIntListOfConfigString(String confString)
+    {
+        return Stream.of(confString.split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getStringListOfConfigString(String confString)
+    {
+        return Stream.of(confString.split(","))
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+    }
+
     @Subscribe
     public void onGameTick(GameTick tick)
     {
         if (!config.isEnabled())
             return;
 
-        Item item = Inventory.getFirst(x -> x.getId() == config.item());
-        if (item == null)
+        if (config.use() && !config.isItem())
+            configManager.setConfiguration("unethical-actioner", "isItem", true);
+
+        Interactable interactable = null;
+
+
+        if (config.isItem())
         {
-            log.info("No item");
+            if (config.isId())
+            {
+                interactable = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+            }
+            else
+            {
+                interactable = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+            }
         }
         else
         {
-            if (config.use())
+            if (config.isId())
             {
+                interactable = TileObjects.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                if (interactable == null)
+                {
+                    interactable = NPCs.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                }
+            }
+            else
+            {
+                interactable = TileObjects.getNearest(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+                if (interactable == null)
+                {
+                    interactable = NPCs.getNearest(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+                }
+            }
+        }
+
+        if (interactable != null)
+        {
+            if (config.use() && config.isItem())
+            {
+                // We enforce that it must be the item branch, so we should be able to cast here
+                Item item = (Item) interactable;
                 TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
                 if (nearObject != null)
                 {
@@ -81,14 +134,38 @@ public class ActionerPlugin extends Plugin
             }
             else
             {
-                if (item.hasAction(config.action()))
+                if (interactable.hasAction(config.action()))
                 {
-                    item.interact(config.action());
+                    interactable.interact(config.action());
+                    return;
                 }
                 else
                 {
-                    log.info("No action for item: {} which has actions: {}", item.getName(), item.getActions());
+                    log.info("No action for item: {} which has actions: {}", ((EntityNameable) interactable).getName(), interactable.getActions());
                 }
+            }
+        }
+        else
+        {
+            log.info("No interactable");
+        }
+
+        if (config.dropItems())
+        {
+            Item itemToDrop = null;
+            if (config.isId())
+            {
+                itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+            }
+            else
+            {
+                itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+            }
+            if (itemToDrop != null)
+            {
+                log.info("Dropping item: {}", itemToDrop.getName());
+                itemToDrop.interact("Drop");
+                return;
             }
         }
     }
