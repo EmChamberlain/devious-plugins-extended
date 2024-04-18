@@ -40,4 +40,15 @@ public interface ActionerConfig extends Config
         return "action";
     }
 
+    @ConfigItem(
+            keyName = "use",
+            name = "use",
+            description = "use",
+            position = 3
+    )
+    default boolean use()
+    {
+        return true;
+    }
+
 }

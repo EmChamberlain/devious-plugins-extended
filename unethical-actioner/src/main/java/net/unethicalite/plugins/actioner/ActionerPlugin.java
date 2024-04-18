@@ -3,10 +3,7 @@ package net.unethicalite.plugins.actioner;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
-import net.runelite.api.GameState;
-import net.runelite.api.Item;
-import net.runelite.api.World;
+import net.runelite.api.*;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.WidgetLoaded;
@@ -16,6 +13,8 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.PluginChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.LobbyWorldSelectToggled;
 import net.unethicalite.api.events.LoginIndexChanged;
 import net.unethicalite.api.events.WorldHopped;
@@ -64,13 +63,32 @@ public class ActionerPlugin extends Plugin
         }
         else
         {
-            if (item.hasAction(config.action()))
+            if (config.use())
             {
-                item.interact(config.action());
+                TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
+                if (nearObject != null)
+                {
+                    item.useOn(nearObject);
+                    return;
+                }
+
+                NPC nearNPC = NPCs.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
+                if (nearNPC != null)
+                {
+                    item.useOn(nearNPC);
+                    return;
+                }
             }
             else
             {
-                log.info("No action for item: {}", item.getName());
+                if (item.hasAction(config.action()))
+                {
+                    item.interact(config.action());
+                }
+                else
+                {
+                    log.info("No action for item: {} which has actions: {}", item.getName(), item.getActions());
+                }
             }
         }
     }

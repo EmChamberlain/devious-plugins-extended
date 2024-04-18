@@ -19,6 +19,7 @@ import net.unethicalite.api.items.Inventory;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Slf4j
 @Extension
@@ -33,6 +34,9 @@ public class LogoutPlugin extends Plugin
 
 	@Inject
 	private ConfigManager configManager;
+
+	private final List<String> teleActions30 = List.of("Edgeville", "Monastery");
+	private final List<String> teleActions20 = List.of("Ferox Enclave");
 
 	@Provides
 	LogoutConfig getConfig(ConfigManager configManager)
@@ -56,37 +60,35 @@ public class LogoutPlugin extends Plugin
 		Player pker = Players.getNearest(player -> player != local && isDangerousPlayer(wildyLevel, combatLevel, player, config.logIfSkulledOnly()));
 		if (pker != null || config.test())
 		{
-			String gloryTeleAction = "Edgeville";
-			Item teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
-			String teleAction = gloryTeleAction;
-
-			int maxWildyLevel = 30;
-
-			if (teleItem == null)
+			Item teleItem = null;
+			String teleAction = null;
+			if (wildyLevel <= 30)
 			{
-				log.info("No equipped glory");
-				var inventoryGlory = Inventory.getFirst(x -> x.getName().toLowerCase().contains("amulet of glory("));
-				if (inventoryGlory != null && inventoryGlory.hasAction("Wear"))
+				for (String teleAction30 : teleActions30)
 				{
-					log.info("Trying to wear glory");
-					inventoryGlory.interact("Wear");
-					boolean timedOut = !Time.sleepUntil(() -> Equipment.contains(x -> x.hasAction(gloryTeleAction)), 2000);
-					if (timedOut) log.info("Timed out for equipping glory");
-					teleItem = Equipment.getFirst(x -> x.hasAction(gloryTeleAction));
-					teleAction = gloryTeleAction;
+					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
+					teleAction = teleAction30;
 				}
 			}
 
-			if (teleItem == null)
+			if (wildyLevel <= 20)
 			{
-				log.info("No inventory glory");
+				for (String teleAction20 : teleActions20)
+				{
+					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
+					teleAction = teleAction20;
+				}
+			}
+
+			if (teleItem == null && wildyLevel <= 20)
+			{
+				log.info("No equipped teles");
 				String tabletTeleAction = "Break";
 				teleItem = Inventory.getFirst(x -> x.hasAction(tabletTeleAction));
 				teleAction = tabletTeleAction;
-				maxWildyLevel = 20;
 			}
 
-			if (config.teleportOut() && teleItem != null && wildyLevel <= maxWildyLevel)
+			if (config.teleportOut() && teleItem != null && teleAction != null && !teleAction.isEmpty())
 			{
 				log.info("Trying to tele");
 				try {
