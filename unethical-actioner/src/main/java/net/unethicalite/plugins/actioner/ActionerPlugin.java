@@ -75,11 +75,11 @@ public class ActionerPlugin extends Plugin
         Item itemToDrop = null;
         if (config.isId())
         {
-            itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+            itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.dropItemsList()).contains(x.getId()));
         }
         else
         {
-            itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+            itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.dropItemsList()).contains(x.getName().toLowerCase()));
         }
         if (itemToDrop != null)
         {
