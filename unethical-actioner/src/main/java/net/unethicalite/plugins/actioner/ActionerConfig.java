@@ -98,10 +98,21 @@ public interface ActionerConfig extends Config
     }
 
     @ConfigItem(
+            keyName = "dropsPerTick",
+            name = "dropsPerTick",
+            description = "dropsPerTick",
+            position = 8
+    )
+    default int dropsPerTick()
+    {
+        return 4;
+    }
+
+    @ConfigItem(
             keyName = "stopIfAnimating",
             name = "stopIfAnimating",
             description = "stopIfAnimating",
-            position = 8
+            position = 9
     )
     default boolean stopIfAnimating()
     {

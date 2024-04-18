@@ -30,6 +30,7 @@ import org.pf4j.Extension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -72,22 +73,29 @@ public class ActionerPlugin extends Plugin
 
     private boolean handleDropItems()
     {
-        Item itemToDrop = null;
+        ListIterator<Item> matchingItemsIterator;
         if (config.isId())
         {
-            itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.dropItemsList()).contains(x.getId()));
+            matchingItemsIterator = Inventory.getAll(x -> getIntListOfConfigString(config.dropItemsList()).contains(x.getId())).listIterator();
         }
         else
         {
-            itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.dropItemsList()).contains(x.getName().toLowerCase()));
+            matchingItemsIterator = Inventory.getAll(x -> getStringListOfConfigString(config.dropItemsList()).contains(x.getName().toLowerCase())).listIterator();
         }
-        if (itemToDrop != null)
+
+        boolean didDrop = false;
+        for (int i = 0; i < config.dropsPerTick(); i++)
         {
+
+            if (!matchingItemsIterator.hasNext())
+                break;
+
+            Item itemToDrop = matchingItemsIterator.next();
             log.info("Dropping item: {}", itemToDrop.getName());
             itemToDrop.interact("Drop");
-            return true;
+            didDrop = true;
         }
-        return false;
+        return didDrop;
     }
 
     @Subscribe
@@ -122,7 +130,6 @@ public class ActionerPlugin extends Plugin
             if (droppingItems)
                 return;
         }
-
 
         if (config.isItem())
         {
