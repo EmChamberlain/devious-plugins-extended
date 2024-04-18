@@ -74,12 +74,12 @@ public interface ActionerConfig extends Config
     }
 
     @ConfigItem(
-            keyName = "dropItems",
-            name = "dropItems",
-            description = "dropItems",
+            keyName = "dropItemsIfFull",
+            name = "dropItemsIfFull",
+            description = "dropItemsIfFull",
             position = 6
     )
-    default boolean dropItems()
+    default boolean dropItemsIfFull()
     {
         return true;
     }

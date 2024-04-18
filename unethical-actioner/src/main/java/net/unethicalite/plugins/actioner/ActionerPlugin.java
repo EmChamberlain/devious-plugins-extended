@@ -48,6 +48,7 @@ public class ActionerPlugin extends Plugin
 
     @Inject
     private ConfigManager configManager;
+    private boolean droppingItems = false;
 
     @Provides
     public ActionerConfig getConfig(ConfigManager configManager)
@@ -69,6 +70,26 @@ public class ActionerPlugin extends Plugin
                 .collect(Collectors.toList());
     }
 
+    private boolean handleDropItems()
+    {
+        Item itemToDrop = null;
+        if (config.isId())
+        {
+            itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+        }
+        else
+        {
+            itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
+        }
+        if (itemToDrop != null)
+        {
+            log.info("Dropping item: {}", itemToDrop.getName());
+            itemToDrop.interact("Drop");
+            return true;
+        }
+        return false;
+    }
+
     @Subscribe
     public void onGameTick(GameTick tick)
     {
@@ -79,6 +100,13 @@ public class ActionerPlugin extends Plugin
             configManager.setConfiguration("unethical-actioner", "isItem", true);
 
         Interactable interactable = null;
+
+        if ((config.dropItemsIfFull() && Inventory.isFull()) || droppingItems)
+        {
+            droppingItems = handleDropItems();
+            if (droppingItems)
+                return;
+        }
 
 
         if (config.isItem())
@@ -150,23 +178,6 @@ public class ActionerPlugin extends Plugin
             log.info("No interactable");
         }
 
-        if (config.dropItems())
-        {
-            Item itemToDrop = null;
-            if (config.isId())
-            {
-                itemToDrop = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
-            }
-            else
-            {
-                itemToDrop = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
-            }
-            if (itemToDrop != null)
-            {
-                log.info("Dropping item: {}", itemToDrop.getName());
-                itemToDrop.interact("Drop");
-                return;
-            }
-        }
+       handleDropItems();
     }
 }
