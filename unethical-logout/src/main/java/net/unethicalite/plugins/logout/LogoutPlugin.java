@@ -67,7 +67,11 @@ public class LogoutPlugin extends Plugin
 				for (String teleAction30 : teleActions30)
 				{
 					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
-					teleAction = teleAction30;
+					if (teleItem != null)
+					{
+						teleAction = teleAction30;
+						break;
+					}
 				}
 			}
 
@@ -77,6 +81,11 @@ public class LogoutPlugin extends Plugin
 				{
 					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
 					teleAction = teleAction20;
+					if (teleItem != null)
+					{
+						teleAction = teleAction20;
+						break;
+					}
 				}
 			}
 
