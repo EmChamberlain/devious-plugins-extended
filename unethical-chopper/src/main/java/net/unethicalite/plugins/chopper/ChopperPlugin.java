@@ -142,6 +142,11 @@ public class ChopperPlugin extends LoopedPlugin
 			return -1;
 		}
 
+		if (local.isAnimating())
+		{
+			return 250;
+		}
+
 		var tree = TileObjects
 				.getSurrounding(startLocation, 8, config.tree().getNames())
 				.stream()
