@@ -1193,6 +1193,13 @@
       "version": "0.1.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.1.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "4B00C7B1771A4ADF8585491CE284ACF4D49BC637A68615D21F7D918E829C24A19D5EBEC12117197FE3F82D80A7BB23D546A48DE2E01582F08AF19486EB4088CD",
+      "version": "0.1.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.1.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

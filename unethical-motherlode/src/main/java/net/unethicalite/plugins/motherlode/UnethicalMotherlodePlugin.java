@@ -309,6 +309,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         }
 
         hopper.interact("Deposit");
+        needToEmpty = true;
         return true;
     }
 
@@ -345,7 +346,6 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         }
 
         nearestMinable.interact("Mine");
-        needToEmpty = true;
         return true;
     }
 
