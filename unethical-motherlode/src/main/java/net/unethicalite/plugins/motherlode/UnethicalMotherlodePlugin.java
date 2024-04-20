@@ -9,6 +9,7 @@ import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.config.ConfigManager;
@@ -228,9 +229,26 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleDepositValidIds()
     {
+        if(!Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
+            return false;
+
         if (DepositBox.isOpen())
         {
-            Item itemToDeposit = Bank.Inventory.getFirst(x -> VALID_DEPOSIT_IDS.contains(x.getId()));
+            Widget container = client.getWidget(ComponentID.DEPOSIT_BOX_INVENTORY_ITEM_CONTAINER);
+            if (container == null)
+            {
+                log.info("container is null");
+                return false;
+            }
+
+            Widget[] widgets = container.getChildren();
+            if (widgets == null)
+            {
+                log.info("widgets is null");
+                return false;
+            }
+
+            Widget itemToDeposit = Arrays.stream(widgets).filter(x -> VALID_DEPOSIT_IDS.contains(x.getItemId())).findFirst().orElse(null);
             if (itemToDeposit == null)
             {
                 log.info("no items to deposit");
