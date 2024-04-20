@@ -261,7 +261,9 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private boolean handleCollectOre()
     {
-        if (Inventory.isFull())
+        TileObject dispenserObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("bar dispenser"));
+
+        if (Inventory.isFull() || (dispenserObject != null && dispenserObject.hasAction("Take")))
             return false;
 
         if (Bank.isOpen())
