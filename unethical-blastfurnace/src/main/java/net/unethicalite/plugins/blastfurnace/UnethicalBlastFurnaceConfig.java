@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.blastfurnace;
 
+import net.runelite.api.ItemID;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -24,15 +25,11 @@ public interface UnethicalBlastFurnaceConfig extends Config
             description = "barsToMake",
             position = 1
     )
-    default String isEnabled()
+    default int barsToMake()
     {
-        return "list,of,bars,to,make,comma,seperated";
+        return ItemID.STEEL_BAR;
     }
 
-    enum Bars
-    {
-
-    }
 }
 
 

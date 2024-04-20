@@ -90,7 +90,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     @Getter(AccessLevel.PROTECTED)
     private boolean scriptStarted;
 
-    private boolean needToEmpty = false;
+    private boolean needToEmpty = true;
 
 
     @Subscribe
@@ -356,7 +356,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleMine()
     {
-        if (Inventory.isFull() && needToEmpty)
+        if (Inventory.isFull() || needToEmpty)
             return false;
 
         TileObject nearestMinable = TileObjects.getNearest(x -> x.hasAction("Mine")
