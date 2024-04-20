@@ -101,13 +101,13 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(handleEquipIceGloves())
         {
             log.info("Attempted to equip gloves");
-            return 250;
+            return 1000;
         }
 
         if(handleSwapGlovesBack())
         {
             log.info("Attempted to swap gloves back");
-            return 250;
+            return 1000;
         }
 
         if(client.getLocalPlayer().isAnimating())
@@ -128,6 +128,12 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return 1000;
         }
 
+        if(handleCollectBars())
+        {
+            log.info("Attempted to collect bars");
+            return 1000;
+        }
+
         if(handleCollectOre())
         {
             log.info("Attempted to collect ore");
@@ -143,12 +149,6 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(handleMoveToDispenser())
         {
             log.info("Attempted to move to dispenser");
-            return 1000;
-        }
-
-        if(handleCollectBars())
-        {
-            log.info("Attempted to collect bars");
             return 1000;
         }
 
@@ -181,8 +181,8 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return false;
         }
 
+        needToBeWearingIce = true;
         dispenserObject.interact("Take");
-        needToBeWearingIce = false;
         return true;
     }
 
@@ -199,7 +199,6 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         }
 
         conveyorBeltObject.interact("Put-ore-on");
-        needToBeWearingIce = true;
         return true;
     }
 
@@ -209,8 +208,6 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if (needToBeWearingIce || glovesToSwapTo == null)
             return false;
 
-
-        gloveIdToSwapBackTo = -1;
         glovesToSwapTo.interact("Wear");
         return true;
     }
@@ -368,6 +365,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private boolean handleMoveToBank()
     {
+        needToBeWearingIce = false;
         TileObject bankObject = TileObjects.getNearest(x -> x.hasAction("Use") && x.getName().toLowerCase().contains("bank"));
         if (bankObject != null || Bank.isOpen() || !Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
             return false;
