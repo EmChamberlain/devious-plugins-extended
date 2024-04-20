@@ -110,18 +110,6 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return 1000;
         }
 
-        if(client.getLocalPlayer().isAnimating())
-        {
-            log.info("Animating so idling for a bit");
-            return 1000;
-        }
-
-        if(client.getLocalPlayer().isMoving() && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
-        {
-            log.info("Moving so idling for a bit");
-            return 1000;
-        }
-
         if(handleDepositValidIds())
         {
             log.info("Attempted to deposit pre-emptive pass");
@@ -131,6 +119,18 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(handleCollectBars())
         {
             log.info("Attempted to collect bars");
+            return 1000;
+        }
+
+        if(client.getLocalPlayer().isAnimating())
+        {
+            log.info("Animating so idling for a bit");
+            return 1000;
+        }
+
+        if(client.getLocalPlayer().isMoving() && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
+        {
+            log.info("Moving so idling for a bit");
             return 1000;
         }
 
