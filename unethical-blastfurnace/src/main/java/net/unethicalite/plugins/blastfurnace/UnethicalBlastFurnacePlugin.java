@@ -113,19 +113,19 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(client.getLocalPlayer().isAnimating())
         {
             log.info("Animating so idling for a bit");
-            return 250;
+            return 1000;
         }
 
         if(client.getLocalPlayer().isMoving() && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
         {
             log.info("Moving so idling for a bit");
-            return 250;
+            return 1000;
         }
 
         if(handleDepositValidIds())
         {
             log.info("Attempted to deposit pre-emptive pass");
-            return 250;
+            return 1000;
         }
 
         if(handleCollectOre())
@@ -137,25 +137,25 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(handlePlaceOre())
         {
             log.info("Attempted to place ore");
-            return 250;
+            return 1000;
         }
 
         if(handleMoveToDispenser())
         {
             log.info("Attempted to move to dispenser");
-            return 250;
+            return 1000;
         }
 
         if(handleCollectBars())
         {
             log.info("Attempted to collect bars");
-            return 250;
+            return 1000;
         }
 
         if(handleMoveToBank())
         {
             log.info("Attempted to move to bank");
-            return 250;
+            return 1000;
         }
 
         log.info("End of switch, idling");
@@ -188,7 +188,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private boolean handlePlaceOre()
     {
-        if (!Inventory.contains(x -> x.getId() == config.oreToUse()) || !Inventory.contains(x -> x.getId() == ItemID.COAL))
+        if (!Inventory.contains(x -> x.getId() == config.oreToUse()))
             return false;
 
         TileObject conveyorBeltObject = TileObjects.getNearest(x -> x.hasAction("Put-ore-on"));
