@@ -1050,6 +1050,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Motherlode Miner",
+  "description": "Motherlode Mines",
+  "id": "unethicalmotherlodeminer-plugin",
+  "releases": [{
+    "date": "2024-04-20",
+    "sha512sum": "F994DEA5E2572B15FA1115AE428DCC537265988B98EC6AA1AC4D09023BA4959A6F8449E203EA210FACAA67E735BA68BE8E10432A2D185872961A9BA6C1950248",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical One Click",
   "description": "Allows you to One-Click interactions",
   "id": "unethicaloneclick-plugin",
