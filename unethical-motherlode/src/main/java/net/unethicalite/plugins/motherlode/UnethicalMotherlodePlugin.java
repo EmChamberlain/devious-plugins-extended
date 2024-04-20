@@ -130,7 +130,10 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     protected int loop()
     {
         if (!config.isEnabled() || !checkInMlm())
+        {
+            needToEmpty = true;
             return 1000;
+        }
 
         if (client.getLocalPlayer().getAnimation() == 6752)
         {
