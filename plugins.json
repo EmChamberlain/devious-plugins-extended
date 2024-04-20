@@ -1053,13 +1053,148 @@
   "name": "Unethical Motherlode Miner",
   "description": "Motherlode Mines",
   "id": "unethicalmotherlodeminer-plugin",
-  "releases": [{
-    "date": "2024-04-20",
-    "sha512sum": "F994DEA5E2572B15FA1115AE428DCC537265988B98EC6AA1AC4D09023BA4959A6F8449E203EA210FACAA67E735BA68BE8E10432A2D185872961A9BA6C1950248",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-20",
+      "sha512sum": "8CCE46AB0E76537B167E0711F101AFD5EE125E93DCCA403FA38A500FFA724A6705E65913F9A24031D889AE35BD2FF160DFEC20A5640FCBC71E59B422ED3A3579",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "1210040EEA6EFF48269E9CDC45B001E67C0C4A6F05F4F86360678EA9CADF1224CB1613D1A6D17904343C4D68EFF85FF27E8A4CD06CD9D7EA800D7DB113394E45",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "EAC591EAFBBF27339EAF3EB1DFD9A46E85C77CB6FDA6E3154A53F4311DADF6BCCA0CE6154456B909C8F80973B9B05109C78A45CF86DE18E69B22A999ACC41FCE",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "DFC6948108B158BDD964398AA107BB75693FCF6525841812E1CFDDFB5DFB9B373D8561F4BC1070BB3B051D8A2617A7E1DFF5B0B028371FBEAFA6A29A4344E8C6",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "2DC0B88408B57281D1D83288F69A8E2A0E868513524063241315B4F8E611636EEDC480EBE9471D6CF61D15387BEC63A023C84966704C7E490CEB924F41830A2A",
+      "version": "0.0.5",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "BCA59315DBF5C048A61B0533D3AF1D6B561191FA9F516424A1369F8B14EC74F60AA2E37DCD1D01630145BE36E431E59C23A5062B0896DC53EF2E19F77108BE72",
+      "version": "0.0.6",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.6.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "BC34F23563A5329EEE8A3B682C8144E5B3FC77741AD9C5DBA6F270B4DC8BA68588CF240550489CB83CF92F0E2BE1686D21252E9D8B025D84A03BB28F6200D6DF",
+      "version": "0.0.7",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.7.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "30A1E9E098884AA7EA5B5838B7CF1E51FA6FEA8D63330E049A75136CE2FBD9F1B99C7427BF7AEC20917780EB2943F60965BDD2DA52DC89F0A6199470899CFE2F",
+      "version": "0.0.8",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.8.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "6497DFF455152DD21A2DFE8DE6CA0A9C3BFE7F9F7DEE0DB3CC45BFC1DD78A0CDE81A2C53129B8DB5975E2BA30D598E19E554BCA1A86926EB2A70E5CDC909AD70",
+      "version": "0.0.9",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.9.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "2CB0975440BEC4F1163492BD61CA13FBD781793B3D78587C56F016128EC254BDE4201F3DBB6D1DBF9F0B8A1021F5414C62D501133F0AFB00FF1574939E3BEE5F",
+      "version": "0.0.10",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.10.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "1891467229A1D31FD478AAA6BD33D560711E33D67FD227FB642988D089E97AF720D538F3D4F4D1BD0D263465264E2B68C52895084DBF28367EE13F61118E5174",
+      "version": "0.0.11",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.11.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "84A0091C0B950E65B8FF5A0E3519D1B1C65DB159762CE43E88A9A6242E1BC50243F250E83F71807B134F74265AED797EE397F38B175C48DFB51AA6C857F9878C",
+      "version": "0.0.12",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.12.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "3D9AA947506078CA72618AB73802E079070B265950FFD6EC6F6D5E949B8255192F066421649D2538CB0DCB12AA4D4D1E0440A07476D734895588DD569C89F8AB",
+      "version": "0.0.13",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.13.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "46482F6AEFDED01789D75266062DF02B1A54660372D807D8D920E83369955411C42748EDA1C84D0C2C163103FF18D702B2A369E56EAF62EE3A0A2AA47A897033",
+      "version": "0.0.14",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.14.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "D5BFD273BEC9AAD48BBD1EF438E4C56BEBB5F286CB3D75E9BB74810CC5DA5D83AD3254B64744D3028DC0CAC1D9A445A47C9F20B43537FF0C999E3A17F0354189",
+      "version": "0.0.15",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.15.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "269AD2BF46A0824197680754EAE4A08F44597B26BD64501AFFF54FBFD2E128086ABB9439D4EB37EE63B1DAF801BDB604F90EE4EC1732DF901CE8A002A1E30F92",
+      "version": "0.0.16",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.16.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "551FFDFD1F85A638880F5FE0CB4FC3AF3557ABE28AB4EE9DCF5FC5EC120EA56A8718638D95447082C344D091ADED99B56AF900CA18EA7A0AF950BBA7FE8BF102",
+      "version": "0.0.17",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.17.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "E951A7A8C9F9F3E934AF355AEB8714B53BD85558DAC9DA83FA167CEB834D1896D924B62A834623AC1839C32C39A80D99D2609254F4B6FFC1D0DEF5F21C09818C",
+      "version": "0.0.18",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.18.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "D81117C9D247C748E5475C3EA1ED220E8F56FFAD0387521D73C5388B2BE9A39FAA68A6395EF8AC41562AA08A4AE702B6373C8491376B93AB6E2D9173FE1EAF6A",
+      "version": "0.0.19",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.0.19.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "B6BD8CC1092339F2F6DBC9F79C34BA67475861DA6A676AEB0FCA404A04E0CF4C65C0800D59F3D8404CADBD9D7F437C12664D4ADE78B0F88C284440C48EFC8655",
+      "version": "0.1.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-motherlode-0.1.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

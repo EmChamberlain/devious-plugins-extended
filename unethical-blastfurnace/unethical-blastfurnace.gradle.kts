@@ -1,7 +1,7 @@
-version = "0.1.2"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Unethical Motherlode Miner"
-project.extra["PluginDescription"] = "Motherlode Mines"
+project.extra["PluginName"] = "Unethical Blastfurnacer"
+project.extra["PluginDescription"] = "Blastfurnaces"
 
 tasks {
     jar {

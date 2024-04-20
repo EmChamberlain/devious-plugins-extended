@@ -1,4 +1,4 @@
-package net.unethicalite.plugins.motherlode;
+package net.unethicalite.plugins.blastfurnace;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
@@ -9,23 +9,19 @@ import net.runelite.api.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetID;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.unethicalite.api.Interactable;
-import net.unethicalite.api.SceneEntity;
-import net.unethicalite.api.entities.*;
-import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.DepositBox;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.movement.pathfinder.GlobalCollisionMap;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import net.unethicalite.api.scene.Tiles;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 import org.pf4j.Extension;
@@ -35,16 +31,14 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static net.unethicalite.api.entities.TileObjects.getNearest;
-
 @Extension
 @PluginDescriptor(
-        name = "Unethical UnethicalMotherlode",
-        description = "Chops trees",
+        name = "Unethical UnethicalBlastFurnace",
+        description = "UnethicalBlastFurnace",
         enabledByDefault = false
 )
 @Slf4j
-public class UnethicalMotherlodePlugin extends LoopedPlugin
+public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 {
 
     private static final Set<Integer> MOTHERLODE_MAP_REGIONS = ImmutableSet.of(14679, 14680, 14681, 14935, 14936, 14937, 15191, 15192, 15193);
@@ -66,7 +60,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     @Inject
     private Client client;
     @Inject
-    private UnethicalMotherlodeConfig config;
+    private UnethicalBlastFurnaceConfig config;
 
     @Inject
     private ConfigManager configManager;
@@ -89,13 +83,13 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     @Getter(AccessLevel.PROTECTED)
     private boolean scriptStarted;
 
-    private boolean needToEmpty = false;
+    private boolean needToEmpty = true;
 
 
     @Subscribe
     public void onConfigButtonPressed(ConfigButtonClicked event)
     {
-        if (!event.getGroup().contains("unethical-UnethicalMotherlode"))
+        if (!event.getGroup().contains("unethical-UnethicalBlastFurnace"))
         {
             return;
         }
@@ -129,42 +123,45 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     protected int loop()
     {
         if (!config.isEnabled() || !checkInMlm())
-            return 1000;
-
-        if (client.getLocalPlayer().getAnimation() == 6752)
         {
-            log.info("Currently mining so waiting for a bit longer");
+            needToEmpty = true;
+            return 1000;
+        }
+
+        if(client.getLocalPlayer().getAnimation() == 6752)
+        {
+            log.info("Mining animation so idling for a bit longer");
             return 2500;
         }
 
-        if (client.getLocalPlayer().isAnimating())
+        if(client.getLocalPlayer().isAnimating())
         {
-            log.info("Currently animating so waiting");
+            log.info("Animating so idling for a bit");
             return 250;
         }
 
-        if (client.getLocalPlayer().isMoving() && Movement.getDestination() != null && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
+        if(client.getLocalPlayer().isMoving() && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
         {
-            log.info("Currently animating so waiting");
+            log.info("Moving so idling for a bit");
             return 250;
         }
 
         if(handleDepositValidIds())
         {
-            log.info("Attempted to deposit pre-emptive");
+            log.info("Attempted to deposit pre-emptive pass");
             return 250;
         }
 
         if(handleMine())
         {
             log.info("Attempted to mine");
-            return 1000;
+            return 250;
         }
 
         if(handleFixWheels())
         {
             log.info("Attempted to fix wheels");
-            return 1000;
+            return 250;
         }
 
         if(handleDumpPayDirt())
@@ -197,7 +194,8 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleCollectOre()
     {
-        if (!needToEmpty)
+        Player local = client.getLocalPlayer();
+        if (local.isAnimating() || local.isMoving() || !needToEmpty)
             return false;
 
         TileObject emptySack = TileObjects.getNearest(x -> x.getActualId() == EMPTY_SACK_ID);
@@ -217,7 +215,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
         if (filledSack.getWorldArea().offset(1).toWorldPointList().stream().noneMatch(Reachable::isWalkable))
         {
-            log.info("sack is unreachable, moving to bank spot");
+            log.info("sack is not walkable so attempting to walk to bank");
             handleMoveToBankSpot();
             return true;
         }
@@ -228,21 +226,36 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleDepositValidIds()
     {
+        Player local = client.getLocalPlayer();
+        if (local.isAnimating() || local.isMoving() || !Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
+            return false;
+
         if (DepositBox.isOpen())
         {
-            Item itemToDeposit = Bank.Inventory.getFirst(x -> VALID_DEPOSIT_IDS.contains(x.getId()));
-            if (itemToDeposit == null)
+            Widget[] widgets = client.getWidget(ComponentID.DEPOSIT_BOX_INVENTORY_ITEM_CONTAINER).getChildren();
+            if (widgets == null)
             {
-                log.info("no items to deposit");
+                log.info("Deposit box wasn't opened but it should have been");
                 return false;
             }
+            for (Widget widget : widgets)
+            {
+                //log.info("Name: {} | ID: {} | ItemID: {} ", widget.getName(), widget.getId(), widget.getItemId());
+                if (VALID_DEPOSIT_IDS.contains(widget.getItemId()))
+                {
+                    widget.interact("Deposit-All");
+                    return true;
+                }
+            }
 
-            itemToDeposit.interact("Deposit-All");
-            return true;
+            log.info("no items to deposit");
+            return false;
+
+
         }
         else
         {
-            TileObject depositBox = TileObjects.getNearest(x -> x.hasAction("Deposit"));
+            TileObject depositBox = TileObjects.getNearest(x -> x.hasAction("Deposit") && x.getName().toLowerCase().contains("bank"));
             if (depositBox == null)
             {
                 log.info("no deposit box so attempting to move to bank location");
@@ -252,11 +265,10 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
             if (depositBox.getWorldArea().offset(1).toWorldPointList().stream().noneMatch(Reachable::isWalkable))
             {
-                log.info("deposit box is unreachable, moving to bank spot");
+                log.info("deposit box is not walkable so attempting to walk to bank");
                 handleMoveToBankSpot();
                 return true;
             }
-
 
             depositBox.interact("Deposit");
             return true;
@@ -267,7 +279,8 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleFixWheels()
     {
-        if (!Inventory.isFull() || !Inventory.contains(x -> x.getId() == PAY_DIRT_ID))
+        Player local = client.getLocalPlayer();
+        if (local.isAnimating() || local.isMoving() || !Inventory.isFull() || !Inventory.contains(x -> x.getId() == PAY_DIRT_ID))
             return false;
 
         TileObject brokenStrut = TileObjects.getNearest(x -> x.getActualId() == BROKEN_STRUT_ID);
@@ -279,7 +292,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
         if (brokenStrut.getWorldArea().offset(1).toWorldPointList().stream().noneMatch(Reachable::isWalkable))
         {
-            log.info("strut is unreachable, moving to bank spot");
+            log.info("Wheels are not walkable so attempting to walk to bank");
             handleMoveToBankSpot();
             return true;
         }
@@ -290,7 +303,8 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleDumpPayDirt()
     {
-        if (!Inventory.contains(x -> x.getId() == PAY_DIRT_ID))
+        Player local = client.getLocalPlayer();
+        if (local.isAnimating() || local.isMoving() || !Inventory.isFull() || !Inventory.contains(x -> x.getId() == PAY_DIRT_ID))
             return false;
 
         TileObject hopper = TileObjects.getNearest(x -> x.getActualId() == HOPPER_ID);
@@ -303,12 +317,13 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
         if (hopper.getWorldArea().offset(1).toWorldPointList().stream().noneMatch(Reachable::isWalkable))
         {
-            log.info("hopper is unreachable, moving to bank spot");
+            log.info("hopper is not walkable so attempting to walk to bank");
             handleMoveToBankSpot();
             return true;
         }
 
         hopper.interact("Deposit");
+        needToEmpty = true;
         return true;
     }
 
@@ -317,7 +332,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         if (!Reachable.isWalkable(BANK_LOCATION))
         {
             // just get the nearest interactable rockfall and mine it
-            TileObject rockFall = TileObjects.getNearest(x -> x.hasAction("Mine") && x.getName().toLowerCase().contains("rockfall") && x.getWorldArea().offset(1).toWorldPointList().stream().anyMatch(Reachable::isWalkable));
+            TileObject rockFall = TileObjects.getNearest(x -> x.hasAction("Mine") && x.getName().toLowerCase().contains("rockfall") && Reachable.isInteractable(x));
             if (rockFall == null)
             {
                 log.info("Could not get any nearby rock falls so trying to walk anyways.");
@@ -332,12 +347,17 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleMine()
     {
-        if (Inventory.isFull())
+        Player local = client.getLocalPlayer();
+        if (local.isAnimating() || local.isMoving() || Inventory.isFull() || needToEmpty)
             return false;
 
-        TileObject nearestMinable = TileObjects.getNearest(x -> x.hasAction("Mine")
-                && VALID_MINABLE_IDS.contains(x.getActualId())
-                && x.getWorldArea().offset(1).toWorldPointList().stream().anyMatch(Reachable::isWalkable));
+
+        TileObject nearestMinable = TileObjects.getNearest(x -> {
+            //if (x.hasAction("Mine")) log.info("{}, {} reachable: {}", x.getName(), x.getId(), x.getWorldArea().offset(1).toWorldPointList().stream().anyMatch(Reachable::isWalkable));
+            return x.hasAction("Mine")
+                    && VALID_MINABLE_IDS.contains(x.getActualId())
+                    && x.getWorldArea().offset(1).toWorldPointList().stream().anyMatch(Reachable::isWalkable);
+        });
         if (nearestMinable == null)
         {
             log.info("Could not find mineable");
@@ -345,7 +365,6 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         }
 
         nearestMinable.interact("Mine");
-        needToEmpty = true;
         return true;
     }
 
@@ -356,9 +375,9 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
     }
 
     @Provides
-    UnethicalMotherlodeConfig provideConfig(ConfigManager configManager)
+    UnethicalBlastFurnaceConfig provideConfig(ConfigManager configManager)
     {
-        return configManager.getConfig(UnethicalMotherlodeConfig.class);
+        return configManager.getConfig(UnethicalBlastFurnaceConfig.class);
     }
 
 
