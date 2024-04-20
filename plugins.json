@@ -562,13 +562,43 @@
   "name": "Unethical Blastfurnacer",
   "description": "Blastfurnaces",
   "id": "unethicalblastfurnacer-plugin",
-  "releases": [{
-    "date": "2024-04-20",
-    "sha512sum": "4A5670C1D53F04807C85BB59C646A2234ADED0523ED599C0FB42D26E2B851A392ACF2EB81A6C37FD3C023A8ABF72709AAFA1E6C83DE010BEF4C4740C3770CAA9",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-20",
+      "sha512sum": "4A5670C1D53F04807C85BB59C646A2234ADED0523ED599C0FB42D26E2B851A392ACF2EB81A6C37FD3C023A8ABF72709AAFA1E6C83DE010BEF4C4740C3770CAA9",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "26305180DFFF8F353BCEFF400E90B6F5B24B7A0926E1C75D8824150A687D6D958A7F2BE1EE92EDB04D63C5D49C4B1921E92375A00F7A62AFFADF9D178E28F91D",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "057B718340C6D8ACB46CD4104E49196043AF9E531954A27AF506207EFFB547425A10D726CA3D830906E6F2BCA67912A1EEC7C9C5BC5E33630628834100E04F2F",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "7D61E995C09F23FE33616BC68AF7F6577F053399B711C89CEFA3A1B95B7254E22F43514B414590D5726644B79D25AE6A12F24A77A78AF8256A701F67C8CF0F05",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-20",
+      "sha512sum": "48070D0F8E4FF4416132DB277226AB4D6CE137A74D4F2346E4750F9A2EE264934B73CBA0D12723B54F7F97364F2B1D663E3AB32E65624166B5E46FC5C3FA06A7",
+      "version": "0.0.5",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.5.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

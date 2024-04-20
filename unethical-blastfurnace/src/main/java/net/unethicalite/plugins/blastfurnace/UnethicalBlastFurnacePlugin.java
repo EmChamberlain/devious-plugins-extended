@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 {
 
-    private static final Set<Integer> VALID_DEPOSIT_IDS = ImmutableSet.of(436, 438, 440, 442, 444, 446, 447, 449, 451, 453, 1617, 1619, 1621, 1623, 1625, 1627, 1629, 1631, 6571, 19496);
+    private static final Set<Integer> VALID_DEPOSIT_IDS = ImmutableSet.of(ItemID.IRON_BAR, ItemID.STEEL_BAR, ItemID.MITHRIL_BAR, ItemID.ADAMANTITE_BAR, ItemID.RUNITE_BAR, ItemID.GOLD_BAR, ItemID.SILVER_BAR);
 
     private static final WorldPoint BANK_LOCATION = new WorldPoint(1948, 4957, 0);
 
@@ -131,7 +131,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         if(handleCollectOre())
         {
             log.info("Attempted to collect ore");
-            return 250;
+            return 1000;
         }
 
         if(handlePlaceOre())
@@ -175,7 +175,14 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return handleMoveToDispenser();
         }
 
-        dispenserObject.interact("Check");
+        if (!dispenserObject.hasAction("Take"))
+        {
+            log.info("dispenser not ready");
+            return false;
+        }
+
+        dispenserObject.interact("Take");
+        needToBeWearingIce = false;
         return true;
     }
 
@@ -192,20 +199,16 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         }
 
         conveyorBeltObject.interact("Put-ore-on");
+        needToBeWearingIce = true;
         return true;
     }
 
     private boolean handleSwapGlovesBack()
     {
-        if (needToBeWearingIce)
+        Item glovesToSwapTo = Inventory.getFirst(x -> x.getId() == gloveIdToSwapBackTo);
+        if (needToBeWearingIce || glovesToSwapTo == null)
             return false;
 
-        Item glovesToSwapTo = Inventory.getFirst(x -> x.getId() == gloveIdToSwapBackTo);
-        if (glovesToSwapTo == null)
-        {
-            log.info("No gloves to swap back to, shit is gonna break");
-            return false;
-        }
 
         gloveIdToSwapBackTo = -1;
         glovesToSwapTo.interact("Wear");
