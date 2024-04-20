@@ -285,7 +285,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleFixWheels()
     {
-        if (!Inventory.isFull() || !Inventory.contains(x -> x.getId() == PAY_DIRT_ID))
+        if (!Inventory.isFull() || !Inventory.contains(x -> x.getId() == PAY_DIRT_ID) || needToEmpty)
             return false;
 
         TileObject brokenStrut = TileObjects.getNearest(x -> x.getActualId() == BROKEN_STRUT_ID);
@@ -327,7 +327,9 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         }
 
         hopper.interact("Deposit");
-        needToEmpty = true;
+        TileObject filledSack = TileObjects.getNearest(x -> x.getActualId() == FILLED_SACK_ID);
+        if (filledSack != null)
+            needToEmpty = true;
         return true;
     }
 
@@ -351,7 +353,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
 
     private boolean handleMine()
     {
-        if (Inventory.isFull())
+        if (Inventory.isFull() && needToEmpty)
             return false;
 
         TileObject nearestMinable = TileObjects.getNearest(x -> x.hasAction("Mine")

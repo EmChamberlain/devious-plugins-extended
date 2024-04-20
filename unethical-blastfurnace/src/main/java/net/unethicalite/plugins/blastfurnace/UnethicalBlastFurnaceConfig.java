@@ -17,4 +17,22 @@ public interface UnethicalBlastFurnaceConfig extends Config
     {
         return false;
     }
+
+    @ConfigItem(
+            keyName = "barsToMake",
+            name = "barsToMake",
+            description = "barsToMake",
+            position = 1
+    )
+    default String isEnabled()
+    {
+        return "list,of,bars,to,make,comma,seperated";
+    }
+
+    enum Bars
+    {
+
+    }
 }
+
+
