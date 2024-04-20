@@ -559,6 +559,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical Blastfurnacer",
+  "description": "Blastfurnaces",
+  "id": "unethicalblastfurnacer-plugin",
+  "releases": [{
+    "date": "2024-04-20",
+    "sha512sum": "4A5670C1D53F04807C85BB59C646A2234ADED0523ED599C0FB42D26E2B851A392ACF2EB81A6C37FD3C023A8ABF72709AAFA1E6C83DE010BEF4C4740C3770CAA9",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Butler",
   "description": "One-Clicks construction butler dialogs",
   "id": "unethicalbutler-plugin",

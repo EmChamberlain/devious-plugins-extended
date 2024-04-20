@@ -20,14 +20,14 @@ public interface UnethicalBlastFurnaceConfig extends Config
     }
 
     @ConfigItem(
-            keyName = "barsToMake",
-            name = "barsToMake",
-            description = "barsToMake",
+            keyName = "oreToUse",
+            name = "oreToUse",
+            description = "oreToUse",
             position = 1
     )
-    default int barsToMake()
+    default int oreToUse()
     {
-        return ItemID.STEEL_BAR;
+        return ItemID.IRON_ORE;
     }
 
 }

@@ -56,7 +56,7 @@ include("unethical-quicktoggler")
 include("unethical-fisher")
 include("unethical-actioner")
 include("unethical-motherlode")
-//include("unethical-blastfurnace")
+include("unethical-blastfurnace")
 
 //include("example-kotlin")
 
