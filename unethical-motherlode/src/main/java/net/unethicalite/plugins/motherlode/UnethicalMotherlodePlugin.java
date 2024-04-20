@@ -263,7 +263,7 @@ public class UnethicalMotherlodePlugin extends LoopedPlugin
         }
         else
         {
-            TileObject depositBox = TileObjects.getNearest(x -> x.hasAction("Deposit"));
+            TileObject depositBox = TileObjects.getNearest(x -> x.hasAction("Deposit") && x.getName().toLowerCase().contains("bank"));
             if (depositBox == null)
             {
                 log.info("no deposit box so attempting to move to bank location");
