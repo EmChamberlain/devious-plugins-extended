@@ -55,7 +55,6 @@ public interface DodgeGraphicsConfig extends Config
             keyName = "repeatedlyAttackList",
             name = "repeatedlyAttackList",
             description = "repeatedlyAttackList",
-            enabledByValue = "repeatedlyAttack",
             position = 4
     )
     default String repeatedlyAttackList()

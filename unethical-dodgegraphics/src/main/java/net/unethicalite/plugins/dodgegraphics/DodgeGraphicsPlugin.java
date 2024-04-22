@@ -68,7 +68,6 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
     public List<WorldPoint> safePoints = new ArrayList<>();
 
-    public Actor reAttackTarget = null;
 
     @Override
     protected void startUp()
@@ -114,10 +113,6 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
                 .filter(x -> closestNPC == null || !closestNPC.getWorldArea().toWorldPointList().contains(x))
                 .collect(Collectors.toList());
 
-        if (safePoints.contains(localPlayer.getLocalLocation()))
-        {
-            return 50;
-        }
 
         int lowestDist = Integer.MAX_VALUE;
         for (WorldPoint safePoint : safePoints)
@@ -132,33 +127,28 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
         if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
         {
-            if (localPlayer.getInteracting() != null)
-                reAttackTarget = localPlayer.getInteracting();
             Movement.walkTo(closestPoint);
-            return 50;
+            return 100;
         }
-        else if (reAttackTarget != null && reAttackTarget.hasAction("Attack"))
+
+        if (config.repeatedlyAttack())
         {
-            reAttackTarget.interact("Attack");
-            reAttackTarget = null;
-            return 50;
-        }
-        List<Integer> attackIds = Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList());
-        for (int attackId : attackIds)
-        {
-            NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0 && !x.isDead());
-            if (closestAttackable != null)
+            List<Integer> attackIds = Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+            for (int attackId : attackIds)
             {
-                log.info("Attacking");
-                closestAttackable.interact("Attack");
-                return 50;
+                NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0 && !x.isDead());
+                if (closestAttackable != null)
+                {
+                    log.info("Attacking");
+                    closestAttackable.interact("Attack");
+                    return 100;
+                }
             }
         }
 
 
-
         log.info("End of switch, idling");
-        return 50;
+        return 100;
     }
 
 
