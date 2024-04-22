@@ -68,6 +68,8 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
     public List<WorldPoint> safePoints = new ArrayList<>();
 
+    public Actor reAttackTarget = null;
+
     @Override
     protected void startUp()
     {
@@ -113,26 +115,38 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
                 .filter(x -> x.distanceTo(closestNPC.getWorldLocation()) >= localPlayer.getWorldLocation().distanceTo(closestNPC.getWorldLocation()))
                 .collect(Collectors.toList());
 
-        int lowestDist = Integer.MAX_VALUE;
-
-        if (!safePoints.contains(localPlayer.getLocalLocation()))
+        if (safePoints.contains(localPlayer.getLocalLocation()))
         {
-            for (WorldPoint safePoint : safePoints)
+            return 50;
+        }
+
+        int lowestDist = Integer.MAX_VALUE;
+        for (WorldPoint safePoint : safePoints)
+        {
+            int distance = safePoint.distanceTo(localPlayer.getWorldLocation());
+            if (closestPoint == null || distance < lowestDist)
             {
-                int distance = safePoint.distanceTo(localPlayer.getWorldLocation());
-                if (closestPoint == null || distance < lowestDist)
-                {
-                    lowestDist = distance;
-                    closestPoint = safePoint;
-                }
+                lowestDist = distance;
+                closestPoint = safePoint;
             }
         }
 
         if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
+        {
+            reAttackTarget = localPlayer.getInteracting();
             Movement.walkTo(closestPoint);
+            return 50;
+        }
+        else if (reAttackTarget != null && reAttackTarget.hasAction("Attack"))
+        {
+            reAttackTarget.interact("Attack");
+            reAttackTarget = null;
+            return 50;
+        }
+
 
         log.info("End of switch, idling");
-        return 1000;
+        return 50;
     }
 
 
