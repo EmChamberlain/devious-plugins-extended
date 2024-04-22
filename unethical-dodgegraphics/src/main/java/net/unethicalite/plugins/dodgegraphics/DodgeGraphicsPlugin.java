@@ -125,8 +125,9 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             }
         }
 
-        if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
+        if (closestPoint != null && closestPoint != localPlayer.getWorldLocation() && lowestDist > 0)
         {
+            log.info("Walking");
             Movement.walkTo(closestPoint);
             return 100;
         }
@@ -136,7 +137,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             List<Integer> attackIds = Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList());
             for (int attackId : attackIds)
             {
-                NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0 && !x.isDead());
+                NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0);
                 if (closestAttackable != null)
                 {
                     log.info("Attacking");
