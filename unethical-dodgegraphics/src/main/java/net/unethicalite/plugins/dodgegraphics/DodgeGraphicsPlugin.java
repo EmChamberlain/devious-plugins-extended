@@ -144,7 +144,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             for (int attackId : attackIds)
             {
                 NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0);
-                if (closestAttackable != null && (client.getTickCount() - lastMoveTick) > 1 && localPlayer.getInteracting() == null)
+                if (closestAttackable != null && (client.getTickCount() - lastMoveTick) > 0 && localPlayer.getInteracting() == null)
                 {
                     log.info("Attacking");
                     closestAttackable.interact("Attack");

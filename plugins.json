@@ -919,6 +919,13 @@
       "version": "0.0.21",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.21.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-22",
+      "sha512sum": "B6AE6142096489A28702583CBE8F3B0736832897211FF36C640F379DBB772510C737848D77E07057D2C5576FEC9C2D342E814536C92258ECDB282FB62DCA7631",
+      "version": "0.0.22",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.22.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
