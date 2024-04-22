@@ -16,8 +16,10 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.OverlayUtil;
+import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
@@ -98,6 +100,37 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             return 1000;
         }
 
+        NPC closestNPC = NPCs.getNearest(x -> !x.isDead());
+        var localPlayer = client.getLocalPlayer();
+
+        graphics.clear();
+        client.getGraphicsObjects().forEach(graphics::add);
+
+        safePoints = client.getLocalPlayer().getWorldArea().offset(4).toWorldPointList().stream()
+                .filter(this::isLocationSafe)
+                .filter(Reachable::isWalkable)
+                .filter(x -> !closestNPC.getWorldArea().toWorldPointList().contains(x))
+                .filter(x -> x.distanceTo(closestNPC.getWorldLocation()) >= localPlayer.getWorldLocation().distanceTo(closestNPC.getWorldLocation()))
+                .collect(Collectors.toList());
+
+        int lowestDist = Integer.MAX_VALUE;
+
+        if (!safePoints.contains(localPlayer.getLocalLocation()))
+        {
+            for (WorldPoint safePoint : safePoints)
+            {
+                int distance = safePoint.distanceTo(localPlayer.getWorldLocation());
+                if (closestPoint == null || distance < lowestDist)
+                {
+                    lowestDist = distance;
+                    closestPoint = safePoint;
+                }
+            }
+        }
+
+        if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
+            Movement.walkTo(closestPoint);
+
         log.info("End of switch, idling");
         return 1000;
     }
@@ -120,34 +153,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
     private void onGameTick(GameTick e)
     {
 
-        if (!config.isEnabled())
-        {
-            return;
-        }
 
-        graphics.clear();
-        client.getGraphicsObjects().forEach(graphics::add);
-
-        safePoints = client.getLocalPlayer().getWorldArea().offset(4).toWorldPointList().stream().filter(this::isLocationSafe).collect(Collectors.toList());
-
-        var localPlayer = client.getLocalPlayer();
-        int lowestDist = Integer.MAX_VALUE;
-
-        if (!safePoints.contains(localPlayer.getLocalLocation()))
-        {
-            for (WorldPoint safePoint : safePoints)
-            {
-                int distance = safePoint.distanceTo(localPlayer.getWorldLocation());
-                if (closestPoint == null || distance < lowestDist)
-                {
-                    lowestDist = distance;
-                    closestPoint = safePoint;
-                }
-            }
-        }
-
-        if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
-            Movement.walkTo(closestPoint);
     }
 
     @Provides
