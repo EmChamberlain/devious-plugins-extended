@@ -68,6 +68,8 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
     public List<WorldPoint> safePoints = new ArrayList<>();
 
+    private int lastMoveTick;
+
 
     @Override
     protected void startUp()
@@ -100,6 +102,10 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         {
             return 1000;
         }
+
+        if (client.getLocalPlayer().isMoving())
+            lastMoveTick = client.getTickCount();
+
 
         NPC closestNPC = NPCs.getNearest(x -> !x.isDead());
         var localPlayer = client.getLocalPlayer();
@@ -138,7 +144,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             for (int attackId : attackIds)
             {
                 NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0);
-                if (closestAttackable != null && !localPlayer.isMoving() && localPlayer.getInteracting() == null)
+                if (closestAttackable != null && (client.getTickCount() - lastMoveTick) > 2 && localPlayer.getInteracting() == null)
                 {
                     log.info("Attacking");
                     closestAttackable.interact("Attack");
