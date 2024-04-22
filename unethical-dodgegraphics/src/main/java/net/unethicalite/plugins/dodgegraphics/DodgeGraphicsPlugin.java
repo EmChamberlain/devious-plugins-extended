@@ -129,7 +129,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         {
             log.info("Walking");
             Movement.walkTo(closestPoint);
-            return 100;
+            return 250;
         }
 
         if (config.repeatedlyAttack())
@@ -138,18 +138,18 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             for (int attackId : attackIds)
             {
                 NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0);
-                if (closestAttackable != null)
+                if (closestAttackable != null && !localPlayer.isMoving() && localPlayer.getInteracting() == null)
                 {
                     log.info("Attacking");
                     closestAttackable.interact("Attack");
-                    return 100;
+                    return 250;
                 }
             }
         }
 
 
         log.info("End of switch, idling");
-        return 100;
+        return 50;
     }
 
 
