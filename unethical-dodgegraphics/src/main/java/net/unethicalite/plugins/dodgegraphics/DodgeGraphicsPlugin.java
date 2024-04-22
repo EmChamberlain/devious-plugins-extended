@@ -58,13 +58,10 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
     private DodgeGraphicsOverlay dodgeGraphicsOverlay;
 
 
-    @Getter
     private final List<GraphicsObject> graphics = new ArrayList<>();
 
-    @Inject
     public LocalPoint closestPoint = null;
 
-    @Inject
     public List<LocalPoint> safePoints = new ArrayList<>();
 
     @Override

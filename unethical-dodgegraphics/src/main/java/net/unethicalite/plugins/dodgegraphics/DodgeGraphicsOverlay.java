@@ -16,7 +16,9 @@ import java.util.List;
 @Singleton
 class DodgeGraphicsOverlay extends Overlay
 {
+    @Inject
     private final Client client;
+    @Inject
     private final DodgeGraphicsPlugin plugin;
 
     @Inject

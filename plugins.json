@@ -772,13 +772,29 @@
   "name": "Unethical DodgeGraphics",
   "description": "DodgeGraphics",
   "id": "unethicaldodgegraphics-plugin",
-  "releases": [{
-    "date": "2024-04-22",
-    "sha512sum": "E07A88A138EED76341DF5FE3910AC8E48C444F762179BC4A8D1FC1834D82745BF689633008F2BAB65997FA943F6DAF9AA7F8B2EFE32C975CB32B73FD6D55A405",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-22",
+      "sha512sum": "F153318AD82B404443A06C4FE5DB5A49198C5FF7D8B41F95641ECC78F5FD1861A086D75FDDD075E16809524C8E4FB40D68369D5C1BA9E3EA48855E40EF26DD5E",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-22",
+      "sha512sum": "A89EFA09B3646B791C88219C0E9E706440987C12B7BB6EA76A7B3FEF6FC7F0CA0A3F8257F5B44062A56B1F9E8A0EEC0A134DE95E8AEEF68972355F728B03D9EC",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-22",
+      "sha512sum": "737EC69976C3BA3FDD3C605B5095A733A161781A4AF8A9F0D57466F5516A126376407B40DB27463E21F39318B4DE4B4FDE563E5208625900287709C45A8FDF7D",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
