@@ -1,4 +1,4 @@
-version = "0.0.14"
+version = "0.0.15"
 
 project.extra["PluginName"] = "Unethical Logout"
 project.extra["PluginDescription"] = "Logs you out if a pker is near"
