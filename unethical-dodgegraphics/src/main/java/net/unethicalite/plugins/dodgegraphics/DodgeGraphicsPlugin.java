@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GraphicsObject;
+import net.runelite.api.Perspective;
+import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -15,6 +17,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.ui.overlay.OverlayUtil;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -23,6 +26,7 @@ import net.unethicalite.client.Static;
 import org.pf4j.Extension;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +62,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
     private DodgeGraphicsOverlay dodgeGraphicsOverlay;
 
 
-    private final List<GraphicsObject> graphics = new ArrayList<>();
+    public final List<GraphicsObject> graphics = new ArrayList<>();
 
     public LocalPoint closestPoint = null;
 
@@ -100,16 +104,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         return 1000;
     }
 
-    @Subscribe
-    private void onGraphicsObjectCreated(GraphicsObjectCreated graphicsObjectCreated)
-    {
-        GraphicsObject graphicsObject = graphicsObjectCreated.getGraphicsObject();
-        var blackList = Arrays.stream(config.idBlacklist().split(",")).map(Integer::parseInt).collect(Collectors.toList());
-        if(!blackList.contains(graphicsObject.getId()))
-        {
-            graphics.add(graphicsObject);
-        }
-    }
+
 
     private boolean isLocationSafe(LocalPoint pointToCheck)
     {
@@ -131,6 +126,9 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         {
             return;
         }
+
+        graphics.clear();
+        client.getGraphicsObjects().forEach(graphics::add);
 
         safePoints = graphics.stream().map(GraphicsObject::getLocation).filter(this::isLocationSafe).collect(Collectors.toList());
         var localPlayer = client.getLocalPlayer();

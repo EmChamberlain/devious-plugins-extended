@@ -2,11 +2,14 @@ package net.unethicalite.plugins.dodgegraphics;
 
 import com.google.inject.Singleton;
 import net.runelite.api.Client;
+import net.runelite.api.GraphicsObject;
+import net.runelite.api.Perspective;
 import net.runelite.api.Tile;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.ui.overlay.OverlayUtil;
 import net.unethicalite.api.scene.Tiles;
 
 import javax.inject.Inject;
@@ -17,9 +20,9 @@ import java.util.List;
 class DodgeGraphicsOverlay extends Overlay
 {
     @Inject
-    private final Client client;
+    private Client client;
     @Inject
-    private final DodgeGraphicsPlugin plugin;
+    private DodgeGraphicsPlugin plugin;
 
     @Inject
     private DodgeGraphicsOverlay(Client client, DodgeGraphicsPlugin plugin, DodgeGraphicsConfig config)
@@ -36,14 +39,29 @@ class DodgeGraphicsOverlay extends Overlay
 
         for (LocalPoint safePoint : plugin.safePoints)
         {
-            Tile tile = Tiles.getAt(safePoint);
-            tile.getWorldLocation().outline(client, graphics2D, Color.YELLOW, "");
+            Polygon poly = Perspective.getCanvasTilePoly(client, safePoint);
+            if (poly != null)
+            {
+                OverlayUtil.renderPolygon(graphics2D, poly, Color.YELLOW);
+            }
+        }
+
+        for (GraphicsObject graphicsObject : plugin.graphics)
+        {
+            Polygon poly = Perspective.getCanvasTilePoly(client, graphicsObject.getLocation());
+            if (poly != null)
+            {
+                OverlayUtil.renderPolygon(graphics2D, poly, Color.RED);
+            }
         }
 
         if (plugin.closestPoint != null)
         {
-            Tile tile = Tiles.getAt(plugin.closestPoint);
-            tile.getWorldLocation().outline(client, graphics2D, Color.GREEN, "");
+            Polygon poly = Perspective.getCanvasTilePoly(client, plugin.closestPoint);
+            if (poly != null)
+            {
+                OverlayUtil.renderPolygon(graphics2D, poly, Color.GREEN);
+            }
         }
 
         return null;
