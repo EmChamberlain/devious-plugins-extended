@@ -112,7 +112,6 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
                 .filter(this::isLocationSafe)
                 .filter(Reachable::isWalkable)
                 .filter(x -> !closestNPC.getWorldArea().toWorldPointList().contains(x))
-                .filter(x -> x.distanceTo(closestNPC.getWorldLocation()) >= localPlayer.getWorldLocation().distanceTo(closestNPC.getWorldLocation()))
                 .collect(Collectors.toList());
 
         if (safePoints.contains(localPlayer.getLocalLocation()))
