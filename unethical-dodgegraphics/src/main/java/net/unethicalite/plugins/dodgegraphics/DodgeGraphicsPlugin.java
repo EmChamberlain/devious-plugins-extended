@@ -111,7 +111,7 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         safePoints = client.getLocalPlayer().getWorldArea().offset(4).toWorldPointList().stream()
                 .filter(this::isLocationSafe)
                 .filter(Reachable::isWalkable)
-                .filter(x -> !closestNPC.getWorldArea().toWorldPointList().contains(x))
+                .filter(x -> closestNPC == null || !closestNPC.getWorldArea().toWorldPointList().contains(x))
                 .collect(Collectors.toList());
 
         if (safePoints.contains(localPlayer.getLocalLocation()))
@@ -143,8 +143,8 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             reAttackTarget = null;
             return 50;
         }
-
-        for (int attackId : Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList()))
+        List<Integer> attackIds = Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        for (int attackId : attackIds)
         {
             NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0 && !x.isDead());
             if (closestAttackable != null)
