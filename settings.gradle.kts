@@ -57,6 +57,7 @@ include("unethical-fisher")
 include("unethical-actioner")
 include("unethical-motherlode")
 include("unethical-blastfurnace")
+include("unethical-dodgegraphics")
 
 //include("example-kotlin")
 
@@ -69,4 +70,3 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-include("unethical-lowercasename")

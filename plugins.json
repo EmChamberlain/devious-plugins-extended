@@ -769,6 +769,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical DodgeGraphics",
+  "description": "DodgeGraphics",
+  "id": "unethicaldodgegraphics-plugin",
+  "releases": [{
+    "date": "2024-04-22",
+    "sha512sum": "E07A88A138EED76341DF5FE3910AC8E48C444F762179BC4A8D1FC1834D82745BF689633008F2BAB65997FA943F6DAF9AA7F8B2EFE32C975CB32B73FD6D55A405",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dodgegraphics-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Explorer",
   "description": "Automatically walks places",
   "id": "unethicalexplorer-plugin",
