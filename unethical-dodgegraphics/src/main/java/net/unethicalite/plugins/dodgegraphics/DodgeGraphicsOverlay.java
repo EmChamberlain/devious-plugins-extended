@@ -6,6 +6,7 @@ import net.runelite.api.GraphicsObject;
 import net.runelite.api.Perspective;
 import net.runelite.api.Tile;
 import net.runelite.api.coords.LocalPoint;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -37,9 +38,10 @@ class DodgeGraphicsOverlay extends Overlay
     public Dimension render(Graphics2D graphics2D)
     {
 
-        for (LocalPoint safePoint : plugin.safePoints)
+        for (WorldPoint safePoint : plugin.safePoints)
         {
-            Polygon poly = Perspective.getCanvasTilePoly(client, safePoint);
+
+            Polygon poly = Perspective.getCanvasTilePoly(client, LocalPoint.fromWorld(client, safePoint));
             if (poly != null)
             {
                 OverlayUtil.renderPolygon(graphics2D, poly, Color.YELLOW);
@@ -57,7 +59,7 @@ class DodgeGraphicsOverlay extends Overlay
 
         if (plugin.closestPoint != null)
         {
-            Polygon poly = Perspective.getCanvasTilePoly(client, plugin.closestPoint);
+            Polygon poly = Perspective.getCanvasTilePoly(client, LocalPoint.fromWorld(client, plugin.closestPoint));
             if (poly != null)
             {
                 OverlayUtil.renderPolygon(graphics2D, poly, Color.GREEN);

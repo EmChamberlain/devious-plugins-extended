@@ -3,9 +3,7 @@ package net.unethicalite.plugins.dodgegraphics;
 import com.google.inject.Provides;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
-import net.runelite.api.GraphicsObject;
-import net.runelite.api.Perspective;
+import net.runelite.api.*;
 import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
@@ -64,9 +62,9 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
     public final List<GraphicsObject> graphics = new ArrayList<>();
 
-    public LocalPoint closestPoint = null;
+    public WorldPoint closestPoint = null;
 
-    public List<LocalPoint> safePoints = new ArrayList<>();
+    public List<WorldPoint> safePoints = new ArrayList<>();
 
     @Override
     protected void startUp()
@@ -106,11 +104,11 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
 
 
-    private boolean isLocationSafe(LocalPoint pointToCheck)
+    private boolean isLocationSafe(WorldPoint pointToCheck)
     {
         for (var gObject : graphics)
         {
-            if (pointToCheck.distanceTo(gObject.getLocation()) <= config.radius())
+            if (pointToCheck.distanceTo(WorldPoint.fromLocal(client, gObject.getLocation())) <= config.radius())
             {
                 return false;
             }
@@ -130,15 +128,16 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
         graphics.clear();
         client.getGraphicsObjects().forEach(graphics::add);
 
-        safePoints = graphics.stream().map(GraphicsObject::getLocation).filter(this::isLocationSafe).collect(Collectors.toList());
+        safePoints = client.getLocalPlayer().getWorldArea().offset(4).toWorldPointList().stream().filter(this::isLocationSafe).collect(Collectors.toList());
+
         var localPlayer = client.getLocalPlayer();
         int lowestDist = Integer.MAX_VALUE;
 
         if (!safePoints.contains(localPlayer.getLocalLocation()))
         {
-            for (LocalPoint safePoint : safePoints)
+            for (WorldPoint safePoint : safePoints)
             {
-                int distance = safePoint.distanceTo(localPlayer.getLocalLocation());
+                int distance = safePoint.distanceTo(localPlayer.getWorldLocation());
                 if (closestPoint == null || distance < lowestDist)
                 {
                     lowestDist = distance;
