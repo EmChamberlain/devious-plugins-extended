@@ -44,7 +44,7 @@ class DodgeGraphicsOverlay extends Overlay
             Polygon poly = Perspective.getCanvasTilePoly(client, LocalPoint.fromWorld(client, safePoint));
             if (poly != null)
             {
-                OverlayUtil.renderPolygon(graphics2D, poly, Color.YELLOW);
+                //OverlayUtil.renderPolygon(graphics2D, poly, Color.YELLOW);
             }
         }
 

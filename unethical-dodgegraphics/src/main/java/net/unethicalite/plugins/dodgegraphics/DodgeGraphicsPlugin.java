@@ -146,9 +146,8 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             }
         }
 
-//        WorldPoint worldPoint = WorldPoint.fromLocal(client, closestPoint);
-//        if (worldPoint != null)
-//            Movement.walkTo(worldPoint);
+        if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
+            Movement.walkTo(closestPoint);
     }
 
     @Provides
