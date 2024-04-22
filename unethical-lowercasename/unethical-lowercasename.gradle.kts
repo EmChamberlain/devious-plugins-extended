@@ -1,7 +1,7 @@
-version = "0.0.14"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Unethical Logout"
-project.extra["PluginDescription"] = "Logs you out if a pker is near"
+project.extra["PluginName"] = "Unethical NormalCaseName"
+project.extra["PluginDescription"] = "NormalCaseName"
 
 tasks {
     jar {

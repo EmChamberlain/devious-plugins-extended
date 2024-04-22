@@ -35,7 +35,7 @@ public class LogoutPlugin extends Plugin
 	@Inject
 	private ConfigManager configManager;
 
-	private final List<String> teleActions30 = List.of("Edgeville", "Monastery");
+	private final List<String> teleActions30 = List.of("Edgeville", "Monastery", "Grand Exchange");
 	private final List<String> teleActions20 = List.of("Ferox Enclave");
 
 	@Provides
