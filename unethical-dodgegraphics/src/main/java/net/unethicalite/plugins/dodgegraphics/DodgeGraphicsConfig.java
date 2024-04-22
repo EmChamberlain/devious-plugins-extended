@@ -39,4 +39,27 @@ public interface DodgeGraphicsConfig extends Config
     {
         return 1;
     }
+
+    @ConfigItem(
+            keyName = "repeatedlyAttack",
+            name = "repeatedlyAttack",
+            description = "repeatedlyAttack",
+            position = 3
+    )
+    default boolean repeatedlyAttack()
+    {
+        return true;
+    }
+
+    @ConfigItem(
+            keyName = "repeatedlyAttackList",
+            name = "repeatedlyAttackList",
+            description = "repeatedlyAttackList",
+            enabledByValue = "repeatedlyAttack",
+            position = 4
+    )
+    default String repeatedlyAttackList()
+    {
+        return "-1,-2,-3";
+    }
 }

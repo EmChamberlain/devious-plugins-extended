@@ -132,7 +132,8 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
 
         if (closestPoint != null && closestPoint != localPlayer.getWorldLocation())
         {
-            reAttackTarget = localPlayer.getInteracting();
+            if (localPlayer.getInteracting() != null)
+                reAttackTarget = localPlayer.getInteracting();
             Movement.walkTo(closestPoint);
             return 50;
         }
@@ -142,6 +143,18 @@ public class DodgeGraphicsPlugin extends LoopedPlugin
             reAttackTarget = null;
             return 50;
         }
+
+        for (int attackId : Arrays.stream(config.repeatedlyAttackList().split(",")).map(Integer::parseInt).collect(Collectors.toList()))
+        {
+            NPC closestAttackable = NPCs.getNearest(x -> x.hasAction("Attack") && x.getId() == attackId && x.getHealthRatio() != 0 && !x.isDead());
+            if (closestAttackable != null)
+            {
+                log.info("Attacking");
+                closestAttackable.interact("Attack");
+                return 50;
+            }
+        }
+
 
 
         log.info("End of switch, idling");
