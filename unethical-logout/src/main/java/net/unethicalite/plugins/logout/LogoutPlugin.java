@@ -66,24 +66,11 @@ public class LogoutPlugin extends Plugin
 			{
 				for (String teleAction30 : teleActions30)
 				{
-					if (teleAction30 == "Grand Exchange")
+					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
+					if (teleItem != null)
 					{
-						//Have to handle this seperately for some weird reason
-						teleItem = Equipment.getFirst(x -> x.getId() == 11982);
-						if (teleItem != null)
-						{
-							teleAction = teleAction30;
-							break;
-						}
-					}
-					else
-					{
-						teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
-						if (teleItem != null)
-						{
-							teleAction = teleAction30;
-							break;
-						}
+						teleAction = teleAction30;
+						break;
 					}
 				}
 			}
@@ -92,10 +79,10 @@ public class LogoutPlugin extends Plugin
 			{
 				for (String teleAction20 : teleActions20)
 				{
-					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
-					teleAction = teleAction20;
-					if (teleItem != null)
+					Item newItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
+					if (newItem != null)
 					{
+						teleItem = newItem;
 						teleAction = teleAction20;
 						break;
 					}

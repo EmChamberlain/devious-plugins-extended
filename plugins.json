@@ -1137,6 +1137,13 @@
       "version": "0.0.15",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-logout-0.0.15.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-22",
+      "sha512sum": "EB89750BED737D25D6466426A8A00C42C5D3E92FFDD47EA790F6AAC30B42794A4FE03E0EA00D1C7D2399C28D1874B358D180E0F971FA24041202D9D557A92AB4",
+      "version": "0.0.16",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-logout-0.0.16.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
