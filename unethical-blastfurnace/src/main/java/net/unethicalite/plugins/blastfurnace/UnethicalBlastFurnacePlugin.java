@@ -174,9 +174,9 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
                 return true;
             }
 
-            if (client.getLocalPlayer().getWorldLocation() != BANK_LOCATION && Movement.getDestination() != BANK_LOCATION)
+            if (client.getLocalPlayer().getWorldLocation() != BANK_LOCATION)
             {
-                log.info("Walking to bank");
+                log.info("Walking to bank from location: {}", client.getLocalPlayer().getWorldLocation());
                 Movement.walkTo(BANK_LOCATION);
                 return true;
             }

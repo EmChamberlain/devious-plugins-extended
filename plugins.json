@@ -646,6 +646,13 @@
       "version": "0.0.13",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.13.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-22",
+      "sha512sum": "4EBBB2DFC4F658699C61B2CE5186B5538060D718CC3D3367DF8FD16D4EBCCD982A899B87F067B70C475E77E066C2E24DE2637434986011819DF3A5578B453AFB",
+      "version": "0.0.14",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-blastfurnace-0.0.14.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
