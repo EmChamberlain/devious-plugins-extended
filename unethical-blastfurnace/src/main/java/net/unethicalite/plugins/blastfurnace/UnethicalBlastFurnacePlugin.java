@@ -51,20 +51,16 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private static final WorldPoint DISPENSER_LOCATION = new WorldPoint(1942, 4967, 0);
 
+    private static final WorldPoint CONVEYOR_LOCATION = new WorldPoint(1942, 4967, 0);
 
     @Inject
     private Client client;
     @Inject
     private UnethicalBlastFurnaceConfig config;
-
     @Inject
     private ConfigManager configManager;
 
-    private boolean needToEmpty = true;
-
-    private boolean needToBeWearingIce = false;
-
-    int gloveIdToSwapBackTo = -1;
+    int state = 0; // this is 0 for needing to move to bank, 1 for needing to move to conveyor, 2 for needing to move to dispenser and then repeat
 
 
     @Subscribe
@@ -96,72 +92,131 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
     {
         if (!config.isEnabled() || !checkInBlastfurnace())
         {
-            needToEmpty = true;
             return 1000;
         }
 
-        if(handleEquipIceGloves())
+
+        if(handleMoveToNextLocation()) // This will update the state variable for us
         {
-            log.info("Attempted to equip gloves");
+            log.info("Attempted to move to the next location in the rotation");
             return 1000;
         }
 
-        if(handleSwapGlovesBack())
-        {
-            log.info("Attempted to swap gloves back");
-            return 1000;
-        }
+        Player localPlayer = client.getLocalPlayer();
 
-        if(handleDepositValidIds())
+        if (state == 0)
         {
-            log.info("Attempted to deposit pre-emptive pass");
-            return 1000;
-        }
+            if (localPlayer.getWorldLocation() != BANK_LOCATION)
+            {
+                log.info("Waiting until at bank");
+                return 500;
+            }
 
-        if(handleCollectBars())
-        {
-            log.info("Attempted to collect bars");
-            return 1000;
-        }
+            if(handleDepositValidIds())
+            {
+                log.info("Attempted to deposit pre-emptive pass");
+                return 1000;
+            }
 
-        if(client.getLocalPlayer().isAnimating())
-        {
-            log.info("Animating so idling for a bit");
-            return 1000;
-        }
+            if(handleCollectOre())
+            {
+                log.info("Attempted to collect ore");
+                return 1000;
+            }
 
-        if(client.getLocalPlayer().isMoving() && Movement.getDestination().distanceTo(client.getLocalPlayer().getWorldLocation()) > 3)
-        {
-            log.info("Moving so idling for a bit");
-            return 1000;
         }
-
-        if(handleCollectOre())
+        else if (state == 1)
         {
-            log.info("Attempted to collect ore");
-            return 1000;
+
+            if (localPlayer.getWorldLocation() != CONVEYOR_LOCATION)
+            {
+                log.info("Waiting until at conveyor");
+                return 500;
+            }
+
+            if(handlePlaceOre())
+            {
+                log.info("Attempted to place ore");
+                return 1000;
+            }
         }
-
-        if(handlePlaceOre())
+        else if (state == 2)
         {
-            log.info("Attempted to place ore");
-            return 1000;
-        }
+            if (localPlayer.getWorldLocation() != DISPENSER_LOCATION)
+            {
+                log.info("Waiting until at dispenser");
+                return 500;
+            }
 
-        if(handleMoveToDispenser())
-        {
-            log.info("Attempted to move to dispenser");
-            return 1000;
-        }
-
-        if(handleMoveToBank())
-        {
-            log.info("Attempted to move to bank");
-            return 1000;
+            if(handleCollectBars())
+            {
+                log.info("Attempted to collect bars");
+                return 1000;
+            }
         }
 
         log.info("End of switch, idling");
         return 1000;
+    }
+
+    private boolean handleMoveToNextLocation()
+    {
+        if (state == 0)
+        {
+            if (Inventory.contains(x -> x.getId() == config.oreToUse()))
+            {
+                state = 1;
+                Movement.walkTo(CONVEYOR_LOCATION);
+                return true;
+            }
+
+            if (client.getLocalPlayer().getWorldLocation() != BANK_LOCATION && Movement.getDestination() != BANK_LOCATION)
+            {
+                Movement.walkTo(BANK_LOCATION);
+                return true;
+            }
+
+            return false;
+        }
+        else if (state == 1)
+        {
+            if (!Inventory.contains(x -> x.getId() == config.oreToUse()))
+            {
+                state = 2;
+                Movement.walkTo(DISPENSER_LOCATION);
+                return true;
+            }
+
+            if (client.getLocalPlayer().getWorldLocation() != CONVEYOR_LOCATION && Movement.getDestination() != CONVEYOR_LOCATION)
+            {
+                Movement.walkTo(CONVEYOR_LOCATION);
+                return true;
+            }
+
+            return false;
+        }
+        else if (state == 2)
+        {
+            if (Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
+            {
+                state = 0;
+                Movement.walkTo(BANK_LOCATION);
+                return true;
+            }
+
+            if (client.getLocalPlayer().getWorldLocation() != DISPENSER_LOCATION && Movement.getDestination() != DISPENSER_LOCATION)
+            {
+                Movement.walkTo(DISPENSER_LOCATION);
+                return true;
+            }
+
+            return false;
+        }
+        else
+        {
+            log.info("Unknown state. Doing nothing.");
+            return false;
+        }
     }
 
     private boolean handleCollectBars()
@@ -173,8 +228,8 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         TileObject dispenserObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("bar dispenser"));
         if (dispenserObject == null)
         {
-            log.info("dispenser is null, moving to dispenser");
-            return handleMoveToDispenser();
+            log.info("dispenser is null");
+            return false;
         }
 
         if (!dispenserObject.hasAction("Take"))
@@ -183,7 +238,21 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return false;
         }
 
-        needToBeWearingIce = true;
+        Item equippedIce = Equipment.getFirst(x -> x.getId() == ItemID.ICE_GLOVES);
+        Item inventoryIce = Inventory.getFirst(x -> x.getId() == ItemID.ICE_GLOVES);
+
+        if (equippedIce == null)
+        {
+            if (inventoryIce == null)
+            {
+                log.info("No ice gloves");
+                return false;
+            }
+
+            inventoryIce.interact("Wear");
+            return true;
+        }
+
         dispenserObject.interact("Take");
         return true;
     }
@@ -196,38 +265,29 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         TileObject conveyorBeltObject = TileObjects.getNearest(x -> x.hasAction("Put-ore-on"));
         if (conveyorBeltObject == null)
         {
-            log.info("Conveyor is null, moving to dispenser");
-            return handleMoveToDispenser();
+            log.info("Conveyor is null");
+            return false;
+        }
+
+        if (config.oreToUse() == ItemID.GOLD_ORE)
+        {
+            Item equippedGold = Equipment.getFirst(x -> x.getId() == ItemID.GOLDSMITH_GAUNTLETS);
+            Item inventoryGold = Inventory.getFirst(x -> x.getId() == ItemID.GOLDSMITH_GAUNTLETS);
+
+            if (equippedGold == null)
+            {
+                if (inventoryGold == null)
+                {
+                    log.info("No gold gloves");
+                    return false;
+                }
+
+                inventoryGold.interact("Wear");
+                return true;
+            }
         }
 
         conveyorBeltObject.interact("Put-ore-on");
-        return true;
-    }
-
-    private boolean handleSwapGlovesBack()
-    {
-        Item glovesToSwapTo = Inventory.getFirst(x -> x.getId() == gloveIdToSwapBackTo);
-        if (needToBeWearingIce || glovesToSwapTo == null)
-            return false;
-
-        glovesToSwapTo.interact("Wear");
-        return true;
-    }
-
-    private boolean handleEquipIceGloves()
-    {
-        if (!needToBeWearingIce || Equipment.contains(x -> x.getId() == ItemID.ICE_GLOVES))
-            return false;
-
-        Item iceGloves = Inventory.getFirst(x -> x.getId() == ItemID.ICE_GLOVES);
-        if (iceGloves == null)
-        {
-            log.info("No ice gloves, shit is gonna break");
-            return false;
-        }
-
-        gloveIdToSwapBackTo = Equipment.fromSlot(EquipmentInventorySlot.GLOVES).getId();
-        iceGloves.interact("Wear");
         return true;
     }
 
@@ -276,24 +336,24 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             int slotsPer = getCoalToWithdraw() + 1;
             int barsCanMake = (int) Math.floor((double) Bank.Inventory.getFreeSlots() / slotsPer);
 
-            if (oreBankItem == null && coalBankItem != null)
+            if (oreBankItem != null && coalBankItem == null)
             {
-                log.info("Something weird happened so depositing coal");
-                Bank.depositAll(x -> x.getId() == coalBankItem.getId());
+                log.info("Something weird happened so depositing ore");
+                Bank.depositAll(x -> VALID_DEPOSIT_IDS.contains(x.getId()));
                 return true;
             }
 
             if (oreBankItem == null && coalBankItem == null)
             {
-                log.info("Withdrawing {} amount of ore for the {} amount of coal", barsCanMake, barsCanMake * getCoalToWithdraw());
-                Bank.withdraw(x -> x.getId() == config.oreToUse(), barsCanMake, Bank.WithdrawMode.ITEM);
+                log.info("Withdrawing {} amount of coal for the ore", barsCanMake * getCoalToWithdraw());
+                Bank.withdrawAll(x -> x.getId() == ItemID.COAL, Bank.WithdrawMode.ITEM);
                 return true;
             }
 
-            if (oreBankItem != null && coalBankItem == null)
+            if (oreBankItem == null && coalBankItem != null)
             {
-                log.info("Withdrawing {} amount of coal for the ore", barsCanMake * getCoalToWithdraw());
-                Bank.withdrawAll(x -> x.getId() == ItemID.COAL, Bank.WithdrawMode.ITEM);
+                log.info("Withdrawing {} amount of ore for the {} amount of coal", barsCanMake, barsCanMake * getCoalToWithdraw());
+                Bank.withdraw(x -> x.getId() == config.oreToUse(), barsCanMake, Bank.WithdrawMode.ITEM);
                 return true;
             }
 
@@ -317,8 +377,8 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             TileObject bankObject = TileObjects.getNearest(x -> x.hasAction("Use") && x.getName().toLowerCase().contains("bank"));
             if (bankObject == null)
             {
-                log.info("bank object null, moving to bank");
-                return handleMoveToBank();
+                log.info("bank object null");
+                return false;
             }
 
             bankObject.interact("Use");
@@ -350,14 +410,14 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             TileObject bank = TileObjects.getNearest(x -> x.hasAction("Use") && x.getName().toLowerCase().contains("bank"));
             if (bank == null)
             {
-                log.info("no bank so attempting to move to bank location");
-                return handleMoveToBank();
+                log.info("no bank");
+                return false;
             }
 
             if (bank.getWorldArea().offset(1).toWorldPointList().stream().noneMatch(Reachable::isWalkable))
             {
-                log.info("bank is not walkable so attempting to walk to bank");
-                return handleMoveToBank();
+                log.info("bank is not walkable");
+                return false;
             }
 
             bank.interact("Use");
@@ -366,24 +426,6 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
 
     }
-
-    private boolean handleMoveToBank()
-    {
-        needToBeWearingIce = false;
-        TileObject bankObject = TileObjects.getNearest(x -> x.hasAction("Use") && x.getName().toLowerCase().contains("bank"));
-        if (bankObject != null || Bank.isOpen() || !Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
-            return false;
-        return Movement.walkTo(BANK_LOCATION);
-    }
-
-    private boolean handleMoveToDispenser()
-    {
-        TileObject dispenserObject = TileObjects.getNearest(x -> x.hasAction("Put-ore-on"));
-        if (dispenserObject != null || !Inventory.contains(x -> config.oreToUse() == x.getId()))
-            return false;
-        return Movement.walkTo(DISPENSER_LOCATION);
-    }
-
     @Subscribe
     private void onGameTick(GameTick e)
     {
