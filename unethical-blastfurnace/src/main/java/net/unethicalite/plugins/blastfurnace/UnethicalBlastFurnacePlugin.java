@@ -49,9 +49,9 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private static final WorldPoint BANK_LOCATION = new WorldPoint(1948, 4957, 0);
 
-    private static final WorldPoint DISPENSER_LOCATION = new WorldPoint(1942, 4967, 0);
+    private static final WorldPoint DISPENSER_LOCATION = new WorldPoint(1939, 4963, 0);
 
-    private static final WorldPoint CONVEYOR_LOCATION = new WorldPoint(1942, 4967, 0);
+    private static final WorldPoint CONVEYOR_LOCATION = new WorldPoint(1941, 4968, 0);
 
     @Inject
     private Client client;
@@ -95,12 +95,15 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             return 1000;
         }
 
+        log.info("Current state: {}", state);
 
         if(handleMoveToNextLocation()) // This will update the state variable for us
         {
             log.info("Attempted to move to the next location in the rotation");
             return 1000;
         }
+
+        log.info("State now: {}", state);
 
         Player localPlayer = client.getLocalPlayer();
 
@@ -166,12 +169,14 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             if (Inventory.contains(x -> x.getId() == config.oreToUse()))
             {
                 state = 1;
+                log.info("Walking to conveyor");
                 Movement.walkTo(CONVEYOR_LOCATION);
                 return true;
             }
 
             if (client.getLocalPlayer().getWorldLocation() != BANK_LOCATION && Movement.getDestination() != BANK_LOCATION)
             {
+                log.info("Walking to bank");
                 Movement.walkTo(BANK_LOCATION);
                 return true;
             }
@@ -183,12 +188,14 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             if (!Inventory.contains(x -> x.getId() == config.oreToUse()))
             {
                 state = 2;
+                log.info("Walking to dispenser");
                 Movement.walkTo(DISPENSER_LOCATION);
                 return true;
             }
 
             if (client.getLocalPlayer().getWorldLocation() != CONVEYOR_LOCATION && Movement.getDestination() != CONVEYOR_LOCATION)
             {
+                log.info("Walking to conveyor");
                 Movement.walkTo(CONVEYOR_LOCATION);
                 return true;
             }
@@ -200,12 +207,14 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             if (Inventory.contains(x -> VALID_DEPOSIT_IDS.contains(x.getId())))
             {
                 state = 0;
+                log.info("Walking to bank");
                 Movement.walkTo(BANK_LOCATION);
                 return true;
             }
 
             if (client.getLocalPlayer().getWorldLocation() != DISPENSER_LOCATION && Movement.getDestination() != DISPENSER_LOCATION)
             {
+                log.info("Walking to dispenser");
                 Movement.walkTo(DISPENSER_LOCATION);
                 return true;
             }
