@@ -342,18 +342,18 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             Item oreBankItem = Bank.Inventory.getFirst(x -> x.getId() == config.oreToUse());
             Item coalBankItem = Bank.Inventory.getFirst(x ->  x.getId() == ItemID.COAL);
 
-            int slotsPer = getCoalToWithdraw() + 1;
+            double slotsPer = getCoalToWithdraw() + 1.0;
             int barsCanMake = (int) Math.floor((double) Bank.Inventory.getFreeSlots() / slotsPer);
             int coalNeeded = barsCanMake * getCoalToWithdraw();
 
-            if (getCoalToWithdraw() > 0 && Bank.getCount(ItemID.COAL) >= coalNeeded && !Inventory.contains(x -> x.getId() == ItemID.COAL))
+            if (getCoalToWithdraw() > 0 && Bank.getCount(true, ItemID.COAL) >= coalNeeded && !Inventory.contains(x -> x.getId() == ItemID.COAL))
             {
                 log.info("Withdrawing {} amount of coal for the {} amount of ore", coalNeeded, barsCanMake);
                 Bank.withdraw(x -> x.getId() == ItemID.COAL, coalNeeded, Bank.WithdrawMode.ITEM);
                 return true;
             }
 
-            if (Bank.getCount(config.oreToUse()) >= barsCanMake && !Inventory.contains(x -> x.getId() == config.oreToUse()))
+            if (Bank.getCount(true, config.oreToUse()) >= barsCanMake && !Inventory.contains(x -> x.getId() == config.oreToUse()))
             {
                 log.info("Withdrawing {} amount of ore for the {} amount of coal", barsCanMake, coalNeeded);
                 Bank.withdraw(x -> x.getId() == config.oreToUse(), barsCanMake, Bank.WithdrawMode.ITEM);
