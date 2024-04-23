@@ -109,7 +109,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
         if (state == 0)
         {
-            if (localPlayer.getWorldLocation() != BANK_LOCATION)
+            if (localPlayer.getWorldLocation().distanceTo(BANK_LOCATION) > 1)
             {
                 log.info("Waiting until at bank");
                 return 500;
@@ -131,7 +131,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         else if (state == 1)
         {
 
-            if (localPlayer.getWorldLocation() != CONVEYOR_LOCATION)
+            if (localPlayer.getWorldLocation().distanceTo(CONVEYOR_LOCATION) > 1)
             {
                 log.info("Waiting until at conveyor");
                 return 500;
@@ -145,7 +145,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
         }
         else if (state == 2)
         {
-            if (localPlayer.getWorldLocation() != DISPENSER_LOCATION)
+            if (localPlayer.getWorldLocation().distanceTo(DISPENSER_LOCATION) > 1)
             {
                 log.info("Waiting until at dispenser");
                 return 500;
@@ -344,24 +344,18 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
             int slotsPer = getCoalToWithdraw() + 1;
             int barsCanMake = (int) Math.floor((double) Bank.Inventory.getFreeSlots() / slotsPer);
+            int coalNeeded = barsCanMake * getCoalToWithdraw();
 
-            if (oreBankItem != null && coalBankItem == null)
+            if (getCoalToWithdraw() > 0 && Bank.getCount(ItemID.COAL) >= coalNeeded && !Inventory.contains(x -> x.getId() == ItemID.COAL))
             {
-                log.info("Something weird happened so depositing ore");
-                Bank.depositAll(x -> VALID_DEPOSIT_IDS.contains(x.getId()));
+                log.info("Withdrawing {} amount of coal for the {} amount of ore", coalNeeded, barsCanMake);
+                Bank.withdraw(x -> x.getId() == ItemID.COAL, coalNeeded, Bank.WithdrawMode.ITEM);
                 return true;
             }
 
-            if (oreBankItem == null && coalBankItem == null)
+            if (Bank.getCount(config.oreToUse()) >= barsCanMake && !Inventory.contains(x -> x.getId() == config.oreToUse()))
             {
-                log.info("Withdrawing {} amount of coal for the ore", barsCanMake * getCoalToWithdraw());
-                Bank.withdrawAll(x -> x.getId() == ItemID.COAL, Bank.WithdrawMode.ITEM);
-                return true;
-            }
-
-            if (oreBankItem == null && coalBankItem != null)
-            {
-                log.info("Withdrawing {} amount of ore for the {} amount of coal", barsCanMake, barsCanMake * getCoalToWithdraw());
+                log.info("Withdrawing {} amount of ore for the {} amount of coal", barsCanMake, coalNeeded);
                 Bank.withdraw(x -> x.getId() == config.oreToUse(), barsCanMake, Bank.WithdrawMode.ITEM);
                 return true;
             }
@@ -370,8 +364,8 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
             {
                 if (Bank.Inventory.getCount(x -> x.getId() == ItemID.COAL) / Bank.Inventory.getCount(x -> x.getId() == oreBankItem.getId()) != getCoalToWithdraw())
                 {
-                    log.info("Something went wrong and we don't have the right amount of ore and coal, depositing ore");
-                    Bank.depositAll(x -> x.getId() == oreBankItem.getId());
+                    log.info("Something went wrong and we don't have the right amount of ore and coal, depositing");
+                    Bank.depositAll(x -> x.getId() == oreBankItem.getId() || x.getId() == coalBankItem.getId());
                     return true;
                 }
                 else
