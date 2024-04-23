@@ -174,7 +174,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
                 return true;
             }
 
-            if (client.getLocalPlayer().getWorldLocation() != BANK_LOCATION)
+            if (client.getLocalPlayer().getWorldLocation().distanceTo(BANK_LOCATION) > 1)
             {
                 log.info("Walking to bank from location: {}", client.getLocalPlayer().getWorldLocation());
                 Movement.walkTo(BANK_LOCATION);
@@ -193,7 +193,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
                 return true;
             }
 
-            if (client.getLocalPlayer().getWorldLocation() != CONVEYOR_LOCATION && Movement.getDestination() != CONVEYOR_LOCATION)
+            if (client.getLocalPlayer().getWorldLocation().distanceTo(CONVEYOR_LOCATION) > 1)
             {
                 log.info("Walking to conveyor");
                 Movement.walkTo(CONVEYOR_LOCATION);
@@ -212,7 +212,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
                 return true;
             }
 
-            if (client.getLocalPlayer().getWorldLocation() != DISPENSER_LOCATION && Movement.getDestination() != DISPENSER_LOCATION)
+            if (client.getLocalPlayer().getWorldLocation().distanceTo(DISPENSER_LOCATION) > 1)
             {
                 log.info("Walking to dispenser");
                 Movement.walkTo(DISPENSER_LOCATION);
