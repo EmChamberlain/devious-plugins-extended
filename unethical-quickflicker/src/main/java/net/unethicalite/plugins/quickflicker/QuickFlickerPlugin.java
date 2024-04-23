@@ -82,5 +82,25 @@ public class QuickFlickerPlugin extends Plugin
             }
             invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
         }
+        else if (config.forceEnable())
+        {
+            Widget widget = Widgets.get(WidgetInfo.MINIMAP_QUICK_PRAYER_ORB);
+            if (widget == null) {
+                return;
+            }
+            invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
+            try {
+                Thread.sleep((long)((Math.random() * 10) + 5));
+            } catch (InterruptedException e) {
+                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+            }
+            invokeAction(widget.getMenu("Deactivate"), widget.getOriginalX(), widget.getOriginalY());
+            try {
+                Thread.sleep((long)((Math.random() * 10) + 5));
+            } catch (InterruptedException e) {
+                log.info("Sleep failed in PrayerFlicker: {}", e.toString());
+            }
+            invokeAction(widget.getMenu("Activate"), widget.getOriginalX(), widget.getOriginalY());
+        }
     }
 }

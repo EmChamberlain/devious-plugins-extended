@@ -1881,13 +1881,22 @@
   "name": "Unethical Quick Flicker",
   "description": "Auto quick flicker",
   "id": "unethicalquickflicker-plugin",
-  "releases": [{
-    "date": "2024-04-09",
-    "sha512sum": "FEADA893D4B4F9F39C8165027F4FD0BADB16B729951FAD3740DE7123BAC4B0D28BA1FEF72A8FB386A429570C7F3ED60BF9B1E435A6EC737DCC3BFD1AC8B6DF53",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quickflicker-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-04-09",
+      "sha512sum": "FEADA893D4B4F9F39C8165027F4FD0BADB16B729951FAD3740DE7123BAC4B0D28BA1FEF72A8FB386A429570C7F3ED60BF9B1E435A6EC737DCC3BFD1AC8B6DF53",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quickflicker-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-23",
+      "sha512sum": "A8D3B7AF3BA3BF0C02B4522089AB33B7FCE408F2910BDD155561E668F098C3F49F48C1207AA07917B61CCFF79A55CDCCC8CEB6D17B29C20B35E60B9B357053B2",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-quickflicker-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

@@ -18,4 +18,16 @@ public interface QuickFlickerConfig extends Config
         return false;
     }
 
+    @ConfigItem(
+            keyName = "forceEnable",
+            name = "forceEnable",
+            description = "forceEnable",
+            position = 1
+    )
+    default boolean forceEnable()
+    {
+        return false;
+    }
+
+
 }
