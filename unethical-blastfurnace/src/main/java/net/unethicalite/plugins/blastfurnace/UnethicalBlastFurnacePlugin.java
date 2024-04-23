@@ -51,7 +51,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
 
     private static final WorldPoint DISPENSER_LOCATION = new WorldPoint(1939, 4963, 0);
 
-    private static final WorldPoint CONVEYOR_LOCATION = new WorldPoint(1941, 4968, 0);
+    private static final WorldPoint CONVEYOR_LOCATION = new WorldPoint(1942, 4967, 0);
 
     @Inject
     private Client client;
@@ -92,6 +92,7 @@ public class UnethicalBlastFurnacePlugin extends LoopedPlugin
     {
         if (!config.isEnabled() || !checkInBlastfurnace())
         {
+            state = 0;
             return 1000;
         }
 
