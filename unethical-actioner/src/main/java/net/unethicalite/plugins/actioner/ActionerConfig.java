@@ -187,25 +187,25 @@ public interface ActionerConfig extends Config
     }
 
     @ConfigItem(
-            keyName = "bankLocation",
-            name = "bankLocation",
-            description = "bankLocation",
+            keyName = "bankLocationString",
+            name = "bankLocationString",
+            description = "bankLocationString",
             position = 16
     )
-    default WorldPoint bankLocation()
+    default String bankLocationString()
     {
-        return null;
+        return "0,0,0";
     }
 
     @ConfigItem(
-            keyName = "startLocation",
-            name = "startLocation",
-            description = "startLocation",
+            keyName = "startLocationString",
+            name = "startLocationString",
+            description = "startLocationString",
             position = 17
     )
-    default WorldPoint startLocation()
+    default String startLocationString()
     {
-        return null;
+        return "0,0,0";
     }
 
     @ConfigItem(

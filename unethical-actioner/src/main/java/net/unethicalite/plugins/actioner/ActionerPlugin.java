@@ -166,6 +166,43 @@ public class ActionerPlugin extends Plugin
         return MenuAutomated.builder().option(splitString[0]).target(splitString[1]).identifier(Integer.parseInt(splitString[2])).opcode(MenuAction.of(Integer.parseInt(splitString[3]))).param0(Integer.parseInt(splitString[4])).param1(Integer.parseInt(splitString[5])).build();
     }
 
+    private WorldPoint getStartLocation()
+    {
+        var splitString = Arrays.stream(config.startLocationString().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        try {
+            return new WorldPoint(splitString.get(0), splitString.get(1), splitString.get(2));
+        } catch (Exception e)
+        {
+            log.info("{}", e.toString());
+            return null;
+        }
+
+
+    }
+    private void setStartLocation()
+    {
+        WorldPoint pos = client.getLocalPlayer().getWorldLocation();
+        configManager.setConfiguration("unethical-actioner", "startLocation", String.format("%s,%s,%s", pos.getX(), pos.getY(), pos.getPlane()));
+    }
+
+    private WorldPoint getBankLocation()
+    {
+        var splitString = Arrays.stream(config.bankLocationString().split(",")).map(Integer::parseInt).collect(Collectors.toList());
+        try {
+            return new WorldPoint(splitString.get(0), splitString.get(1), splitString.get(2));
+        } catch (Exception e)
+        {
+            log.info("{}", e.toString());
+            return null;
+        }
+    }
+    private void setBankLocation()
+    {
+        WorldPoint pos = client.getLocalPlayer().getWorldLocation();
+        configManager.setConfiguration("unethical-actioner", "bankLocation", String.format("%s,%s,%s", pos.getX(), pos.getY(), pos.getPlane()));
+    }
+
+
     @Subscribe
     public void onGameTick(GameTick tick)
     {
@@ -175,22 +212,22 @@ public class ActionerPlugin extends Plugin
         if (config.setNewBank())
         {
             configManager.setConfiguration("unethical-actioner", "setNewBank", false);
-            configManager.setConfiguration("unethical-actioner", "bankLocation", localPlayer.getWorldLocation());
+            setBankLocation();
         }
 
         if (!config.isEnabled())
         {
-            configManager.setConfiguration("unethical-actioner", "startLocation", null);
+            configManager.setConfiguration("unethical-actioner", "startLocation", "");
             state = 0;
             return;
         }
 
-        log.info("Current state: {} | Start location: {} | Bank location: {}", state, config.startLocation(), config.bankLocation());
+        log.info("Current state: {} | Start location: {} | Bank location: {}", state, getStartLocation(), getBankLocation());
 
-        if (config.startLocation() == null)
+        if (config.startLocationString().isEmpty())
         {
             state = 0;
-            configManager.setConfiguration("unethical-actioner", "startLocation", localPlayer.getWorldLocation());
+            setStartLocation();
         }
 
 
@@ -226,7 +263,14 @@ public class ActionerPlugin extends Plugin
             if (Inventory.isFull() && config.toBank() && getInvalidIdCount() <= 0)
             {
                 state = 1;
-                Movement.walkTo(config.bankLocation());
+                var bankLoc = getBankLocation();
+                if (bankLoc == null)
+                {
+                    log.info("Bank location is null");
+                    return;
+                }
+
+                Movement.walkTo(getBankLocation());
                 return;
             }
 
@@ -331,10 +375,17 @@ public class ActionerPlugin extends Plugin
             {
                 log.info("No interactable");
 
-                if (localPlayer.getWorldLocation().distanceTo(config.startLocation()) > 0)
+                var startLoc = getStartLocation();
+                if (startLoc == null)
+                {
+                    log.info("Start location is null");
+                    return;
+                }
+
+                if (localPlayer.getWorldLocation().distanceTo(startLoc) > 0)
                 {
                     log.info("Moving to start location");
-                    Movement.walkTo(config.startLocation());
+                    Movement.walkTo(startLoc);
                     return;
                 }
             }
@@ -360,7 +411,15 @@ public class ActionerPlugin extends Plugin
 
                 log.info("Done depositing and withdrawing so moving to next state.");
                 state = 0;
-                Movement.walkTo(config.startLocation());
+
+                var startLoc = getStartLocation();
+                if (startLoc == null)
+                {
+                    log.info("Start location is null");
+                    return;
+                }
+
+                Movement.walkTo(startLoc);
                 return;
 
             }
@@ -370,10 +429,18 @@ public class ActionerPlugin extends Plugin
                 if (bankInteractable == null || !Reachable.isInteractable((Locatable) bankInteractable))
                 {
                     log.info("Bank is null");
-                    if (localPlayer.getWorldLocation().distanceTo(config.bankLocation()) > 0)
+
+                    var bankLoc = getBankLocation();
+                    if (bankLoc == null)
+                    {
+                        log.info("Bank location is null");
+                        return;
+                    }
+
+                    if (localPlayer.getWorldLocation().distanceTo(bankLoc) > 0)
                     {
                         log.info("Moving to bank location");
-                        Movement.walkTo(config.bankLocation());
+                        Movement.walkTo(bankLoc);
                     }
                     return;
                 }

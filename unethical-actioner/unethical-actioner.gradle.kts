@@ -1,4 +1,4 @@
-version = "0.0.17"
+version = "0.0.20"
 
 project.extra["PluginName"] = "Unethical Actioner"
 project.extra["PluginDescription"] = "Automatically actions"
