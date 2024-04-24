@@ -304,6 +304,12 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 return true;
             }
 
+            if (!Prayers.isQuickPrayerEnabled())
+            {
+                Prayers.toggleQuickPrayer(true);
+                return true;
+            }
+
             if (needToMove && localPlayer.getWorldLocation().distanceTo(DRAGON_LOCATION) > 3)
             {
                 Movement.walkTo(DRAGON_LOCATION);

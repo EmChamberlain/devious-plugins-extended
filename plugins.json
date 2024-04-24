@@ -1025,6 +1025,13 @@
       "version": "0.0.5",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.0.5.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-24",
+      "sha512sum": "57E763BB7B7B717C7B745DF003313AE922F0720DB45BA7598279E193D23C7E7305707BD8FBE31B56333D717D62E2C89C7C8A3316AA5B0B9FCB2BD6DBB348D9F6",
+      "version": "0.0.6",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.0.6.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
