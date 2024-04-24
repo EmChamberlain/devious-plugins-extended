@@ -126,7 +126,8 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 Item antifire = Inventory.getFirst(x -> x.getName().toLowerCase().contains("antifire"));
                 Item dagger = Inventory.getFirst(x -> x.getName().toLowerCase().contains("dragon dagger"));
                 Item whip = Inventory.getFirst(x -> x.getName().toLowerCase().contains("whip"));
-                Item itemToDeposit = Inventory.getFirst(x -> x.getId() != cape.getId() && x.getId() != antifire.getId() && x.getId() != dagger.getId() && x.getId() != whip.getId());
+                List<Integer> validIds = List.of(cape == null ? -1 : cape.getId(), antifire == null ? -1 : antifire.getId(), dagger == null ? -1 : dagger.getId(), whip == null ? -1 : whip.getId());
+                Item itemToDeposit = Inventory.getFirst(x -> !validIds.contains(x.getId()));
 
                 if (cape == null)
                 {
