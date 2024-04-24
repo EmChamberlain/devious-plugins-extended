@@ -157,7 +157,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                     state = 1;
                 needToMove = true;
                 cape.interact("Teleport");
-                return 500;
+                return 2500;
 
             }
 
