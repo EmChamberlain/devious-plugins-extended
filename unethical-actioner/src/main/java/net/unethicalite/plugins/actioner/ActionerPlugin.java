@@ -20,6 +20,7 @@ import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.LobbyWorldSelectToggled;
 import net.unethicalite.api.events.LoginIndexChanged;
+import net.unethicalite.api.events.MenuAutomated;
 import net.unethicalite.api.events.WorldHopped;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.game.Worlds;
@@ -153,6 +154,17 @@ public class ActionerPlugin extends Plugin
         return NPCs.getNearest(x -> x.hasAction( "Bank"));
     }
 
+    private List<MenuAutomated> getMenuAutomatedList()
+    {
+        return Arrays.stream(config.widgetActionsToDo().split(",")).map(this::getMenuAutomated).collect(Collectors.toList());
+    }
+
+    private MenuAutomated getMenuAutomated(String stringIn)
+    {
+        String[] splitString = stringIn.split("\\|");
+        return MenuAutomated.builder().option(splitString[0]).target(splitString[1]).identifier(Integer.parseInt(splitString[2])).opcode(MenuAction.of(Integer.parseInt(splitString[3]))).param0(Integer.parseInt(splitString[4])).param1(Integer.parseInt(splitString[5])).build();
+    }
+
     @Subscribe
     public void onGameTick(GameTick tick)
     {
@@ -180,6 +192,23 @@ public class ActionerPlugin extends Plugin
 
         if (config.use() && !config.isItem())
             configManager.setConfiguration("unethical-actioner", "isItem", true);
+
+        var widgetList = getIntListOfConfigString(config.widgetsToSelect());
+        var menuAutomatedList = getMenuAutomatedList();
+        for (int i = 0; i <  widgetList.size(); i++)
+        {
+
+            Widget widget = Widgets.fromId(widgetList.get(i));
+            if (widget != null)
+            {
+                client.interact(menuAutomatedList.get(i));
+                log.info("Tried to interact with menu: {}", menuAutomatedList.get(i).toString());
+                return;
+            }
+        }
+
+
+
 
         if (state == 0)
         {

@@ -208,4 +208,26 @@ public interface ActionerConfig extends Config
         return null;
     }
 
+    @ConfigItem(
+            keyName = "widgetsToSelect",
+            name = "widgetsToSelect",
+            description = "widgetsToSelect",
+            position = 18
+    )
+    default String widgetsToSelect()
+    {
+        return "list,comma,seperated";
+    }
+
+    @ConfigItem(
+            keyName = "widgetActionsToDo",
+            name = "widgetActionsToDo",
+            description = "widgetActionsToDo",
+            position = 19
+    )
+    default String widgetActionsToDo()
+    {
+        return "option|target|id|type|p0|p1,option|target|id|type|p0|p1,option|target|id|type|p0|p1";
+    }
+
 }
