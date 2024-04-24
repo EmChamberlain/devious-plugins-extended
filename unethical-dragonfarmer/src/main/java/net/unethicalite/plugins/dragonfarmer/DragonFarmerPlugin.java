@@ -151,13 +151,20 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 }
 
                 log.info("Nothing to deposit or withdraw, moving on");
-                if (Prayers.getPoints() <= 10)
-                    state = 2;
-                else
-                    state = 1;
                 needToMove = true;
-                cape.interact("Teleport");
-                return 2500;
+                if (Prayers.getPoints() <= 10)
+                {
+                    state = 2;
+                    Bank.withdraw(x -> x.getId() == ItemID.TELEPORT_TO_HOUSE, 1, Bank.WithdrawMode.ITEM);
+                    return 500;
+
+                }
+                else
+                {
+                    state = 1;
+                    cape.interact("Teleport");
+                    return 2500;
+                }
 
             }
 
