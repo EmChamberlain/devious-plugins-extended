@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.WidgetLoaded;
@@ -22,7 +23,9 @@ import net.unethicalite.api.events.LoginIndexChanged;
 import net.unethicalite.api.events.WorldHopped;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.game.Worlds;
+import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.script.blocking_events.WelcomeScreenEvent;
 import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
@@ -51,6 +54,12 @@ public class ActionerPlugin extends Plugin
     private ConfigManager configManager;
     private boolean droppingItems = false;
 
+    private WorldPoint BANK_LOCATION;
+
+    private WorldPoint START_LOCATION;
+
+    int state = 0; // 0 for actioning, 1 for banking
+
     @Provides
     public ActionerConfig getConfig(ConfigManager configManager)
     {
@@ -73,14 +82,24 @@ public class ActionerPlugin extends Plugin
 
     private boolean handleDropItems()
     {
-        ListIterator<Item> matchingItemsIterator;
+        ListIterator<Item> matchingItemsIterator = null;
         if (config.isId())
         {
             matchingItemsIterator = Inventory.getAll(x -> getIntListOfConfigString(config.dropItemsList()).contains(x.getId())).listIterator();
         }
         else
         {
-            matchingItemsIterator = Inventory.getAll(x -> getStringListOfConfigString(config.dropItemsList()).contains(x.getName().toLowerCase())).listIterator();
+            for (String dropString : getStringListOfConfigString(config.dropItemsList()))
+            {
+                matchingItemsIterator = Inventory.getAll(x -> x.getName().toLowerCase().contains(dropString)).listIterator();
+                if (matchingItemsIterator.hasNext())
+                    break;
+            }
+        }
+
+        if (matchingItemsIterator == null)
+        {
+            return false;
         }
 
         boolean didDrop = false;
@@ -98,113 +117,315 @@ public class ActionerPlugin extends Plugin
         return didDrop;
     }
 
+    private int getInvalidIdCount()
+    {
+        if (config.isId())
+        {
+           return Inventory.getCount(x -> {
+               var validItems = getIntListOfConfigString(config.validItemsList());
+               var depositItems = getIntListOfConfigString(config.depositItemsList());
+               validItems.addAll(depositItems);
+               return !validItems.contains(x.getId());
+           });
+        }
+        else
+        {
+            var validItems = getStringListOfConfigString(config.validItemsList());
+            var depositItems = getStringListOfConfigString(config.depositItemsList());
+            validItems.addAll(depositItems);
+
+            int count = 0;
+            for (String validItem : validItems)
+            {
+                count += Inventory.getCount(x -> x.getName().toLowerCase().contains(validItem));
+            }
+            return count;
+        }
+    }
+
+    private Interactable getBankInteractable()
+    {
+        TileObject bankChest = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("bank chest") && x.hasAction( "Use"));
+        if (bankChest != null)
+            return bankChest;
+
+        TileObject bankObject = TileObjects.getNearest(x -> x.hasAction( "Bank"));
+        if (bankObject != null)
+            return bankObject;
+
+        return NPCs.getNearest(x -> x.hasAction( "Bank"));
+    }
+
     @Subscribe
     public void onGameTick(GameTick tick)
     {
         if (!config.isEnabled())
-            return;
-
-        if (config.stopIfAnimating())
         {
-            var local = client.getLocalPlayer();
-            if (local != null)
-            {
-                if (local.isAnimating())
-                    return;
-            }
-            else
-            {
-                log.info("local is null so stopping");
-                return;
-            }
+            START_LOCATION = null;
+            return;
+        }
+
+        Player localPlayer = client.getLocalPlayer();
+
+        if (START_LOCATION == null)
+        {
+            START_LOCATION = localPlayer.getWorldLocation();
         }
 
         if (config.use() && !config.isItem())
             configManager.setConfiguration("unethical-actioner", "isItem", true);
 
-        Interactable interactable = null;
-
-        if ((config.dropItemsIfFull() && Inventory.isFull()) || droppingItems)
+        if (state == 0)
         {
-            droppingItems = handleDropItems();
-            if (droppingItems)
+            if ((config.dropItemsIfFull() && Inventory.isFull()) || droppingItems)
+            {
+                droppingItems = handleDropItems();
+                if (droppingItems)
+                    return;
+            }
+
+            if (Inventory.isFull() && config.toBank() && getInvalidIdCount() <= 0)
+            {
+                state = 1;
+                Movement.walkTo(BANK_LOCATION);
                 return;
-        }
+            }
 
-        if (config.isItem())
-        {
-            if (config.isId())
-            {
-                interactable = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
-            }
-            else
-            {
-                interactable = Inventory.getFirst(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
-            }
-        }
-        else
-        {
-            if (config.isId())
-            {
-                interactable = TileObjects.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
-                if (interactable == null)
-                {
-                    interactable = NPCs.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
-                }
-            }
-            else
-            {
-                interactable = TileObjects.getNearest(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
-                if (interactable == null)
-                {
-                    interactable = NPCs.getNearest(x -> getStringListOfConfigString(config.interactable()).contains(x.getName().toLowerCase()));
-                }
-            }
-            if (interactable != null && ((Locatable) interactable).getWorldLocation().distanceTo(client.getLocalPlayer().getWorldLocation()) > config.maxRange())
-            {
-                log.info("Found one but not in range");
-                interactable = null;
-            }
-        }
+            Interactable interactable = null;
 
-        if (interactable != null)
-        {
-            if (config.use() && config.isItem())
+            if (config.isItem())
             {
-                // We enforce that it must be the item branch, so we should be able to cast here
-                Item item = (Item) interactable;
-                TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
-                if (nearObject != null)
+                if (config.isId())
                 {
-                    item.useOn(nearObject);
-                    return;
-                }
-
-                NPC nearNPC = NPCs.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
-                if (nearNPC != null)
-                {
-                    item.useOn(nearNPC);
-                    return;
-                }
-            }
-            else
-            {
-                if (interactable.hasAction(config.action()))
-                {
-                    interactable.interact(config.action());
-                    return;
+                    interactable = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
                 }
                 else
                 {
-                    log.info("No action for item: {} which has actions: {}", ((EntityNameable) interactable).getName(), interactable.getActions());
+                    for (String interactableString : getStringListOfConfigString(config.interactable()))
+                    {
+                        interactable = Inventory.getFirst(x -> x.getName().toLowerCase().contains(interactableString));
+                        if (interactable != null)
+                            break;
+                    }
                 }
+            }
+            else
+            {
+                if (config.isId())
+                {
+                    interactable = TileObjects.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                    if (interactable == null)
+                    {
+                        interactable = NPCs.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                    }
+                }
+                else
+                {
+                    for (String interactableString : getStringListOfConfigString(config.interactable()))
+                    {
+                        interactable = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(interactableString));
+                        if (interactable == null)
+                        {
+                            interactable = NPCs.getNearest(x -> x.getName().toLowerCase().contains(interactableString));
+                        }
+
+                        if (interactable != null)
+                            break;
+
+                    }
+                }
+                if (interactable != null && ((Locatable) interactable).getWorldLocation().distanceTo(client.getLocalPlayer().getWorldLocation()) > config.maxRange())
+                {
+                    log.info("Found one but not in range");
+                    interactable = null;
+                }
+            }
+
+            if (config.stopIfAnimating())
+            {
+                if (localPlayer != null)
+                {
+                    if (localPlayer.isAnimating())
+                        return;
+                }
+                else
+                {
+                    log.info("local is null so stopping");
+                    return;
+                }
+            }
+
+            if (interactable != null)
+            {
+                if (config.use() && config.isItem())
+                {
+                    // We enforce that it must be the item branch, so we should be able to cast here
+                    Item item = (Item) interactable;
+                    TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
+                    if (nearObject != null)
+                    {
+                        item.useOn(nearObject);
+                        return;
+                    }
+
+                    NPC nearNPC = NPCs.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
+                    if (nearNPC != null)
+                    {
+                        item.useOn(nearNPC);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (interactable.hasAction(config.action()))
+                    {
+                        interactable.interact(config.action());
+                        return;
+                    }
+                    else
+                    {
+                        log.info("No action for item: {} which has actions: {}", ((EntityNameable) interactable).getName(), interactable.getActions());
+                    }
+                }
+            }
+            else
+            {
+                log.info("No interactable");
+
+                if (localPlayer.getWorldLocation().distanceTo(START_LOCATION) > 5)
+                {
+                    log.info("Moving to start location");
+                    Movement.walkTo(START_LOCATION);
+                    return;
+                }
+            }
+
+            handleDropItems();
+
+        }
+        else if (state == 1)
+        {
+            if (Bank.isOpen())
+            {
+                if (handleDepositItems())
+                {
+                    log.info("Attempted to deposit items");
+                    return;
+                }
+
+                if (handleWithdrawItems())
+                {
+                    log.info("Attempted to deposit items");
+                    return;
+                }
+
+                log.info("Done depositing and withdrawing so moving to next state.");
+                state = 0;
+                Movement.walkTo(START_LOCATION);
+                return;
+
+            }
+            else
+            {
+                Interactable bankInteractable = getBankInteractable();
+                if (bankInteractable == null)
+                {
+                    log.info("Bank is null");
+                    if (localPlayer.getWorldLocation().distanceTo(BANK_LOCATION) > 5)
+                    {
+                        log.info("Moving to bank location");
+                        Movement.walkTo(BANK_LOCATION);
+                    }
+                    return;
+                }
+                bankInteractable.interact("Bank", "Use");
             }
         }
         else
         {
-            log.info("No interactable");
+            log.info("Unknown state");
+        }
+    }
+
+    private boolean handleWithdrawItems()
+    {
+        Item withdrawItem = null;
+        if (config.isId())
+        {
+            for (Integer withdrawInt : getIntListOfConfigString(config.withdrawItemsList()))
+            {
+                withdrawItem = Bank.Inventory.getFirst(x -> x.getId() == withdrawInt);
+                if (withdrawItem == null)
+                {
+                    if (Bank.getCount(true, x -> x.getId() == withdrawInt) > 0)
+                    {
+                        Bank.withdrawLastQuantity(x -> x.getId() == withdrawInt, Bank.WithdrawMode.ITEM);
+                        return true;
+                    }
+                    else
+                    {
+                        log.info("Missing withdraw item: {}", withdrawInt);
+                        return true;
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            for (String withdrawString : getStringListOfConfigString(config.withdrawItemsList()))
+            {
+                withdrawItem = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains(withdrawString));
+                if (withdrawItem == null)
+                {
+                    Item bankWithdrawItem = Bank.getFirst(x -> x.getName().toLowerCase().contains(withdrawString));
+                    if (bankWithdrawItem == null)
+                    {
+                        log.info("Missing withdraw item: {}", withdrawItem);
+                        return true;
+                    }
+                    int withdrawInt = bankWithdrawItem.getId();
+                    if (Bank.getCount(true, x -> x.getId() == withdrawInt) > 0)
+                    {
+                        Bank.withdrawLastQuantity(x -> x.getId() == withdrawInt, Bank.WithdrawMode.ITEM);
+                        return true;
+                    }
+                    else
+                    {
+                        log.info("Missing withdraw item: {}", withdrawInt);
+                        return true;
+                    }
+                }
+            }
         }
 
-       handleDropItems();
+        return false;
+    }
+
+    private boolean handleDepositItems()
+    {
+        Item depositItem = null;
+        if (config.isId())
+        {
+            depositItem = Bank.Inventory.getFirst(x -> getIntListOfConfigString(config.depositItemsList()).contains(x.getId()));
+        }
+        else
+        {
+            for (String depositString : getStringListOfConfigString(config.depositItemsList()))
+            {
+                depositItem = Inventory.getFirst(x -> x.getName().toLowerCase().contains(depositString));
+                if (depositItem != null)
+                    break;
+            }
+        }
+
+        if (depositItem == null)
+        {
+            return false;
+        }
+
+        int idToDeposit = depositItem.getId();
+        Bank.depositAll(x -> x.getId() == idToDeposit);
+        return true;
     }
 }

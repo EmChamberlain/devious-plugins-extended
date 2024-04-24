@@ -72,8 +72,7 @@ public interface ActionerConfig extends Config
     {
         return true;
     }
-
-    @ConfigItem(
+        @ConfigItem(
             keyName = "dropItemsIfFull",
             name = "dropItemsIfFull",
             description = "dropItemsIfFull",
@@ -119,12 +118,56 @@ public interface ActionerConfig extends Config
         return false;
     }
 
+    @ConfigItem(
+            keyName = "toBank",
+            name = "toBank",
+            description = "toBank",
+            position = 10
+    )
+    default boolean toBank()
+    {
+        return false;
+    }
+
+    @ConfigItem(
+            keyName = "validItemsList",
+            name = "validItemsList",
+            description = "validItemsList",
+            position = 11
+    )
+    default String validItemsList()
+    {
+        return "list,comma,seperated";
+    }
+
+    @ConfigItem(
+            keyName = "depositItemsList",
+            name = "depositItemsList",
+            description = "depositItemsList",
+            position = 12
+    )
+    default String depositItemsList()
+    {
+        return "list,comma,seperated";
+    }
+
+    @ConfigItem(
+            keyName = "withdrawItemsList",
+            name = "withdrawItemsList",
+            description = "withdrawItemsList",
+            position = 13
+    )
+    default String withdrawItemsList()
+    {
+        return "list,comma,seperated";
+    }
+
 
     @ConfigItem(
             keyName = "maxRange",
             name = "maxRange",
             description = "maxRange",
-            position = 10
+            position = 14
     )
     default int maxRange()
     {
