@@ -325,6 +325,12 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 return false;
             }
 
+            if (localPlayer.getWorldLocation().distanceTo(DRAGON_LOCATION) > 15)
+            {
+                Movement.walkTo(DRAGON_LOCATION);
+                return true;
+            }
+
             return false;
         }
         else if (state == 2)
