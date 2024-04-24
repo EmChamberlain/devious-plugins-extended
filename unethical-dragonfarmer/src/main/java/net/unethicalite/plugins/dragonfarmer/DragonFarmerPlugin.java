@@ -129,6 +129,13 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 List<Integer> validIds = List.of(cape == null ? -1 : cape.getId(), antifire == null ? -1 : antifire.getId(), dagger == null ? -1 : dagger.getId(), whip == null ? -1 : whip.getId());
                 Item itemToDeposit = Inventory.getFirst(x -> !validIds.contains(x.getId()));
 
+                if (itemToDeposit != null)
+                {
+                    log.info("Attempted to deposit item");
+                    Bank.depositAll(x -> x.getId() == itemToDeposit.getId());
+                    return 500;
+                }
+
                 if (cape == null)
                 {
                     log.info("Attempted to withdraw cape");
@@ -143,12 +150,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                     return 500;
                 }
 
-                if (itemToDeposit != null)
-                {
-                    log.info("Attempted to deposit item");
-                    Bank.depositAll(x -> x.getId() == itemToDeposit.getId());
-                    return 500;
-                }
+
 
                 log.info("Nothing to deposit or withdraw, moving on");
                 needToMove = true;
