@@ -144,13 +144,13 @@ public class ActionerPlugin extends Plugin
 
     private Interactable getBankInteractable()
     {
-        TileObject bankChest = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("bank chest") && x.hasAction( "Use"));
-        if (bankChest != null)
-            return bankChest;
-
         TileObject bankObject = TileObjects.getNearest(x -> x.hasAction( "Bank"));
         if (bankObject != null)
             return bankObject;
+
+        TileObject bankChest = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("bank chest") && x.hasAction( "Use"));
+        if (bankChest != null)
+            return bankChest;
 
         return NPCs.getNearest(x -> x.hasAction( "Bank"));
     }
