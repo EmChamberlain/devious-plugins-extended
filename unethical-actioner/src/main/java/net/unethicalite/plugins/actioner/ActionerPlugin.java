@@ -168,6 +168,8 @@ public class ActionerPlugin extends Plugin
 
     private WorldPoint getStartLocation()
     {
+        if (config.startLocationString().isEmpty())
+            return null;
         var splitString = Arrays.stream(config.startLocationString().split(",")).map(Integer::parseInt).collect(Collectors.toList());
         try {
             return new WorldPoint(splitString.get(0), splitString.get(1), splitString.get(2));
@@ -189,6 +191,9 @@ public class ActionerPlugin extends Plugin
 
     private WorldPoint getBankLocation()
     {
+        if (config.bankLocationString().isEmpty())
+            return null;
+
         var splitString = Arrays.stream(config.bankLocationString().split(",")).map(Integer::parseInt).collect(Collectors.toList());
         try {
             return new WorldPoint(splitString.get(0), splitString.get(1), splitString.get(2));
@@ -226,7 +231,6 @@ public class ActionerPlugin extends Plugin
             return;
         }
 
-        log.info("Current state: {} | Start location: {} | Bank location: {}", state, getStartLocation(), getBankLocation());
 
         if (config.startLocationString().isEmpty())
         {
@@ -234,6 +238,7 @@ public class ActionerPlugin extends Plugin
             setStartLocation();
         }
 
+        log.info("Current state: {} | Start location: {} | Bank location: {}", state, getStartLocation(), getBankLocation());
 
         if (config.use() && !config.isItem())
             configManager.setConfiguration("unethical-actioner", "isItem", true);
