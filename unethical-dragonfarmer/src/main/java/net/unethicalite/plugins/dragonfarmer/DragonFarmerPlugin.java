@@ -54,8 +54,6 @@ public class DragonFarmerPlugin extends LoopedPlugin
     private boolean needToMove = false;
     private int state = 0; // 0 is needing to bank, 1 is needing to kill dragons, 2 is needing to restore prayer
 
-    private List<String> VALID_KEEP_NAMES = List.of("dragon dagger", "mythical cape", "antifire", "whip");
-
     private final WorldPoint DRAGON_LOCATION = new WorldPoint(1946, 8994, 1);
     private final WorldPoint BANK_LOCATION = new WorldPoint(2465, 2848, 1);
 
@@ -125,7 +123,9 @@ public class DragonFarmerPlugin extends LoopedPlugin
             {
                 Item cape = Inventory.getFirst(x -> x.getName().toLowerCase().contains("mythical cape"));
                 Item antifire = Inventory.getFirst(x -> x.getName().toLowerCase().contains("antifire"));
-                Item itemToDeposit = Inventory.getFirst(x -> !VALID_KEEP_NAMES.contains(x.getName().toLowerCase()));
+                Item dagger = Inventory.getFirst(x -> x.getName().toLowerCase().contains("dragon dagger"));
+                Item whip = Inventory.getFirst(x -> x.getName().toLowerCase().contains("whip"));
+                Item itemToDeposit = Inventory.getFirst(x -> x.getId() != cape.getId() && x.getId() != antifire.getId() && x.getId() != dagger.getId() && x.getId() != whip.getId());
 
                 if (cape == null)
                 {
