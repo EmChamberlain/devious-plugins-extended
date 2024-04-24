@@ -274,6 +274,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
         Player localPlayer = client.getLocalPlayer();
         if (state == 0)
         {
+            configManager.setConfiguration("lucid-combat", "disabledByConfig", true);
             TileObject bankEntrance = TileObjects.getNearest(x -> x.getId() == 31627);
             if (bankEntrance != null)
             {
@@ -327,6 +328,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
         }
         else if (state == 2)
         {
+            configManager.setConfiguration("lucid-combat", "disabledByConfig", true);
             return false;
         }
         else
