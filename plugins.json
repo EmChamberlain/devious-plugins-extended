@@ -994,6 +994,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical DragonFarmer",
+  "description": "DragonFarmer",
+  "id": "unethicaldragonfarmer-plugin",
+  "releases": [{
+    "date": "2024-04-24",
+    "sha512sum": "3E5E7F65921E7663E98C1842DF651C82397BC875CD22CE14ECF5817BEF0A32035C7C015ADB67C8364BCF49E688542D3567B5E7DA9F35B9ECBB0208E95268E14B",
+    "version": "0.0.2",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.0.2.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Explorer",
   "description": "Automatically walks places",
   "id": "unethicalexplorer-plugin",
