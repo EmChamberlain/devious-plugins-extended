@@ -54,7 +54,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
     private boolean needToMove = false;
     private int state = 0; // 0 is needing to bank, 1 is needing to kill dragons, 2 is needing to restore prayer
 
-    private final WorldPoint DRAGON_LOCATION = new WorldPoint(1946, 8994, 1);
+    private final WorldPoint DRAGON_LOCATION = new WorldPoint(1946, 8995, 1);
     private final WorldPoint BANK_LOCATION = new WorldPoint(2465, 2848, 1);
 
 
