@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.actioner;
 
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -173,4 +174,38 @@ public interface ActionerConfig extends Config
     {
         return 1;
     }
+
+    @ConfigItem(
+            keyName = "setNewBank",
+            name = "setNewBank",
+            description = "setNewBank",
+            position = 15
+    )
+    default boolean setNewBank()
+    {
+        return false;
+    }
+
+    @ConfigItem(
+            keyName = "bankLocation",
+            name = "bankLocation",
+            description = "bankLocation",
+            position = 16
+    )
+    default WorldPoint bankLocation()
+    {
+        return null;
+    }
+
+    @ConfigItem(
+            keyName = "startLocation",
+            name = "startLocation",
+            description = "startLocation",
+            position = 17
+    )
+    default WorldPoint startLocation()
+    {
+        return null;
+    }
+
 }

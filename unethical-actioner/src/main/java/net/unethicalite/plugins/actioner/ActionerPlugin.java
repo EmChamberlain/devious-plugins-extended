@@ -54,9 +54,6 @@ public class ActionerPlugin extends Plugin
     private ConfigManager configManager;
     private boolean droppingItems = false;
 
-    private WorldPoint BANK_LOCATION;
-
-    private WorldPoint START_LOCATION;
 
     int state = 0; // 0 for actioning, 1 for banking
 
@@ -159,18 +156,27 @@ public class ActionerPlugin extends Plugin
     @Subscribe
     public void onGameTick(GameTick tick)
     {
+        Player localPlayer = client.getLocalPlayer();
+
+
+        if (config.setNewBank())
+        {
+            configManager.setConfiguration("unethical-actioner", "setNewBank", false);
+            configManager.setConfiguration("unethical-actioner", "bankLocation", localPlayer.getWorldLocation());
+        }
+
         if (!config.isEnabled())
         {
-            START_LOCATION = null;
+            configManager.setConfiguration("unethical-actioner", "startLocation", null);
+            state = 0;
             return;
         }
 
-        Player localPlayer = client.getLocalPlayer();
-
-        if (START_LOCATION == null)
+        if (config.startLocation() == null)
         {
-            START_LOCATION = localPlayer.getWorldLocation();
+            configManager.setConfiguration("unethical-actioner", "startLocation", localPlayer.getWorldLocation());
         }
+
 
         if (config.use() && !config.isItem())
             configManager.setConfiguration("unethical-actioner", "isItem", true);
@@ -187,7 +193,7 @@ public class ActionerPlugin extends Plugin
             if (Inventory.isFull() && config.toBank() && getInvalidIdCount() <= 0)
             {
                 state = 1;
-                Movement.walkTo(BANK_LOCATION);
+                Movement.walkTo(config.bankLocation());
                 return;
             }
 
@@ -292,10 +298,10 @@ public class ActionerPlugin extends Plugin
             {
                 log.info("No interactable");
 
-                if (localPlayer.getWorldLocation().distanceTo(START_LOCATION) > 5)
+                if (localPlayer.getWorldLocation().distanceTo(config.startLocation()) > 5)
                 {
                     log.info("Moving to start location");
-                    Movement.walkTo(START_LOCATION);
+                    Movement.walkTo(config.startLocation());
                     return;
                 }
             }
@@ -321,7 +327,7 @@ public class ActionerPlugin extends Plugin
 
                 log.info("Done depositing and withdrawing so moving to next state.");
                 state = 0;
-                Movement.walkTo(START_LOCATION);
+                Movement.walkTo(config.startLocation());
                 return;
 
             }
@@ -331,10 +337,10 @@ public class ActionerPlugin extends Plugin
                 if (bankInteractable == null)
                 {
                     log.info("Bank is null");
-                    if (localPlayer.getWorldLocation().distanceTo(BANK_LOCATION) > 5)
+                    if (localPlayer.getWorldLocation().distanceTo(config.bankLocation()) > 5)
                     {
                         log.info("Moving to bank location");
-                        Movement.walkTo(BANK_LOCATION);
+                        Movement.walkTo(config.bankLocation());
                     }
                     return;
                 }
