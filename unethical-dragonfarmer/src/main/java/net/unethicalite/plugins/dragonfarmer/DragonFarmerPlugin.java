@@ -57,7 +57,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
     private List<String> VALID_KEEP_NAMES = List.of("dragon dagger", "mythical cape", "antifire", "whip");
 
     private final WorldPoint DRAGON_LOCATION = new WorldPoint(1946, 8994, 1);
-    private final WorldPoint BANK_LOCATION = new WorldPoint(1946, 8994, 1);
+    private final WorldPoint BANK_LOCATION = new WorldPoint(2465, 2848, 1);
 
 
     @Subscribe
@@ -162,7 +162,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
         }
         else if (state == 1)
         {
-            if (!Prayers.isQuickPrayerEnabled() && localPlayer.getWorldLocation().getPlane() == 1)
+            if (!Prayers.isQuickPrayerEnabled())
             {
                 Prayers.toggleQuickPrayer(true);
                 return 500;
