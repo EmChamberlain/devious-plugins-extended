@@ -27,6 +27,7 @@ import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.script.blocking_events.WelcomeScreenEvent;
 import net.unethicalite.api.widgets.Widgets;
 import org.pf4j.Extension;
@@ -290,7 +291,7 @@ public class ActionerPlugin extends Plugin
                 }
             }
 
-            if (interactable != null)
+            if (interactable != null && Reachable.isInteractable((Locatable) interactable))
             {
                 if (config.use() && config.isItem())
                 {
@@ -327,7 +328,7 @@ public class ActionerPlugin extends Plugin
             {
                 log.info("No interactable");
 
-                if (localPlayer.getWorldLocation().distanceTo(config.startLocation()) > 5)
+                if (localPlayer.getWorldLocation().distanceTo(config.startLocation()) > 0)
                 {
                     log.info("Moving to start location");
                     Movement.walkTo(config.startLocation());
@@ -363,10 +364,10 @@ public class ActionerPlugin extends Plugin
             else
             {
                 Interactable bankInteractable = getBankInteractable();
-                if (bankInteractable == null)
+                if (bankInteractable == null || !Reachable.isInteractable((Locatable) bankInteractable))
                 {
                     log.info("Bank is null");
-                    if (localPlayer.getWorldLocation().distanceTo(config.bankLocation()) > 5)
+                    if (localPlayer.getWorldLocation().distanceTo(config.bankLocation()) > 0)
                     {
                         log.info("Moving to bank location");
                         Movement.walkTo(config.bankLocation());
@@ -374,6 +375,7 @@ public class ActionerPlugin extends Plugin
                     return;
                 }
                 bankInteractable.interact("Bank", "Use");
+                return;
             }
         }
         else
