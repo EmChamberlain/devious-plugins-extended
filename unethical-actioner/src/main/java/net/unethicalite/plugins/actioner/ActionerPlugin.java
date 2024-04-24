@@ -185,8 +185,11 @@ public class ActionerPlugin extends Plugin
             return;
         }
 
+        log.info("Current state: {} | Start location: {} | Bank location: {}", state, config.startLocation(), config.bankLocation());
+
         if (config.startLocation() == null)
         {
+            state = 0;
             configManager.setConfiguration("unethical-actioner", "startLocation", localPlayer.getWorldLocation());
         }
 
