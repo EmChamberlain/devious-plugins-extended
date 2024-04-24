@@ -73,6 +73,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
     {
         if (!config.isEnabled())
         {
+            state = 0;
             return 1000;
         }
 
@@ -273,6 +274,13 @@ public class DragonFarmerPlugin extends LoopedPlugin
         Player localPlayer = client.getLocalPlayer();
         if (state == 0)
         {
+            TileObject bankEntrance = TileObjects.getNearest(x -> x.getId() == 31627);
+            if (bankEntrance != null)
+            {
+                bankEntrance.interact("Climb-up");
+                return true;
+            }
+
             if (needToMove && localPlayer.getWorldLocation().distanceTo(BANK_LOCATION) > 3)
             {
                 Movement.walkTo(BANK_LOCATION);
@@ -289,6 +297,13 @@ public class DragonFarmerPlugin extends LoopedPlugin
         }
         else if (state == 1)
         {
+            TileObject basementEntrance = TileObjects.getNearest(x -> x.getId() == 31626);
+            if (basementEntrance != null)
+            {
+                basementEntrance.interact("Enter");
+                return true;
+            }
+
             if (needToMove && localPlayer.getWorldLocation().distanceTo(DRAGON_LOCATION) > 3)
             {
                 Movement.walkTo(DRAGON_LOCATION);
