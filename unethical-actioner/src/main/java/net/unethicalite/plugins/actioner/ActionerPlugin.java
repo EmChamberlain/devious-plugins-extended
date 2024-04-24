@@ -199,7 +199,7 @@ public class ActionerPlugin extends Plugin
         {
 
             Widget widget = Widgets.fromId(widgetList.get(i));
-            if (widget != null)
+            if (widget != null && widget.isVisible())
             {
                 client.interact(menuAutomatedList.get(i));
                 log.info("Tried to interact with menu: {}", menuAutomatedList.get(i).toString());
