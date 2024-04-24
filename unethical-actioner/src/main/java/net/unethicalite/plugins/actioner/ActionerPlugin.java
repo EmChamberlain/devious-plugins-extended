@@ -183,7 +183,7 @@ public class ActionerPlugin extends Plugin
     {
         WorldPoint pos = client.getLocalPlayer().getWorldLocation();
         String stringToSet = pos.getX() + "," + pos.getY() + "," + pos.getPlane();
-        configManager.setConfiguration("unethical-actioner", "startLocation", stringToSet);
+        configManager.setConfiguration("unethical-actioner", "startLocationString", stringToSet);
         log.info("Attempted to set start location to: {}", stringToSet);
     }
 
@@ -202,7 +202,7 @@ public class ActionerPlugin extends Plugin
     {
         WorldPoint pos = client.getLocalPlayer().getWorldLocation();
         String stringToSet = pos.getX() + "," + pos.getY() + "," + pos.getPlane();
-        configManager.setConfiguration("unethical-actioner", "bankLocation", stringToSet);
+        configManager.setConfiguration("unethical-actioner", "bankLocationString", stringToSet);
         log.info("Attempted to set bank location to: {}", stringToSet);
     }
 
@@ -221,7 +221,7 @@ public class ActionerPlugin extends Plugin
 
         if (!config.isEnabled())
         {
-            configManager.setConfiguration("unethical-actioner", "startLocation", "");
+            configManager.setConfiguration("unethical-actioner", "startLocationString", "");
             state = 0;
             return;
         }
