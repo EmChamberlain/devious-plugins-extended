@@ -77,6 +77,20 @@ public class DragonFarmerPlugin extends LoopedPlugin
             return 1000;
         }
 
+
+        if (Math.random() < 0.1)
+        {
+            if (Math.random() < 0.5)
+            {
+                client.setMouseIdleTicks(0);
+            }
+            else
+            {
+                client.setKeyboardIdleTicks(0);
+            }
+        }
+
+
         Player localPlayer = client.getLocalPlayer();
 
         if (localPlayer == null)
