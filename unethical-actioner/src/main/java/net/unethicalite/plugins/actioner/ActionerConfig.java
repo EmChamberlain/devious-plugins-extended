@@ -73,7 +73,7 @@ public interface ActionerConfig extends Config
     {
         return true;
     }
-        @ConfigItem(
+    @ConfigItem(
             keyName = "dropItemsIfFull",
             name = "dropItemsIfFull",
             description = "dropItemsIfFull",
@@ -85,12 +85,23 @@ public interface ActionerConfig extends Config
     }
 
     @ConfigItem(
+            keyName = "dropItemsPriority",
+            name = "dropItemsPriority",
+            description = "dropItemsPriority",
+            position = 7
+    )
+    default boolean dropItemsPriority()
+    {
+        return false;
+    }
+
+    @ConfigItem(
             keyName = "dropItemsList",
             name = "dropItemsList",
             description = "dropItemsList",
             enabledBy = "dropItems",
             enabledByValue = "true",
-            position = 7
+            position = 8
     )
     default String dropItemsList()
     {
@@ -101,7 +112,7 @@ public interface ActionerConfig extends Config
             keyName = "dropsPerTick",
             name = "dropsPerTick",
             description = "dropsPerTick",
-            position = 8
+            position = 9
     )
     default int dropsPerTick()
     {
@@ -112,7 +123,7 @@ public interface ActionerConfig extends Config
             keyName = "stopIfAnimating",
             name = "stopIfAnimating",
             description = "stopIfAnimating",
-            position = 9
+            position = 10
     )
     default boolean stopIfAnimating()
     {
@@ -123,7 +134,7 @@ public interface ActionerConfig extends Config
             keyName = "toBank",
             name = "toBank",
             description = "toBank",
-            position = 10
+            position = 11
     )
     default boolean toBank()
     {
@@ -134,7 +145,7 @@ public interface ActionerConfig extends Config
             keyName = "validItemsList",
             name = "validItemsList",
             description = "validItemsList",
-            position = 11
+            position = 12
     )
     default String validItemsList()
     {
@@ -145,7 +156,7 @@ public interface ActionerConfig extends Config
             keyName = "depositItemsList",
             name = "depositItemsList",
             description = "depositItemsList",
-            position = 12
+            position = 13
     )
     default String depositItemsList()
     {
@@ -156,7 +167,7 @@ public interface ActionerConfig extends Config
             keyName = "withdrawItemsList",
             name = "withdrawItemsList",
             description = "withdrawItemsList",
-            position = 13
+            position = 14
     )
     default String withdrawItemsList()
     {
@@ -168,7 +179,7 @@ public interface ActionerConfig extends Config
             keyName = "maxRange",
             name = "maxRange",
             description = "maxRange",
-            position = 14
+            position = 15
     )
     default int maxRange()
     {
@@ -179,7 +190,7 @@ public interface ActionerConfig extends Config
             keyName = "setNewBank",
             name = "setNewBank",
             description = "setNewBank",
-            position = 15
+            position = 16
     )
     default boolean setNewBank()
     {
@@ -190,7 +201,7 @@ public interface ActionerConfig extends Config
             keyName = "bankLocationString",
             name = "bankLocationString",
             description = "bankLocationString",
-            position = 16
+            position = 17
     )
     default String bankLocationString()
     {
@@ -201,7 +212,7 @@ public interface ActionerConfig extends Config
             keyName = "startLocationString",
             name = "startLocationString",
             description = "startLocationString",
-            position = 17
+            position = 18
     )
     default String startLocationString()
     {
@@ -212,7 +223,7 @@ public interface ActionerConfig extends Config
             keyName = "widgetsToSelect",
             name = "widgetsToSelect",
             description = "widgetsToSelect",
-            position = 18
+            position = 19
     )
     default String widgetsToSelect()
     {
@@ -223,7 +234,7 @@ public interface ActionerConfig extends Config
             keyName = "widgetActionsToDo",
             name = "widgetActionsToDo",
             description = "widgetActionsToDo",
-            position = 19
+            position = 20
     )
     default String widgetActionsToDo()
     {

@@ -258,11 +258,14 @@ public class ActionerPlugin extends Plugin
         }
 
 
-
+        if (config.dropItemsPriority() && config.dropItemsIfFull())
+        {
+            configManager.setConfiguration("unethical-actioner", "dropItemsIfFull", false);
+        }
 
         if (state == 0)
         {
-            if ((config.dropItemsIfFull() && Inventory.isFull()) || droppingItems)
+            if ((config.dropItemsIfFull() && Inventory.isFull()) || droppingItems || config.dropItemsPriority())
             {
                 droppingItems = handleDropItems();
                 if (droppingItems)
@@ -289,7 +292,10 @@ public class ActionerPlugin extends Plugin
             {
                 if (config.isId())
                 {
-                    interactable = Inventory.getFirst(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                    for (Integer interactableInt : getIntListOfConfigString(config.interactable()))
+                    {
+                        interactable = Inventory.getFirst(x -> x.getId() == interactableInt);
+                    }
                 }
                 else
                 {
@@ -305,10 +311,13 @@ public class ActionerPlugin extends Plugin
             {
                 if (config.isId())
                 {
-                    interactable = TileObjects.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
-                    if (interactable == null)
+                    for (Integer interactableInt : getIntListOfConfigString(config.interactable()))
                     {
-                        interactable = NPCs.getNearest(x -> getIntListOfConfigString(config.interactable()).contains(x.getId()));
+                        interactable = TileObjects.getNearest(x -> x.getId() == interactableInt);
+                        if (interactable == null)
+                        {
+                            interactable = NPCs.getNearest(x -> x.getId() == interactableInt);
+                        }
                     }
                 }
                 else
