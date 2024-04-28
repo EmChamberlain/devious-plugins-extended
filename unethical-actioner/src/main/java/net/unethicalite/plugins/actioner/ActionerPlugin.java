@@ -295,6 +295,8 @@ public class ActionerPlugin extends Plugin
                     for (Integer interactableInt : getIntListOfConfigString(config.interactable()))
                     {
                         interactable = Inventory.getFirst(x -> x.getId() == interactableInt);
+                        if (interactable != null)
+                            break;
                     }
                 }
                 else
@@ -318,6 +320,8 @@ public class ActionerPlugin extends Plugin
                         {
                             interactable = NPCs.getNearest(x -> x.getId() == interactableInt);
                         }
+                        if (interactable != null)
+                            break;
                     }
                 }
                 else

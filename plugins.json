@@ -204,6 +204,13 @@
       "version": "0.1.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.1.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-04-28",
+      "sha512sum": "EE92B750D07E5104931EAE9EDD92EAD57553D97922B6AFCA89161C9D90DBD51BF8F67D7CFAB8F3CC7CE9BDDC0F40E41F8DCBFB006C6FD88E147D692CB1C165CE",
+      "version": "0.1.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.1.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
