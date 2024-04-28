@@ -353,30 +353,36 @@ public class ActionerPlugin extends Plugin
                 {
                     // We enforce that it must be the item branch, so we should be able to cast here
                     Item item = (Item) interactable;
-                    TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
-                    if (nearObject != null)
+                    for (String actionStr : config.action().split(","))
                     {
-                        item.useOn(nearObject);
-                        return;
-                    }
+                        TileObject nearObject = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(actionStr.toLowerCase()));
+                        if (nearObject != null)
+                        {
+                            item.useOn(nearObject);
+                            return;
+                        }
 
-                    NPC nearNPC = NPCs.getNearest(x -> x.getName().toLowerCase().contains(config.action().toLowerCase()));
-                    if (nearNPC != null)
-                    {
-                        item.useOn(nearNPC);
-                        return;
+                        NPC nearNPC = NPCs.getNearest(x -> x.getName().toLowerCase().contains(actionStr.toLowerCase()));
+                        if (nearNPC != null)
+                        {
+                            item.useOn(nearNPC);
+                            return;
+                        }
                     }
                 }
                 else
                 {
-                    if (interactable.hasAction(config.action()))
+                    for (String actionStr : config.action().split(","))
                     {
-                        interactable.interact(config.action());
-                        return;
-                    }
-                    else
-                    {
-                        log.info("No action for item: {} which has actions: {}", ((EntityNameable) interactable).getName(), interactable.getActions());
+                        if (interactable.hasAction(actionStr))
+                        {
+                            interactable.interact(actionStr);
+                            return;
+                        }
+                        else
+                        {
+                            log.info("No action for item: {} which has actions: {}", ((EntityNameable) interactable).getName(), interactable.getActions());
+                        }
                     }
                 }
             }
