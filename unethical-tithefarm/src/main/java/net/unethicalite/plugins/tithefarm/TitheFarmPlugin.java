@@ -9,6 +9,8 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
+import net.runelite.client.chat.ChatMessageManager;
+import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -53,6 +55,10 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     @Inject
     private OverlayManager overlayManager;
+
+    @Inject
+    private ChatMessageManager chatMessageManager;
+
 
     private final List<WorldPoint> ORDERED_PLOT_LOCATIONS = List.of(
             new WorldPoint(1813, 3489, 0), new WorldPoint(1814, 3489, 0),
@@ -132,7 +138,8 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (closestObjectPoint == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No closest area point", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No closest area point").build());
+
             return null;
         }
 
@@ -156,7 +163,8 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (plotLoc == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No walkToLocation", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No walkToLocation").build());
+
             return false;
         }
 
@@ -168,14 +176,14 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (closestPlot == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No plot", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No plot").build());
             return false;
         }
 
         Item wateringCan = Inventory.getFirst(x -> x.getName().toLowerCase().contains("atering can("));
         if (wateringCan == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No water", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water").build());
             return false;
         }
 
@@ -196,7 +204,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (plotLoc == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No walkToLocation", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No walkToLocation").build());
             return false;
         }
 
@@ -208,21 +216,21 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (closestPlot == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No plot", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No plot").build());
             return false;
         }
 
         Item seeds = Inventory.getFirst(SEEDS);
         if (seeds == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No seeds", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No seeds").build());
             return false;
         }
 
         Item wateringCan = Inventory.getFirst(x -> x.getName().toLowerCase().contains("atering can("));
         if (wateringCan == null)
         {
-            client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "No water", "CONSOLE");
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water").build());
             return false;
         }
 
@@ -316,7 +324,6 @@ public class TitheFarmPlugin extends LoopedPlugin
             Keyboard.sendEnter();
             return true;
         }
-
         Item fruit = Inventory.getFirst(FRUIT);
         Item seeds = Inventory.getFirst(SEEDS);
         Item fert = Inventory.getFirst(FERTILIZER);
@@ -336,7 +343,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             if (depositObject == null)
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "depositObject null", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("depositObject null").build());
                 return false;
             }
 
@@ -368,9 +375,11 @@ public class TitheFarmPlugin extends LoopedPlugin
                 return false;
             }
 
+
+
             if (door == null)
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "door null", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("door null").build());
                 return false;
             }
 
@@ -388,7 +397,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             if (seedTable == null)
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "seedTable null", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("seedTable null").build());
                 return false;
             }
 
@@ -405,7 +414,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             if (door == null)
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "door null", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("door null").build());
                 return false;
             }
 
@@ -438,18 +447,18 @@ public class TitheFarmPlugin extends LoopedPlugin
             return 1000;
         }
 
-        client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Stage: " + Integer.toString(stage), "CONSOLE");
+        chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Stage: " + Integer.toString(stage)).build());
 
         if (stage == 0)
         {
             if (!stage0Reqs())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Failed 0 reqs", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Failed 0 reqs").build());
                 return NO_ACTION_DELAY;
             }
             if (stage0Actions())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Tried 0 actions", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 0 actions").build());
                 return ACTION_DELAY;
             }
 
@@ -466,12 +475,12 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             if (!stage1Reqs())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Failed 1 reqs", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Failed 1 reqs").build());
                 return NO_ACTION_DELAY;
             }
             if (stage1Actions())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Tried 1 actions", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 1 actions").build());
                 return ACTION_DELAY;
             }
 
@@ -488,12 +497,12 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             if (!stage2Reqs())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Failed 2 reqs", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Failed 2 reqs").build());
                 return NO_ACTION_DELAY;
             }
             if (stage2Actions())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Tried 2 actions", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 2 actions").build());
                 return ACTION_DELAY;
             }
 
@@ -509,12 +518,12 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             if (!stage3Reqs())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Failed 3 reqs", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Failed 3 reqs").build());
                 return NO_ACTION_DELAY;
             }
             if (stage3Actions())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Tried 3 actions", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 3 actions").build());
                 return ACTION_DELAY;
             }
 
@@ -538,12 +547,12 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             if (!stage4Reqs())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Failed 4 reqs", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Failed 4 reqs").build());
                 return NO_ACTION_DELAY;
             }
             if (stage4Actions())
             {
-                client.addChatMessage(ChatMessageType.CONSOLE, "CONSOLE", "Tried 4 actions", "CONSOLE");
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 4 actions").build());
                 return ACTION_DELAY;
             }
 
