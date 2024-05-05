@@ -421,7 +421,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private boolean stage4Reqs()
     {
-        return Inventory.getCount(true, FRUIT) > 100 && TileObjects.getAll(NEED_TO_WATER.get(0)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(1)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(2)).isEmpty() && TileObjects.getAll(HARVESTABLE).isEmpty();
+        return TileObjects.getAll(NEED_TO_WATER.get(0)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(1)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(2)).isEmpty() && TileObjects.getAll(HARVESTABLE).isEmpty();
     }
     private boolean stage4Actions()
     {
@@ -552,6 +552,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             stage = 0;
             substage4 = 0;
+            filled_cans = false;
             return 1000;
         }
 
@@ -567,6 +568,8 @@ public class TitheFarmPlugin extends LoopedPlugin
             if (stage0Actions())
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 0 actions").build());
+                client.setMouseIdleTicks(0);
+                client.setKeyboardIdleTicks(0);
                 return ACTION_DELAY;
             }
 
@@ -583,6 +586,8 @@ public class TitheFarmPlugin extends LoopedPlugin
             if (stage1Actions())
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 1 actions").build());
+                client.setMouseIdleTicks(0);
+                client.setKeyboardIdleTicks(0);
                 return ACTION_DELAY;
             }
 
@@ -599,6 +604,8 @@ public class TitheFarmPlugin extends LoopedPlugin
             if (stage2Actions())
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 2 actions").build());
+                client.setMouseIdleTicks(0);
+                client.setKeyboardIdleTicks(0);
                 return ACTION_DELAY;
             }
 
@@ -614,6 +621,8 @@ public class TitheFarmPlugin extends LoopedPlugin
             if (stage3Actions())
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 3 actions").build());
+                client.setMouseIdleTicks(0);
+                client.setKeyboardIdleTicks(0);
                 return ACTION_DELAY;
             }
 
@@ -629,6 +638,8 @@ public class TitheFarmPlugin extends LoopedPlugin
             if (stage4Actions())
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 4 actions").build());
+                client.setMouseIdleTicks(0);
+                client.setKeyboardIdleTicks(0);
                 return ACTION_DELAY;
             }
 
