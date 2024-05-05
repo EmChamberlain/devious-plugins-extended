@@ -61,6 +61,9 @@ public class TitheFarmPlugin extends LoopedPlugin
 
 
     private final List<WorldPoint> ORDERED_PLOT_LOCATIONS = List.of(
+
+
+
             new WorldPoint(1813, 3489, 0), new WorldPoint(1814, 3489, 0),
             new WorldPoint(1814, 3492, 0), new WorldPoint(1813, 3492, 0),
 
@@ -158,7 +161,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private boolean waterClosestIndex(int index)
     {
-        WorldPoint plotLoc = ORDERED_PLOT_LOCATIONS.get(nextPlotIndex);
+        WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
         TileObject closestPlot = TileObjects.getNearest(plotLoc, NEED_TO_WATER.get(index));
 
         if (plotLoc == null)
@@ -199,7 +202,7 @@ public class TitheFarmPlugin extends LoopedPlugin
             return false;
         }
 
-        WorldPoint plotLoc = ORDERED_PLOT_LOCATIONS.get(nextPlotIndex);
+        WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
         TileObject closestPlot = TileObjects.getNearest(plotLoc, OPEN_PLOT, NEED_TO_WATER.get(0));
 
         if (plotLoc == null)
