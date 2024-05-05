@@ -93,7 +93,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private final WorldPoint START = new WorldPoint(1813, 3489, 0);
 
-    private final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(1807, 3486, 0), new WorldPoint(1835, 3516, 0));
+    private final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(1805, 3486, 0), new WorldPoint(1835, 3516, 0));
 
     //Stage 0 | Reqs: no harvestable and have items | Actions: move to START, plant and water so all are watered index 0 | Moves to: 1
     //Stage 1 | Reqs: no NEED_TO_WATER[0] | Actions: move to START, wait for NEED_TO_WATER[1], water to WATERED[1] | Moves to: 2
@@ -211,6 +211,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         if (client.getLocalPlayer().getWorldLocation().distanceTo(plotLoc) > 1)
         {
             Movement.walkTo(plotLoc);
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Walking to: " + plotLoc.toString()).build());
             return true;
         }
 

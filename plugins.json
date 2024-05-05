@@ -2219,6 +2219,13 @@
       "version": "0.0.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-tithefarm-0.0.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-05",
+      "sha512sum": "CE528B8A55216037A5B4BE5364BD750E9FFC82E488088557469E68408898E78F5FA955FDF0BE6CF6808020DA74B1FBEA1450F8D21CE56C87C50DE57ACD1AD6E8",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-tithefarm-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
