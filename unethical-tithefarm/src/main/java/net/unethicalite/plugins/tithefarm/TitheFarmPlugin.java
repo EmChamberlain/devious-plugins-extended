@@ -93,12 +93,14 @@ public class TitheFarmPlugin extends LoopedPlugin
     private final int DEPOSIT_BIN = 27431;
     private final WorldPoint DOOR_LOC = new WorldPoint(1805, 3501, 0);
     private final int SEED_TABLE = 27430;
+    private final int EMPTY_WATERING_CAN = 5331;
 
     private final WorldPoint START = new WorldPoint(1813, 3489, 0);
 
     private final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(1805, 3486, 0), new WorldPoint(1835, 3516, 0));
 
     private final WorldPoint WATER_LOC = new WorldPoint(1809, 3500, 0);
+    private final int WATER_BARREL = 5598;
 
     //Stage 0 | Reqs: no harvestable and have items | Actions: move to START, plant and water so all are watered index 0 | Moves to: 1
     //Stage 1 | Reqs: no NEED_TO_WATER[0] | Actions: move to START, wait for NEED_TO_WATER[1], water to WATERED[1] | Moves to: 2
@@ -125,6 +127,8 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private final int ACTION_DELAY = 200;
     private final int NO_ACTION_DELAY = 50;
+
+    private boolean filled_cans = false;
 
 
 
@@ -217,7 +221,7 @@ public class TitheFarmPlugin extends LoopedPlugin
     private boolean harvestClosestIndex()
     {
         WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
-        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(3), HARVESTABLE, OPEN_PLOT);
+        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(2), HARVESTABLE, OPEN_PLOT);
 
         if (plotLoc == null)
         {
@@ -245,7 +249,7 @@ public class TitheFarmPlugin extends LoopedPlugin
             return false;
         }
 
-        if (closestPlot.getId() == WATERED.get(3))
+        if (closestPlot.getId() == WATERED.get(2))
         {
             return false;
         }
@@ -269,7 +273,27 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             nextPlotIndex = 0;
             stage = 1;
+            filled_cans = false;
             return false;
+        }
+
+        if (!filled_cans)
+        {
+            Item emptyCan = Inventory.getFirst(EMPTY_WATERING_CAN);
+            if (emptyCan == null)
+                filled_cans = true;
+            else
+            {
+                TileObject waterBarrel = TileObjects.getNearest(WATER_LOC, WATER_BARREL);
+                if (waterBarrel == null)
+                {
+                    chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water barrel").build());
+                    return false;
+                }
+
+                emptyCan.useOn(waterBarrel);
+                return true;
+            }
         }
 
         WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
@@ -386,7 +410,7 @@ public class TitheFarmPlugin extends LoopedPlugin
             return false;
         }
 
-        if (waterClosestIndex(3))
+        if (harvestClosestIndex())
         {
             return true;
         }
@@ -508,36 +532,17 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             if (seeds != null && isInMinigame() && fert == null)
             {
-                substage4 = 6;
+                substage4 = 0;
+                stage = 0;
                 return false;
             }
 
             fert.interact("Drop");
             return true;
         }
-        else if (substage4 == 6)
-        {
-            Item wateringCan = Inventory.getFirst(5331);
-            if (seeds != null && isInMinigame() && fert == null && wateringCan == null)
-            {
-                substage4 = 0;
-                stage = 0;
-                return false;
-            }
-
-            TileObject waterBarrel = TileObjects.getNearest(WATER_LOC, 5598);
-            if (waterBarrel == null)
-            {
-                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water barrel").build());
-                return false;
-            }
-            wateringCan.useOn(waterBarrel);
-            return true;
-        }
 
         return false;
     }
-
 
 
     @Override
