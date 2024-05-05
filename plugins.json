@@ -2202,6 +2202,19 @@
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Unethical TitheFarm",
+  "description": "TitheFarm",
+  "id": "unethicaltithefarm-plugin",
+  "releases": [{
+    "date": "2024-05-05",
+    "sha512sum": "4C42CECBB8BD1C898797E04205284F89675AB2D72002FF4F88659CB77777563753941C78E472018090C5EBF827D48B6622ABC12B630B37DA65987669AD43863E",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-tithefarm-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "Unethical Zulrah",
   "description": "Kills Zulrah for you",
   "id": "unethicalzulrah-plugin",
