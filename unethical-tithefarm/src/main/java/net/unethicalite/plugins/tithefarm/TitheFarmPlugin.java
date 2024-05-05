@@ -161,8 +161,9 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private boolean waterClosestIndex(int index)
     {
+        assert index >= 1;
         WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
-        TileObject closestPlot = TileObjects.getNearest(plotLoc, NEED_TO_WATER.get(index));
+        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(index - 1), NEED_TO_WATER.get(index));
 
         if (plotLoc == null)
         {
@@ -190,8 +191,18 @@ public class TitheFarmPlugin extends LoopedPlugin
             return false;
         }
 
-        wateringCan.useOn(closestPlot);
-        return true;
+        if (closestPlot.getId() == WATERED.get(index - 1))
+        {
+            return false;
+        }
+        else if (closestPlot.getId() == NEED_TO_WATER.get(index))
+        {
+            wateringCan.useOn(closestPlot);
+            nextPlotIndex += 1;
+            return true;
+        }
+
+        return false;
 
     }
     private boolean stage0Actions()
@@ -265,7 +276,6 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (waterClosestIndex(1))
         {
-            nextPlotIndex += 1;
             return true;
         }
 
@@ -286,7 +296,6 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (waterClosestIndex(2))
         {
-            nextPlotIndex += 1;
             return true;
         }
 
@@ -308,7 +317,6 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (waterClosestIndex(3))
         {
-            nextPlotIndex += 1;
             return true;
         }
 
