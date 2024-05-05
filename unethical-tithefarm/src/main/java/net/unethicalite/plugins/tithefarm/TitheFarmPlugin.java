@@ -98,6 +98,8 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(1805, 3486, 0), new WorldPoint(1835, 3516, 0));
 
+    private final WorldPoint WATER_LOC = new WorldPoint(1809, 3500, 0);
+
     //Stage 0 | Reqs: no harvestable and have items | Actions: move to START, plant and water so all are watered index 0 | Moves to: 1
     //Stage 1 | Reqs: no NEED_TO_WATER[0] | Actions: move to START, wait for NEED_TO_WATER[1], water to WATERED[1] | Moves to: 2
     //Stage 2 | Reqs: no NEED_TO_WATER[1] | Actions: move to START, wait for NEED_TO_WATER[2], water to WATERED[2] | Moves to: 3
@@ -111,6 +113,8 @@ public class TitheFarmPlugin extends LoopedPlugin
     //Stage 3 | Reqs: no seeds and outside minigame | Actions: get seeds
     //Stage 4 | Reqs: seeds and outside minigame | Actions: enter
     //Stage 5 | Reqs: seeds and inside minigame | Actions: drop fertilizer
+    //Stage 6 | Reqs: seeds and inside minigame and no fertilizer | Actions: fill watering cans
+
 
 
     private int substage4 = 0;
@@ -201,6 +205,56 @@ public class TitheFarmPlugin extends LoopedPlugin
             return true;
         }
         else if (closestPlot.getId() == WATERED.get(index))
+        {
+            nextPlotIndex += 1;
+            return false;
+        }
+
+        return false;
+
+    }
+
+    private boolean harvestClosestIndex()
+    {
+        WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
+        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(3), HARVESTABLE, OPEN_PLOT);
+
+        if (plotLoc == null)
+        {
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No walkToLocation").build());
+
+            return false;
+        }
+
+        if (client.getLocalPlayer().getWorldLocation().distanceTo(plotLoc) > 1)
+        {
+            Movement.walkTo(plotLoc);
+            return true;
+        }
+
+        if (closestPlot == null)
+        {
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No plot").build());
+            return false;
+        }
+
+        Item wateringCan = Inventory.getFirst(x -> x.getName().toLowerCase().contains("atering can("));
+        if (wateringCan == null)
+        {
+            chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water").build());
+            return false;
+        }
+
+        if (closestPlot.getId() == WATERED.get(3))
+        {
+            return false;
+        }
+        else if (closestPlot.getId() == HARVESTABLE)
+        {
+            closestPlot.interact("Harvest");
+            return true;
+        }
+        else if (closestPlot.getId() == OPEN_PLOT)
         {
             nextPlotIndex += 1;
             return false;
@@ -315,7 +369,6 @@ public class TitheFarmPlugin extends LoopedPlugin
         return false;
     }
 
-
     private boolean stage3Reqs()
     {
         return TileObjects.getAll(NEED_TO_WATER.get(0)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(1)).isEmpty() && TileObjects.getAll(NEED_TO_WATER.get(2)).isEmpty();
@@ -326,7 +379,10 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
 
             nextPlotIndex = 0;
-            stage = 4;
+            if (Inventory.getCount(true, FRUIT) >= 100)
+                stage = 4;
+            else
+                stage = 0;
             return false;
         }
 
@@ -452,12 +508,30 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             if (seeds != null && isInMinigame() && fert == null)
             {
+                substage4 = 6;
+                return false;
+            }
+
+            fert.interact("Drop");
+            return true;
+        }
+        else if (substage4 == 6)
+        {
+            Item wateringCan = Inventory.getFirst(5331);
+            if (seeds != null && isInMinigame() && fert == null && wateringCan == null)
+            {
                 substage4 = 0;
                 stage = 0;
                 return false;
             }
 
-            fert.interact("Drop");
+            TileObject waterBarrel = TileObjects.getNearest(WATER_LOC, 5598);
+            if (waterBarrel == null)
+            {
+                chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("No water barrel").build());
+                return false;
+            }
+            wateringCan.useOn(waterBarrel);
             return true;
         }
 
@@ -491,12 +565,6 @@ public class TitheFarmPlugin extends LoopedPlugin
                 return ACTION_DELAY;
             }
 
-            if (TileObjects.getAll(NEED_TO_WATER.get(0)).isEmpty())
-            {
-                stage = 1;
-                return NO_ACTION_DELAY;
-            }
-
             return NO_ACTION_DELAY;
         }
         else if (stage == 1)
@@ -511,12 +579,6 @@ public class TitheFarmPlugin extends LoopedPlugin
             {
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 1 actions").build());
                 return ACTION_DELAY;
-            }
-
-            if (TileObjects.getAll(NEED_TO_WATER.get(1)).isEmpty())
-            {
-                stage = 2;
-                return NO_ACTION_DELAY;
             }
 
             return NO_ACTION_DELAY;
@@ -535,12 +597,6 @@ public class TitheFarmPlugin extends LoopedPlugin
                 return ACTION_DELAY;
             }
 
-            if (TileObjects.getAll(NEED_TO_WATER.get(2)).isEmpty())
-            {
-               stage = 3;
-                return NO_ACTION_DELAY;
-            }
-
             return NO_ACTION_DELAY;
         }
         else if (stage == 3)
@@ -555,20 +611,6 @@ public class TitheFarmPlugin extends LoopedPlugin
                 chatMessageManager.queue(QueuedMessage.builder().sender("CONSOLE").type(ChatMessageType.CONSOLE).value("Tried 3 actions").build());
                 return ACTION_DELAY;
             }
-
-            if (TileObjects.getAll(HARVESTABLE).isEmpty())
-            {
-                if (Inventory.getCount(true, FRUIT) >= 100)
-                {
-                    stage = 4;
-                }
-                else
-                {
-                    stage = 0;
-                }
-                return NO_ACTION_DELAY;
-            }
-
 
             return NO_ACTION_DELAY;
         }
