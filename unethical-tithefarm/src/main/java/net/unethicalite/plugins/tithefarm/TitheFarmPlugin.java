@@ -163,7 +163,7 @@ public class TitheFarmPlugin extends LoopedPlugin
     {
         assert index >= 1;
         WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
-        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(index - 1), NEED_TO_WATER.get(index));
+        TileObject closestPlot = TileObjects.getNearest(plotLoc, WATERED.get(index - 1), NEED_TO_WATER.get(index), WATERED.get(index));
 
         if (plotLoc == null)
         {
@@ -198,8 +198,12 @@ public class TitheFarmPlugin extends LoopedPlugin
         else if (closestPlot.getId() == NEED_TO_WATER.get(index))
         {
             wateringCan.useOn(closestPlot);
-            nextPlotIndex += 1;
             return true;
+        }
+        else if (closestPlot.getId() == WATERED.get(index))
+        {
+            nextPlotIndex += 1;
+            return false;
         }
 
         return false;
@@ -215,7 +219,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         }
 
         WorldPoint plotLoc = WorldPoint.toLocalInstance(client, ORDERED_PLOT_LOCATIONS.get(nextPlotIndex)).stream().findFirst().orElse(null);
-        TileObject closestPlot = TileObjects.getNearest(plotLoc, OPEN_PLOT, NEED_TO_WATER.get(0));
+        TileObject closestPlot = TileObjects.getNearest(plotLoc, OPEN_PLOT, NEED_TO_WATER.get(0), WATERED.get(0));
 
         if (plotLoc == null)
         {
@@ -255,12 +259,18 @@ public class TitheFarmPlugin extends LoopedPlugin
             seeds.useOn(closestPlot);
             return true;
         }
-        else
+        else if (closestPlot.getId() == NEED_TO_WATER.get(0))
         {
             wateringCan.useOn(closestPlot);
-            nextPlotIndex += 1;
             return true;
         }
+        else if (closestPlot.getId() == WATERED.get(0))
+        {
+            nextPlotIndex += 1;
+            return false;
+        }
+
+        return false;
     }
 
     private boolean stage1Reqs()
