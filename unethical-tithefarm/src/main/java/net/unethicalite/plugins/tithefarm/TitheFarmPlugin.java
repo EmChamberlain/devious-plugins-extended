@@ -119,7 +119,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private final int MAX_PLOTS = 15;
 
-    private final int ACTION_DELAY = 1000;
+    private final int ACTION_DELAY = 200;
     private final int NO_ACTION_DELAY = 50;
 
 
@@ -210,6 +210,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         if (nextPlotIndex > MAX_PLOTS)
         {
             nextPlotIndex = 0;
+            stage = 1;
             return false;
         }
 
@@ -271,6 +272,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         if (nextPlotIndex > MAX_PLOTS)
         {
             nextPlotIndex = 0;
+            stage = 2;
             return false;
         }
 
@@ -291,6 +293,7 @@ public class TitheFarmPlugin extends LoopedPlugin
         if (nextPlotIndex > MAX_PLOTS)
         {
             nextPlotIndex = 0;
+            stage = 3;
             return false;
         }
 
@@ -311,7 +314,9 @@ public class TitheFarmPlugin extends LoopedPlugin
     {
         if (nextPlotIndex > MAX_PLOTS)
         {
+
             nextPlotIndex = 0;
+            stage = 4;
             return false;
         }
 
@@ -456,6 +461,8 @@ public class TitheFarmPlugin extends LoopedPlugin
     {
         if (!config.isEnabled())
         {
+            stage = 0;
+            substage4 = 0;
             return 1000;
         }
 
