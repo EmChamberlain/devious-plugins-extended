@@ -241,4 +241,26 @@ public interface ActionerConfig extends Config
         return "option|target|id|type|p0|p1,option|target|id|type|p0|p1,option|target|id|type|p0|p1";
     }
 
+    @ConfigItem(
+            keyName = "pickUpItems",
+            name = "pickUpItems",
+            description = "pickUpItems",
+            position = 21
+    )
+    default boolean pickUpItems()
+    {
+        return false;
+    }
+
+    @ConfigItem(
+            keyName = "pickUpList",
+            name = "pickUpList",
+            description = "pickUpList",
+            position = 22
+    )
+    default String pickUpList()
+    {
+        return "list,comma,seperated";
+    }
+
 }

@@ -17,6 +17,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.EntityNameable;
 import net.unethicalite.api.Interactable;
 import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.LobbyWorldSelectToggled;
 import net.unethicalite.api.events.LoginIndexChanged;
@@ -285,6 +286,38 @@ public class ActionerPlugin extends Plugin
                 Movement.walkTo(getBankLocation());
                 return;
             }
+
+            if (config.pickUpItems())
+            {
+                TileItem groundItem = null;
+                if (config.isId())
+                {
+                    for (Integer groundInt : getIntListOfConfigString(config.interactable()))
+                    {
+                        groundItem = TileItems.getNearest(x -> x.getId() == groundInt);
+                        if (groundItem != null)
+                            break;
+                    }
+                }
+                else
+                {
+                    for (String groundString : getStringListOfConfigString(config.interactable()))
+                    {
+                        groundItem = TileItems.getNearest(x -> x.getName().toLowerCase().contains(groundString));
+                        if (groundItem != null)
+                            break;
+                    }
+                }
+
+                if (groundItem != null && groundItem.distanceTo(client.getLocalPlayer().getWorldLocation()) <= config.maxRange())
+                {
+                    groundItem.interact("Take");
+                    log.info("Tried to take ground item: {}", groundItem.getName());
+                    return;
+                }
+            }
+
+
 
             Interactable interactable = null;
 

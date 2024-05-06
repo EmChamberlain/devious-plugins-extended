@@ -207,9 +207,16 @@
     },
     {
       "date": "2024-04-28",
-      "sha512sum": "EE92B750D07E5104931EAE9EDD92EAD57553D97922B6AFCA89161C9D90DBD51BF8F67D7CFAB8F3CC7CE9BDDC0F40E41F8DCBFB006C6FD88E147D692CB1C165CE",
+      "sha512sum": "8B2D04FF6DF2F8A6CD38C09CB55F009C72F862D984239874A4D5AADB9021CF02C4021C0C9E75F19DBF1E58EC9A30BF8674EBD971EA32EB058E4DEAA69ABBC8AD",
       "version": "0.1.3",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.1.3.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-06",
+      "sha512sum": "A16F3EEF6A915BD7047CF8D7FDE4BA9FDE463D622F5AF184BA4A42858D4A63389DB7EF58CC530036D7569C6CBB21678835EBA88CD9EA7AB3F4F46235EA7BFF11",
+      "version": "0.1.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-actioner-0.1.4.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
