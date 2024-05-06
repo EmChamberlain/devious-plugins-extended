@@ -302,7 +302,7 @@ public class ActionerPlugin extends Plugin
                 TileItem groundItem = null;
                 if (config.isId())
                 {
-                    for (Integer groundInt : getIntListOfConfigString(config.interactable()))
+                    for (Integer groundInt : getIntListOfConfigString(config.pickUpList()))
                     {
                         groundItem = TileItems.getNearest(x -> x.getId() == groundInt);
                         if (groundItem != null)
@@ -311,7 +311,7 @@ public class ActionerPlugin extends Plugin
                 }
                 else
                 {
-                    for (String groundString : getStringListOfConfigString(config.interactable()))
+                    for (String groundString : getStringListOfConfigString(config.pickUpList()))
                     {
                         groundItem = TileItems.getNearest(x -> x.getName().toLowerCase().contains(groundString));
                         if (groundItem != null)
