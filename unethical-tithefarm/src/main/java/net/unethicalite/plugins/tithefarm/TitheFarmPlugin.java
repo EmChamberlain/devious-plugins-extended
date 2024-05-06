@@ -125,7 +125,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
     private final int MAX_PLOTS = 15;
 
-    private final int ACTION_DELAY = 200;
+    private final int ACTION_DELAY = 500;
     private final int NO_ACTION_DELAY = 50;
 
     private boolean filled_cans = false;
@@ -281,7 +281,10 @@ public class TitheFarmPlugin extends LoopedPlugin
         {
             Item emptyCan = Inventory.getFirst(EMPTY_WATERING_CAN);
             if (emptyCan == null)
+            {
                 filled_cans = true;
+                return false;
+            }
             else
             {
                 TileObject waterBarrel = TileObjects.getNearest(WATER_LOC, WATER_BARREL);

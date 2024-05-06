@@ -1,4 +1,4 @@
-version = "0.0.16"
+version = "0.0.18"
 
 project.extra["PluginName"] = "Unethical TitheFarm"
 project.extra["PluginDescription"] = "TitheFarm"
