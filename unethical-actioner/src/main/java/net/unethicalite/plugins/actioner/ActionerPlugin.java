@@ -111,7 +111,7 @@ public class ActionerPlugin extends Plugin
 
             Item itemToDrop = matchingItemsIterator.next();
             log.info("Dropping item: {}", itemToDrop.getName());
-            itemToDrop.interact("Drop");
+            itemToDrop.interact("Drop", "Release");
             didDrop = true;
         }
         return didDrop;
@@ -210,6 +210,16 @@ public class ActionerPlugin extends Plugin
         String stringToSet = pos.getX() + "," + pos.getY() + "," + pos.getPlane();
         configManager.setConfiguration("unethical-actioner", "bankLocationString", stringToSet);
         log.info("Attempted to set bank location to: {}", stringToSet);
+    }
+
+    private boolean checkActionExists(Interactable interactable)
+    {
+        for (String actionStr : config.action().split(","))
+        {
+            if (interactable.hasAction(actionStr))
+                return true;
+        }
+        return false;
     }
 
 
@@ -348,11 +358,12 @@ public class ActionerPlugin extends Plugin
                 {
                     for (Integer interactableInt : getIntListOfConfigString(config.interactable()))
                     {
-                        interactable = TileObjects.getNearest(x -> x.getId() == interactableInt);
+                        interactable = TileObjects.getNearest(x -> x.getId() == interactableInt && checkActionExists(x));
                         if (interactable == null)
                         {
-                            interactable = NPCs.getNearest(x -> x.getId() == interactableInt);
+                            interactable = NPCs.getNearest(x -> x.getId() == interactableInt && checkActionExists(x));
                         }
+
                         if (interactable != null)
                             break;
                     }
@@ -361,10 +372,10 @@ public class ActionerPlugin extends Plugin
                 {
                     for (String interactableString : getStringListOfConfigString(config.interactable()))
                     {
-                        interactable = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(interactableString));
+                        interactable = TileObjects.getNearest(x -> x.getName().toLowerCase().contains(interactableString) && checkActionExists(x));
                         if (interactable == null)
                         {
-                            interactable = NPCs.getNearest(x -> x.getName().toLowerCase().contains(interactableString));
+                            interactable = NPCs.getNearest(x -> x.getName().toLowerCase().contains(interactableString) && checkActionExists(x));
                         }
 
                         if (interactable != null)
