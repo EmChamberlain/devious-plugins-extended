@@ -440,9 +440,11 @@ public class TitheFarmPlugin extends LoopedPlugin
 
         if (substage4 == 0)
         {
-            if (fruit == null)
+            if (fruit == null || Inventory.getCount(true, FRUIT) < 100)
             {
                 substage4 = 1;
+                substage4 = 0;
+                stage = 0;
                 return false;
             }
 
@@ -458,7 +460,7 @@ public class TitheFarmPlugin extends LoopedPlugin
             return true;
 
         }
-        else if (substage4 == 1)
+        /*else if (substage4 == 1)
         {
             if (seeds == null && isInMinigame())
             {
@@ -539,7 +541,7 @@ public class TitheFarmPlugin extends LoopedPlugin
 
             fert.interact("Drop");
             return true;
-        }
+        }*/
 
         return false;
     }
