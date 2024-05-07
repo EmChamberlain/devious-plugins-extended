@@ -62,32 +62,47 @@ public class LogoutPlugin extends Plugin
 		{
 			Item teleItem = null;
 			String teleAction = null;
+
 			if (wildyLevel <= 30)
 			{
-				for (String teleAction30 : teleActions30)
-				{
-					teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
+					teleItem = Inventory.getFirst(x -> x.hasAction("Commune"));
 					if (teleItem != null)
 					{
-						teleAction = teleAction30;
-						break;
+						teleAction = "Commune";
+					}
+			}
+
+			if (teleItem == null)
+			{
+				if (wildyLevel <= 30)
+				{
+					for (String teleAction30 : teleActions30)
+					{
+						teleItem = Equipment.getFirst(x -> x.hasAction(teleAction30));
+						if (teleItem != null)
+						{
+							teleAction = teleAction30;
+							break;
+						}
+					}
+				}
+
+				if (wildyLevel <= 20)
+				{
+					for (String teleAction20 : teleActions20)
+					{
+						Item newItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
+						if (newItem != null)
+						{
+							teleItem = newItem;
+							teleAction = teleAction20;
+							break;
+						}
 					}
 				}
 			}
 
-			if (wildyLevel <= 20)
-			{
-				for (String teleAction20 : teleActions20)
-				{
-					Item newItem = Equipment.getFirst(x -> x.hasAction(teleAction20));
-					if (newItem != null)
-					{
-						teleItem = newItem;
-						teleAction = teleAction20;
-						break;
-					}
-				}
-			}
+
 
 			if (teleItem == null && wildyLevel <= 20)
 			{
