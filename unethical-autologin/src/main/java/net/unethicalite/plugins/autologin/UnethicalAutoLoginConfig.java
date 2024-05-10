@@ -89,4 +89,15 @@ public interface UnethicalAutoLoginConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigItem(
+			keyName = "neverIdle",
+			name = "Never idle",
+			description = "Automatically makes it so you never idle",
+			position = 7
+	)
+	default boolean neverIdle()
+	{
+		return false;
+	}
 }

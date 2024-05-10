@@ -7,6 +7,7 @@ import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.World;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.GameTick;
 import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
@@ -84,6 +85,19 @@ public class UnethicalAutoLoginPlugin extends Plugin
 			log.info("Logging in!");
 		}
 
+	}
+
+	@Subscribe
+	private void onGameTick(GameTick event)
+	{
+		if (config.neverIdle())
+		{
+			if (client.getMouseIdleTicks() > Math.random() * 600)
+				client.setMouseIdleTicks(0);
+
+			if (client.getKeyboardIdleTicks() > Math.random() * 600)
+				client.setKeyboardIdleTicks(0);
+		}
 	}
 
 	@Subscribe
