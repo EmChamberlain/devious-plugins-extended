@@ -264,14 +264,35 @@ public interface ActionerConfig extends Config
     }
 
     @ConfigItem(
-            keyName = "delay",
-            name = "delay",
-            description = "delay",
+            keyName = "delayList",
+            name = "delayList",
+            description = "delayList",
             position = 23
     )
-    default int delay()
+    default String delayList()
     {
-        return 0;
+        return "0";
+    }
+
+    default int delay(int index)
+    {
+        var splitList = delayList().split(",");
+        if (splitList.length == 0)
+        {
+            return 0;
+        }
+
+        if (splitList.length == 1)
+        {
+            return Integer.parseInt(splitList[0]);
+        }
+
+        if (index >= splitList.length)
+        {
+            return 0;
+        }
+
+        return Integer.parseInt(splitList[index]);
     }
 
 }
