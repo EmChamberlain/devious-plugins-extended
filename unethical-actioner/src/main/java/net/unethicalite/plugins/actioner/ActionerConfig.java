@@ -274,26 +274,4 @@ public interface ActionerConfig extends Config
     {
         return "0";
     }
-
-    default int delay(int index)
-    {
-        var splitList = delayList().split(",");
-        if (splitList.length == 0)
-        {
-            return 0;
-        }
-
-        if (splitList.length == 1)
-        {
-            return Integer.parseInt(splitList[0]);
-        }
-
-        if (index >= splitList.length)
-        {
-            return 0;
-        }
-
-        return Integer.parseInt(splitList[index]);
-    }
-
 }

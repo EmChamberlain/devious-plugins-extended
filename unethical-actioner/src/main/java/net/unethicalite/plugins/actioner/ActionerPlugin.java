@@ -223,6 +223,28 @@ public class ActionerPlugin extends Plugin
         return false;
     }
 
+    private int delay(int index)
+    {
+        var splitList = config.delayList().split(",");
+        if (splitList.length == 0)
+        {
+            return 0;
+        }
+
+        if (splitList.length == 1)
+        {
+            return Integer.parseInt(splitList[0]);
+        }
+
+        if (index >= splitList.length)
+        {
+            return 0;
+        }
+
+        return Integer.parseInt(splitList[index]);
+    }
+
+
 
     @Subscribe
     public void onGameTick(GameTick tick)
@@ -428,7 +450,7 @@ public class ActionerPlugin extends Plugin
                         if (nearObject != null)
                         {
                             item.useOn(nearObject);
-                            nextInteractionTick = client.getTickCount() + config.delay(index);
+                            nextInteractionTick = client.getTickCount() + delay(index);
                             return;
                         }
 
@@ -436,7 +458,7 @@ public class ActionerPlugin extends Plugin
                         if (nearNPC != null)
                         {
                             item.useOn(nearNPC);
-                            nextInteractionTick = client.getTickCount() + config.delay(index);
+                            nextInteractionTick = client.getTickCount() + delay(index);
                             return;
                         }
                         ++index;
@@ -450,8 +472,8 @@ public class ActionerPlugin extends Plugin
                         if (interactable.hasAction(actionStr))
                         {
                             interactable.interact(actionStr);
-                            nextInteractionTick = client.getTickCount() + config.delay(index);
-                            log.info("Attempted to {} with delay {} for index {}", actionStr, config.delay(index), index);
+                            nextInteractionTick = client.getTickCount() + delay(index);
+                            log.info("Attempted to {} with delay {} for index {}", actionStr, delay(index), index);
                             return;
                         }
                         else
