@@ -59,6 +59,7 @@ public class ActionerPlugin extends Plugin
 
 
     int state = 0; // 0 for actioning, 1 for banking
+    private int nextInteractionTick = 0;
 
     @Provides
     public ActionerConfig getConfig(ConfigManager configManager)
@@ -242,6 +243,12 @@ public class ActionerPlugin extends Plugin
             return;
         }
 
+        if (client.getTickCount() < nextInteractionTick)
+        {
+            log.info("Delaying until: {}", nextInteractionTick);
+            return;
+        }
+
 
         if (config.startLocationString().isEmpty())
         {
@@ -264,6 +271,7 @@ public class ActionerPlugin extends Plugin
             {
                 client.interact(menuAutomatedList.get(i));
                 log.info("Tried to interact with menu: {}", menuAutomatedList.get(i).toString());
+                nextInteractionTick = client.getTickCount() + config.delay();
                 return;
             }
         }
@@ -280,7 +288,10 @@ public class ActionerPlugin extends Plugin
             {
                 droppingItems = handleDropItems();
                 if (droppingItems)
+                {
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
+                }
             }
 
             if (Inventory.isFull() && config.toBank() && getInvalidIdCount() <= 0)
@@ -290,10 +301,12 @@ public class ActionerPlugin extends Plugin
                 if (bankLoc == null)
                 {
                     log.info("Bank location is null");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
                 Movement.walkTo(getBankLocation());
+                nextInteractionTick = client.getTickCount() + config.delay();
                 return;
             }
 
@@ -323,6 +336,7 @@ public class ActionerPlugin extends Plugin
                 {
                     groundItem.interact("Take");
                     log.info("Tried to take ground item: {}", groundItem.getName());
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
             }
@@ -395,11 +409,15 @@ public class ActionerPlugin extends Plugin
                 if (localPlayer != null)
                 {
                     if (localPlayer.isAnimating())
+                    {
+                        nextInteractionTick = client.getTickCount() + config.delay();
                         return;
+                    }
                 }
                 else
                 {
                     log.info("local is null so stopping");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
             }
@@ -416,6 +434,7 @@ public class ActionerPlugin extends Plugin
                         if (nearObject != null)
                         {
                             item.useOn(nearObject);
+                            nextInteractionTick = client.getTickCount() + config.delay();
                             return;
                         }
 
@@ -423,6 +442,7 @@ public class ActionerPlugin extends Plugin
                         if (nearNPC != null)
                         {
                             item.useOn(nearNPC);
+                            nextInteractionTick = client.getTickCount() + config.delay();
                             return;
                         }
                     }
@@ -434,6 +454,7 @@ public class ActionerPlugin extends Plugin
                         if (interactable.hasAction(actionStr))
                         {
                             interactable.interact(actionStr);
+                            nextInteractionTick = client.getTickCount() + config.delay();
                             return;
                         }
                         else
@@ -451,6 +472,7 @@ public class ActionerPlugin extends Plugin
                 if (startLoc == null)
                 {
                     log.info("Start location is null");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
@@ -458,6 +480,7 @@ public class ActionerPlugin extends Plugin
                 {
                     log.info("Moving to start location");
                     Movement.walkTo(startLoc);
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
             }
@@ -472,12 +495,14 @@ public class ActionerPlugin extends Plugin
                 if (handleDepositItems())
                 {
                     log.info("Attempted to deposit items");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
                 if (handleWithdrawItems())
                 {
                     log.info("Attempted to deposit items");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
@@ -488,10 +513,12 @@ public class ActionerPlugin extends Plugin
                 if (startLoc == null)
                 {
                     log.info("Start location is null");
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
                 Movement.walkTo(startLoc);
+                nextInteractionTick = client.getTickCount() + config.delay();
                 return;
 
             }
@@ -506,6 +533,7 @@ public class ActionerPlugin extends Plugin
                     if (bankLoc == null)
                     {
                         log.info("Bank location is null");
+                        nextInteractionTick = client.getTickCount() + config.delay();
                         return;
                     }
 
@@ -514,9 +542,11 @@ public class ActionerPlugin extends Plugin
                         log.info("Moving to bank location");
                         Movement.walkTo(bankLoc);
                     }
+                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
                 bankInteractable.interact("Bank", "Use");
+                nextInteractionTick = client.getTickCount() + config.delay();
                 return;
             }
         }

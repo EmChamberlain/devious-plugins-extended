@@ -263,4 +263,15 @@ public interface ActionerConfig extends Config
         return "list,comma,seperated";
     }
 
+    @ConfigItem(
+            keyName = "delay",
+            name = "delay",
+            description = "delay",
+            position = 23
+    )
+    default int delay()
+    {
+        return 0;
+    }
+
 }
