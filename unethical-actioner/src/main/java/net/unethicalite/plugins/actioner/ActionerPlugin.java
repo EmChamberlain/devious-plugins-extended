@@ -271,7 +271,6 @@ public class ActionerPlugin extends Plugin
             {
                 client.interact(menuAutomatedList.get(i));
                 log.info("Tried to interact with menu: {}", menuAutomatedList.get(i).toString());
-                nextInteractionTick = client.getTickCount() + config.delay();
                 return;
             }
         }
@@ -289,7 +288,6 @@ public class ActionerPlugin extends Plugin
                 droppingItems = handleDropItems();
                 if (droppingItems)
                 {
-                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
             }
@@ -410,14 +408,12 @@ public class ActionerPlugin extends Plugin
                 {
                     if (localPlayer.isAnimating())
                     {
-                        nextInteractionTick = client.getTickCount() + config.delay();
                         return;
                     }
                 }
                 else
                 {
                     log.info("local is null so stopping");
-                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
             }
@@ -472,7 +468,6 @@ public class ActionerPlugin extends Plugin
                 if (startLoc == null)
                 {
                     log.info("Start location is null");
-                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
@@ -501,7 +496,7 @@ public class ActionerPlugin extends Plugin
 
                 if (handleWithdrawItems())
                 {
-                    log.info("Attempted to deposit items");
+                    log.info("Attempted to withdraw items");
                     nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
@@ -513,7 +508,6 @@ public class ActionerPlugin extends Plugin
                 if (startLoc == null)
                 {
                     log.info("Start location is null");
-                    nextInteractionTick = client.getTickCount() + config.delay();
                     return;
                 }
 
@@ -533,7 +527,6 @@ public class ActionerPlugin extends Plugin
                     if (bankLoc == null)
                     {
                         log.info("Bank location is null");
-                        nextInteractionTick = client.getTickCount() + config.delay();
                         return;
                     }
 
