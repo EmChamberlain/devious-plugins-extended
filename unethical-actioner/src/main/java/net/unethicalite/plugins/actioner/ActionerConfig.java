@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.actioner;
 
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;

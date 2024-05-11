@@ -451,6 +451,7 @@ public class ActionerPlugin extends Plugin
                         {
                             interactable.interact(actionStr);
                             nextInteractionTick = client.getTickCount() + config.delay(index);
+                            log.info("Attempted to {} with delay {} for index {}", actionStr, config.delay(index), index);
                             return;
                         }
                         else
