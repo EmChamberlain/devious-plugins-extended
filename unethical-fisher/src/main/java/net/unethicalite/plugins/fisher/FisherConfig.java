@@ -129,4 +129,11 @@ public interface FisherConfig extends Config
             position = 12)
     default WorldPoint fishWorldPoint(){return new WorldPoint(2848, 3431, 0);}
 
+    @ConfigItem(
+            keyName = "dropsPerTick",
+            name = "dropsPerTick",
+            description = "",
+            position = 13)
+    default int dropsPerTick(){return 4;}
+
 }

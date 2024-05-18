@@ -65,6 +65,8 @@ public class FisherPlugin extends LoopedPlugin
 
     private int fishingUntil = 0;
 
+    private boolean droppingFish = false;
+
     public boolean isFishing()
     {
         if (client.getLocalPlayer().getAnimation() != -1 && fishingAnimations.contains(client.getLocalPlayer().getAnimation()))
@@ -153,16 +155,24 @@ public class FisherPlugin extends LoopedPlugin
     private boolean handleDropFish()
     {
         if (isCooking() || isFishing() || Bank.isOpen())
+        {
+            droppingFish = false;
             return false;
+        }
         for (String fish : getCookedFishList())
         {
-            var fishToDrop = Inventory.getFirst(x -> x.getName().toLowerCase().contains(fish) && x.hasAction("Drop"));
-            if (fishToDrop != null)
+            var fishToDrop = Inventory.getAll(x -> x.getName().toLowerCase().contains(fish) && x.hasAction("Drop"));
+            if (fishToDrop != null && !fishToDrop.isEmpty())
             {
-                fishToDrop.interact("Drop");
+                for (int i = 0; i < config.dropsPerTick(); i++)
+                {
+                    fishToDrop.get(i).interact("Drop");
+                }
+                droppingFish = true;
                 return true;
             }
         }
+        droppingFish = false;
         return false;
     }
 
@@ -362,6 +372,16 @@ public class FisherPlugin extends LoopedPlugin
         {
             log.info("Tried to click on widget");
             return 5000;
+        }
+
+        if (droppingFish)
+        {
+            actionTakenThisTick = handleDropFish();
+            if (actionTakenThisTick)
+            {
+                log.info("Continuing to drop fish");
+                return 500;
+            }
         }
 
         actionTakenThisTick = handleMoveToFishingSpot();
