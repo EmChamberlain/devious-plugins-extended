@@ -58,7 +58,7 @@ public class FisherPlugin extends LoopedPlugin
     @Inject private OverlayManager overlayManager;
     private boolean overlayEnabled;
 
-    private static final List<Integer> fishingAnimations = List.of(618, 619, 622, 6703, 6704, 6707, 6708, 6709, 7261, 1193);
+    private static final List<Integer> fishingAnimations = List.of(618, 619, 622, 6703, 6704, 6707, 6708, 6709, 7261, 1193, 9349, 9350);
     private static final List<Integer> cookingAnimations = List.of(883, 896, 897);
 
     private int cookingUntil = 0;
