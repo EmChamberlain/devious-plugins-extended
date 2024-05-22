@@ -54,7 +54,9 @@ public class DragonFarmerPlugin extends LoopedPlugin
     private boolean needToMove = false;
     private int state = 0; // 0 is needing to bank, 1 is needing to kill dragons, 2 is needing to restore prayer
 
-    private final WorldPoint DRAGON_LOCATION = new WorldPoint(1943, 8996, 1);
+    private final WorldPoint GREEN_DRAGON_LOCATION = new WorldPoint(1943, 8996, 1);
+    private final WorldPoint BLUE_DRAGON_LOCATION = new WorldPoint(1932, 8975, 1);
+
     private final WorldPoint BANK_LOCATION = new WorldPoint(2465, 2848, 1);
 
 
@@ -142,7 +144,8 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 Item whip = Inventory.getFirst(x -> x.getName().toLowerCase().contains("whip"));
                 Item hasta = Inventory.getFirst(x -> x.getName().toLowerCase().contains("hasta"));
                 Item fang = Inventory.getFirst(x -> x.getName().toLowerCase().contains("fang"));
-                List<Integer> validIds = List.of(cape == null ? -1 : cape.getId(), antifire == null ? -1 : antifire.getId(), dagger == null ? -1 : dagger.getId(), whip == null ? -1 : whip.getId(), hasta == null ? -1 : hasta.getId(), fang == null ? -1 : fang.getId(), ItemID.OSMUMTENS_FANG);
+                Item lance = Inventory.getFirst(x -> x.getName().toLowerCase().contains("lance"));
+                List<Integer> validIds = List.of(cape == null ? -1 : cape.getId(), antifire == null ? -1 : antifire.getId(), dagger == null ? -1 : dagger.getId(), whip == null ? -1 : whip.getId(), hasta == null ? -1 : hasta.getId(), fang == null ? -1 : fang.getId(), ItemID.OSMUMTENS_FANG, lance == null ? -1 : lance.getId());
                 Item itemToDeposit = Inventory.getFirst(x -> !validIds.contains(x.getId()));
 
                 if (itemToDeposit != null)
@@ -295,6 +298,11 @@ public class DragonFarmerPlugin extends LoopedPlugin
         return 1000;
     }
 
+    private WorldPoint getDragonLocation()
+    {
+        return BLUE_DRAGON_LOCATION;//TODO expand this
+    }
+
     private boolean handleMoveToStateLocation()
     {
         Player localPlayer = client.getLocalPlayer();
@@ -337,9 +345,9 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 return true;
             }
 
-            if (needToMove && localPlayer.getWorldLocation().distanceTo(DRAGON_LOCATION) > 3)
+            if (needToMove && localPlayer.getWorldLocation().distanceTo(getDragonLocation()) > 3)
             {
-                Movement.walkTo(DRAGON_LOCATION);
+                Movement.walkTo(getDragonLocation());
                 return true;
             }
 
@@ -350,9 +358,9 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 return false;
             }
 
-            if (localPlayer.getWorldLocation().distanceTo(DRAGON_LOCATION) > 50)
+            if (localPlayer.getWorldLocation().distanceTo(getDragonLocation()) > 50)
             {
-                Movement.walkTo(DRAGON_LOCATION);
+                Movement.walkTo(getDragonLocation());
                 return true;
             }
 
