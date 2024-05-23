@@ -1291,6 +1291,13 @@
       "version": "0.2.3",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.2.3.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-22",
+      "sha512sum": "0AB92C862E6F81D26A97A78EC3A2F51AC79DD1E789AD1C192DE430C9982FDA4DE3F45B5C11C44ECEC0983D96B3C1CB31EB59EBF31F04FE629A745415126EA045",
+      "version": "0.2.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.2.4.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -1561,6 +1568,19 @@
       "requires": "^1.0.0"
     }
   ]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
+  "name": "Unethical GOTR",
+  "description": "GOTR",
+  "id": "unethicalgotr-plugin",
+  "releases": [{
+    "date": "2024-05-22",
+    "sha512sum": "30D0B4C1350BA4BFA86CA05E34647C5B433CF16D41F75890BB532F8FF54FA1778B8E2633AF68C8BF2605DEA10530080F49DB4408455CC3E07507E422500CF028",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

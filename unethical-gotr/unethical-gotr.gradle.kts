@@ -1,8 +1,11 @@
-version = "0.2.4"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Unethical DragonFarmer"
-project.extra["PluginDescription"] = "DragonFarmer"
+project.extra["PluginName"] = "Unethical GOTR"
+project.extra["PluginDescription"] = "GOTR"
 
+dependencies {
+    implementation("com.datbear:library:1.1")
+}
 tasks {
     jar {
         manifest {

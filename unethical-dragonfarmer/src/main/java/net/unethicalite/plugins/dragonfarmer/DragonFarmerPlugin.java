@@ -104,6 +104,8 @@ public class DragonFarmerPlugin extends LoopedPlugin
         if (handleEmergencyCheck())
         {
             log.info("EMERGENCY TRIGGERED!");
+            configManager.setConfiguration("unethical-dragonfarmer", "isEnabled", false);//we want to stop doing what we were just doing after teleporting out
+            configManager.setConfiguration("hootautologin",  "neverIdle", false);//this is just so we actually log out eventually
             return 500;
         }
 

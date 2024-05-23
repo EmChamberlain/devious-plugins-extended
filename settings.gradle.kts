@@ -60,6 +60,7 @@ include("unethical-blastfurnace")
 include("unethical-dodgegraphics")
 include("unethical-dragonfarmer")
 include("unethical-tithefarm")
+include("unethical-gotr")
 //include("unethical-buylooper")
 //include("example-kotlin")
 
@@ -72,3 +73,4 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
+
