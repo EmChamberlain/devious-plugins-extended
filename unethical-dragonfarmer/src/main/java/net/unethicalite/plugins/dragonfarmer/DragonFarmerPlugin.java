@@ -185,6 +185,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                 else
                 {
                     state = 1;
+                    needToMove = true;
                     cape.interact("Teleport");
                     return 2500;
                 }
@@ -214,6 +215,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                         return 500;
                     }
 
+                    needToMove = true;
                     cape.interact("Teleport");
                     return 500;
                 }
@@ -234,6 +236,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                     return 500;
                 }
 
+                needToMove = true;
                 cape.interact("Teleport");
                 return 500;
             }
@@ -248,6 +251,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
                     return 1000;
                 }
 
+                needToMove = true;
                 cape.interact("Teleport");
                 return 500;
             }
@@ -264,6 +268,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
             Item houseTab = Inventory.getFirst(x -> x.getId() == ItemID.TELEPORT_TO_HOUSE);
             if (houseTab != null)
             {
+                needToMove = true;
                 houseTab.interact("Break");
                 return 500;
             }
