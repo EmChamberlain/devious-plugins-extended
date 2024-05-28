@@ -279,14 +279,15 @@ public class DragonFarmerPlugin extends LoopedPlugin
                     return 500;
                 }
 
+                needToMove = true;
                 cape.interact("Teleport");
                 return 500;
             }
 
-            TileObject altar = TileObjects.getNearest(x -> x.hasAction("Pray"));
+            TileObject altar = TileObjects.getNearest(x -> x.hasAction("Drink"));
             if (altar != null)
             {
-                altar.interact("Pray");
+                altar.interact("Drink");
                 return 500;
             }
         }
