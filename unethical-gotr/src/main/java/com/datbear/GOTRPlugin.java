@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+
 @Extension
 @PluginDescriptor(
         name = "Unethical GOTR",
@@ -31,6 +32,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GOTRPlugin extends LoopedPlugin
 {
+
+    private enum STATE
+    {
+        ENTER_AREA,
+        COLLECT_MATS,
+        MINE_FRAGS_SHORTCUT,
+        CRAFT_ESSENCE,
+        USE_ALTAR,
+        MINE_FRAGS_PORTAL,
+        REDEEM_USE_ALTAR,
+        REDEEM_DEPOSIT
+    }
 
     @Inject
     private Client client;
@@ -44,7 +57,10 @@ public class GOTRPlugin extends LoopedPlugin
     private OverlayManager overlayManager;
 
 
+    private STATE state = STATE.ENTER_AREA;
 
+    @Inject
+    private GuardiansOfTheRiftHelperPlugin helperPlugin;
 
 
     @Subscribe
@@ -57,13 +73,24 @@ public class GOTRPlugin extends LoopedPlugin
 
     }
 
+
+
     @Override
     protected int loop()
     {
         if (!config.isEnabled())
         {
+            state = STATE.ENTER_AREA;
             return 1000;
         }
+
+        if (helperPlugin == null)
+        {
+            log.info("Helper plugin is null");
+            return 1000;
+        }
+
+        log.info("In minigame?: {}", helperPlugin.isInMinigame());
 
         log.info("End of switch, idling");
         return 1000;

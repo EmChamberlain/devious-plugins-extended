@@ -1588,13 +1588,22 @@
   "name": "Unethical GOTR",
   "description": "GOTR",
   "id": "unethicalgotr-plugin",
-  "releases": [{
-    "date": "2024-05-22",
-    "sha512sum": "30D0B4C1350BA4BFA86CA05E34647C5B433CF16D41F75890BB532F8FF54FA1778B8E2633AF68C8BF2605DEA10530080F49DB4408455CC3E07507E422500CF028",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-05-22",
+      "sha512sum": "30D0B4C1350BA4BFA86CA05E34647C5B433CF16D41F75890BB532F8FF54FA1778B8E2633AF68C8BF2605DEA10530080F49DB4408455CC3E07507E422500CF028",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-29",
+      "sha512sum": "D0108C751595D9F09DD2B4D1E1BEF577206A481D170DEAFB80AEC2EA66AA36AB1068DEB1FF9E0F427F1C04036DACCD19E545EB6D8BF43F4A845D068C8B1B0F8D",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",
