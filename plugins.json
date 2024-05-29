@@ -1609,6 +1609,13 @@
       "version": "0.0.3",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.3.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-29",
+      "sha512sum": "3914AEE6613D995DFC43C6C276D01F9FDC4E43792B2C7DE4EE3EF158EDD679D4E3040E76DE76AD7EE27419A5E3706EF4B56EB79F3D705ED70A37DC8200B83CBB",
+      "version": "0.0.4",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {

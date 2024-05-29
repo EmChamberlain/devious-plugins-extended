@@ -10,8 +10,10 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginManager;
+import net.runelite.client.plugins.xptracker.XpTrackerPlugin;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
         description = "GOTR",
         enabledByDefault = false
 )
+@PluginDependency(GuardiansOfTheRiftHelperPlugin.class)
 @Slf4j
 public class GOTRPlugin extends LoopedPlugin
 {
