@@ -9,7 +9,9 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -56,10 +58,12 @@ public class GOTRPlugin extends LoopedPlugin
     @Inject
     private OverlayManager overlayManager;
 
+    @Inject
+    private PluginManager pluginManager;
+
 
     private STATE state = STATE.ENTER_AREA;
 
-    @Inject
     private GuardiansOfTheRiftHelperPlugin helperPlugin;
 
 
@@ -86,7 +90,10 @@ public class GOTRPlugin extends LoopedPlugin
 
         if (helperPlugin == null)
         {
-            log.info("Helper plugin is null");
+            log.info("Helper plugin is null attempting to get helper plugin");
+            helperPlugin = getHelperPlugin();
+            if (helperPlugin == null)
+                log.info("Unable to get helper plugin!");
             return 1000;
         }
 
@@ -94,6 +101,29 @@ public class GOTRPlugin extends LoopedPlugin
 
         log.info("End of switch, idling");
         return 1000;
+    }
+
+    private GuardiansOfTheRiftHelperPlugin getHelperPlugin()
+    {
+        Collection<Plugin> plugins = pluginManager.getPlugins();
+        for (var plugin : plugins)
+        {
+            if (plugin instanceof GuardiansOfTheRiftHelperPlugin)
+            {
+                log.info("Found helper plugin");
+                if (pluginManager.isPluginEnabled(plugin))
+                {
+                    log.info("Helper plugin is enabled!");
+                    return (GuardiansOfTheRiftHelperPlugin) plugin;
+                }
+                else
+                {
+                    log.info("Helper plugin is not enabled!");
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 
 
