@@ -6,7 +6,7 @@
   "id": "guardiansoftherifthelper-plugin",
   "releases": [{
     "date": "2024-05-29",
-    "sha512sum": "DEBDF324E589B987AF4767566D1A85C29CC0C5E44E9D257CDEE69BDD763BABDDA1B8B86F6324AB66511A351806CC53298057C55DFDA78F27076D8FA77B348F63",
+    "sha512sum": "0EFC34A7BA27735B311F238E9156025B5E72ADBDB0B5FD52828D518E0892E047217EDF867E5E3430415935440E98EB96053FDD12F2FF264A4F990BD437CB1F48",
     "version": "0.0.1",
     "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/Guardians-of-the-Rift-Helper-0.0.1.jar?raw=true",
     "requires": "^1.0.0"
@@ -1628,6 +1628,13 @@
       "sha512sum": "D8EA34408779F0D079F4151478F600B287A8798048A22509E229B2125EF4576C600A6DE02EB2A02BF83E53DE8D0FF1E10E351D84E693B80AD1CDC99EAB6A971D",
       "version": "0.0.4",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.4.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-05-29",
+      "sha512sum": "6D9826F81441DCDB33B340868159EA2C1457B29508F7BC191C8FCD04FCABFEB20C12D20EEBDB79B3AD1C670A273132066B48D1122911916AB6024F119D2699EA",
+      "version": "0.0.5",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.5.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]

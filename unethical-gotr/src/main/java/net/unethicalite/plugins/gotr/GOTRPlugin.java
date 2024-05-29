@@ -234,6 +234,16 @@ public class GOTRPlugin extends LoopedPlugin
             return 1000;
         }
 
+        if (isInMainRegion)
+        {
+            log.info("You are in the main region for GOTR");
+        }
+
+        if(isInMinigame)
+        {
+            log.info("You are in the minigame GOTR");
+        }
+
 
         log.info("End of switch, idling");
         return 1000;
