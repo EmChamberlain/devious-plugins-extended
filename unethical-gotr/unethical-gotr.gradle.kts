@@ -4,7 +4,7 @@ project.extra["PluginName"] = "Unethical GOTR"
 project.extra["PluginDescription"] = "GOTR"
 
 dependencies {
-    implementation(project(":Guardians-of-the-Rift-Helper"))
+    implementation(project(":guardians-of-the-rift-helper"))
 }
 tasks {
     jar {

@@ -61,7 +61,7 @@ include("unethical-dodgegraphics")
 include("unethical-dragonfarmer")
 include("unethical-tithefarm")
 include("unethical-gotr")
-include("Guardians-of-the-Rift-Helper")
+include("guardians-of-the-rift-helper")
 //include("unethical-buylooper")
 //include("example-kotlin")
 

@@ -1,4 +1,4 @@
-package com.datbear;
+package net.unethicalite.plugins.gotr;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
