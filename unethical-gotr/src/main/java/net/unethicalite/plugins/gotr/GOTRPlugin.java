@@ -24,6 +24,8 @@ import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
@@ -91,6 +93,7 @@ public class GOTRPlugin extends LoopedPlugin
 
     private static final int UNCHARGED_CELL_ITEM_ID = 26882;
     private static final int UNCHARGED_CELL_GAMEOBJECT_ID = 43732;
+    private static final int TODO_WEAK_CELL_GAMEOBJECT_ID = 43732;
     private static final int CHISEL_ID = 1755;
     private static final int OVERCHARGED_CELL_ID = 26886;
 
@@ -125,6 +128,8 @@ public class GOTRPlugin extends LoopedPlugin
     private NPC greatGuardian;
     @Getter(AccessLevel.PACKAGE)
     private GameObject unchargedCellTable;
+    @Getter(AccessLevel.PACKAGE)
+    private GameObject weakCellTable;
     @Getter(AccessLevel.PACKAGE)
     private GameObject catalyticEssencePile;
     @Getter(AccessLevel.PACKAGE)
@@ -230,19 +235,90 @@ public class GOTRPlugin extends LoopedPlugin
             return 1000;
         }
 
-        if (isInMainRegion)
+        if (!isInMainRegion)
         {
-            log.info("You are in the main region for GOTR");
+            log.info("You are not in the main region for GOTR, idling");
+            return 1000;
+        }
+        /*
+        if ()
+        {
+            log.info("");
+            return 500;
+        }
+        */
+
+
+        switch(state) {
+            case ENTER_AREA:
+                if (enterMinigame())
+                {
+                    log.info("enterMinigame");
+                    return 500;
+                }
+
+                if (Reachable.isInteractable(unchargedCellTable))
+                {
+                    log.info("Changing from ENTER_AREA to COLLECT_MATS");
+                    state = STATE.COLLECT_MATS;
+                    return 0;
+                }
+
+                break;
+            case COLLECT_MATS:
+                if (getWeakCell())
+                {
+                    log.info("getWeakCell");
+                    return 500;
+                }
+                if (getUnchargedCell())
+                {
+                    log.info("getUnchargedCell");
+                    return 500;
+                }
+                break;
+            case MINE_FRAGS_SHORTCUT:
+                break;
+            case CRAFT_ESSENCE:
+                break;
+            case USE_ALTAR:
+                break;
+            case MINE_FRAGS_PORTAL:
+                break;
+            case REDEEM_USE_ALTAR:
+                break;
+            case REDEEM_DEPOSIT:
+                break;
+            default:
+                log.info("End of SWITCH, idling");
+                return 1000;
         }
 
-        if(isInMinigame)
-        {
-            log.info("You are in the minigame GOTR");
-        }
 
 
-        log.info("End of switch, idling");
+        log.info("End of LOOP, idling");
         return 1000;
+    }
+
+    private boolean getUnchargedCell()
+    {
+        if (!Reachable.isInteractable(unchargedCellTable) || Inventory.contains())
+            return false;
+        unchargedCellTable.interact(TODO);
+        return true;
+    }
+
+    private boolean getWeakCell()
+    {
+        if (!Reachable.isInteractable(weakCellTable))
+            return false;
+        weakCellTable.interact(TODO);
+        return true;
+    }
+
+    private boolean enterMinigame()
+    {
+        return false;
     }
 
     @Subscribe
@@ -366,6 +442,10 @@ public class GOTRPlugin extends LoopedPlugin
         }
 
         if(gameObject.getId() == UNCHARGED_CELL_GAMEOBJECT_ID){
+            unchargedCellTable = gameObject;
+        }
+
+        if(gameObject.getId() == WEAK_CELL_GAMEOBJECT_ID){
             unchargedCellTable = gameObject;
         }
 
