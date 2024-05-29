@@ -1,6 +1,19 @@
 [{
   "projectUrl": "",
   "provider": "EmChamberlain",
+  "name": "Guardians of the Rift Helper",
+  "description": "Guardians of the Rift Helper",
+  "id": "guardiansoftherifthelper-plugin",
+  "releases": [{
+    "date": "2024-05-29",
+    "sha512sum": "DEBDF324E589B987AF4767566D1A85C29CC0C5E44E9D257CDEE69BDD763BABDDA1B8B86F6324AB66511A351806CC53298057C55DFDA78F27076D8FA77B348F63",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/Guardians-of-the-Rift-Helper-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
   "name": "mAuto Switcher",
   "description": "Auto switch gear by pressing hot key",
   "id": "mautoswitcher-plugin",
@@ -1612,7 +1625,7 @@
     },
     {
       "date": "2024-05-29",
-      "sha512sum": "3914AEE6613D995DFC43C6C276D01F9FDC4E43792B2C7DE4EE3EF158EDD679D4E3040E76DE76AD7EE27419A5E3706EF4B56EB79F3D705ED70A37DC8200B83CBB",
+      "sha512sum": "D8EA34408779F0D079F4151478F600B287A8798048A22509E229B2125EF4576C600A6DE02EB2A02BF83E53DE8D0FF1E10E351D84E693B80AD1CDC99EAB6A971D",
       "version": "0.0.4",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.4.jar?raw=true",
       "requires": "^1.0.0"

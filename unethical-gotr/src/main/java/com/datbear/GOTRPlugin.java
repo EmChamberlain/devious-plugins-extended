@@ -9,7 +9,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.plugins.Plugin;
+import net.runelite.client.plugins.OPRSExternalPluginManager;
 import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.PluginManager;
@@ -20,6 +20,8 @@ import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 import org.pf4j.Extension;
+import org.pf4j.Plugin;
+import org.pf4j.PluginWrapper;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -62,11 +64,12 @@ public class GOTRPlugin extends LoopedPlugin
     private OverlayManager overlayManager;
 
     @Inject
-    private PluginManager pluginManager;
+    private OPRSExternalPluginManager pluginManager;
 
 
     private STATE state = STATE.ENTER_AREA;
 
+    @Inject
     private GuardiansOfTheRiftHelperPlugin helperPlugin;
 
 
@@ -94,7 +97,7 @@ public class GOTRPlugin extends LoopedPlugin
         if (helperPlugin == null)
         {
             log.info("Helper plugin is null attempting to get helper plugin");
-            helperPlugin = getHelperPlugin();
+            //helperPlugin = getHelperPlugin();
             if (helperPlugin == null)
                 log.info("Unable to get helper plugin!");
             return 1000;
@@ -106,28 +109,21 @@ public class GOTRPlugin extends LoopedPlugin
         return 1000;
     }
 
-    private GuardiansOfTheRiftHelperPlugin getHelperPlugin()
+    /*private GuardiansOfTheRiftHelperPlugin getHelperPlugin()
     {
-        Collection<Plugin> plugins = pluginManager.getPlugins();
-        for (var plugin : plugins)
+        List<PluginWrapper> plugins = pluginManager.getStartedPlugins();
+        for (var pluginWrapper : plugins)
         {
+            Plugin plugin = pluginWrapper.getPlugin();
             if (plugin instanceof GuardiansOfTheRiftHelperPlugin)
             {
                 log.info("Found helper plugin");
-                if (pluginManager.isPluginEnabled(plugin))
-                {
-                    log.info("Helper plugin is enabled!");
-                    return (GuardiansOfTheRiftHelperPlugin) plugin;
-                }
-                else
-                {
-                    log.info("Helper plugin is not enabled!");
-                    return null;
-                }
+                return (GuardiansOfTheRiftHelperPlugin) plugin;
             }
         }
+        log.info("Did NOT find helper plugin");
         return null;
-    }
+    }*/
 
 
     @Subscribe

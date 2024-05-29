@@ -4,7 +4,7 @@ project.extra["PluginName"] = "Unethical GOTR"
 project.extra["PluginDescription"] = "GOTR"
 
 dependencies {
-    implementation("com.datbear:library:1.1")
+    implementation(project(":Guardians-of-the-Rift-Helper"))
 }
 tasks {
     jar {
