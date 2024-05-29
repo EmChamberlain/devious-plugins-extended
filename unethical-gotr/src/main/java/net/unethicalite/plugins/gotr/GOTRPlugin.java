@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
         description = "GOTR",
         enabledByDefault = false
 )
-@PluginDependency(GuardiansOfTheRiftHelperPlugin.class)
+
 @Slf4j
 public class GOTRPlugin extends LoopedPlugin
 {
@@ -73,10 +73,6 @@ public class GOTRPlugin extends LoopedPlugin
 
     @Inject
     private OverlayManager overlayManager;
-
-    @Inject
-    private OPRSExternalPluginManager pluginManager;
-
 
     private STATE state = STATE.ENTER_AREA;
 
@@ -463,36 +459,6 @@ public class GOTRPlugin extends LoopedPlugin
     GOTRConfig provideConfig(ConfigManager configManager)
     {
         return configManager.getConfig(GOTRConfig.class);
-    }
-
-    public Color getTimeSincePortalColor(int timeSincePortal)
-    {
-        if (isFirstPortal)
-        {
-            // first portal takes about 40 more seconds to spawn
-            timeSincePortal -= 40;
-        }
-        if (timeSincePortal >= 108)
-        {
-            return Color.RED;
-        }
-        else if(timeSincePortal >= 85)
-        {
-            return Color.YELLOW;
-        }
-        return Color.GREEN;
-    }
-
-    public int getParentWidgetId() {
-        return PARENT_WIDGET_ID;
-    }
-
-    public int getPortalWidgetId() {
-        return PORTAL_WIDGET_ID;
-    }
-
-    public int getPortalSpriteId() {
-        return PORTAL_SPRITE_ID;
     }
 
     private static Widget getWidget(Predicate<String> predicate)

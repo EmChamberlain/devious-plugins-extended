@@ -1,11 +1,8 @@
-version = "0.0.5"
+version = "0.0.6"
 
 project.extra["PluginName"] = "Unethical GOTR"
 project.extra["PluginDescription"] = "GOTR"
 
-dependencies {
-    implementation(project(":guardians-of-the-rift-helper"))
-}
 tasks {
     jar {
         manifest {

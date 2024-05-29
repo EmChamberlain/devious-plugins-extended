@@ -44,11 +44,6 @@ public class GuardianInfo {
         this.cellType = cellType;
     }
 
-    public BufferedImage getRuneImage(ItemManager itemManager) {
-        return itemManager.getImage(runeId);
-    }
-    public BufferedImage getTalismanImage(ItemManager itemManager) { return itemManager.getImage(talismanId); }
-
     public void spawn(){
         spawnTime = Optional.of(Instant.now());
     }
@@ -57,22 +52,4 @@ public class GuardianInfo {
         spawnTime = Optional.empty();
     }
 
-    public Color getColor(GuardiansOfTheRiftHelperConfig config){
-        if(config.colorGuardiansByTier()){
-            switch(cellType){
-                case Weak:
-                    return config.weakGuardianColor();
-                case Medium:
-                    return config.mediumGuardianColor();
-                case Strong:
-                    return config.strongGuardianColor();
-                case Overcharged:
-                    return config.overchargedGuardianColor();
-            }
-        } else {
-            return isCatalytic ? config.catalyticGuardianColor() : config.elementalGuardianColor();
-        }
-
-        return Color.WHITE;
-    }
 }
