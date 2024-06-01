@@ -1,5 +1,6 @@
 package net.unethicalite.plugins.gotr;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 
@@ -60,6 +61,7 @@ public class GOTRPlugin extends LoopedPlugin
 {
 
 
+
     private enum STATE
     {
         ENTER_AREA,
@@ -87,9 +89,38 @@ public class GOTRPlugin extends LoopedPlugin
 
     private static final int MINIGAME_MAIN_REGION = 14484;
 
-    private static final Set<Integer> GUARDIAN_IDS = ImmutableSet.of(43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712, 43707, 43706, 43709, 43702);
+    private static final Set<Integer> GUARDIAN_IDS = ImmutableSet.of(
+            ObjectID.GUARDIAN_OF_AIR,
+            ObjectID.GUARDIAN_OF_WATER,
+            ObjectID.GUARDIAN_OF_EARTH,
+            ObjectID.GUARDIAN_OF_FIRE,
+            ObjectID.GUARDIAN_OF_MIND,
+            ObjectID.GUARDIAN_OF_CHAOS,
+            ObjectID.GUARDIAN_OF_DEATH,
+            ObjectID.GUARDIAN_OF_BLOOD,
+            ObjectID.GUARDIAN_OF_BODY,
+            ObjectID.GUARDIAN_OF_COSMIC,
+            ObjectID.GUARDIAN_OF_NATURE,
+            ObjectID.GUARDIAN_OF_LAW);
 
-    private static final Set<Integer> ELEMENTAL_GUARDIAN_IDS = ImmutableSet.of(TODO, 43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712, 43707, 43706, 43709, 43702);
+    private static final Set<Integer> ELEMENTAL_GUARDIAN_IDS = ImmutableSet.of(
+            ObjectID.GUARDIAN_OF_AIR,
+            ObjectID.GUARDIAN_OF_WATER,
+            ObjectID.GUARDIAN_OF_EARTH,
+            ObjectID.GUARDIAN_OF_FIRE
+    );
+
+    private static final Map<Integer, Integer> CATALYTIC_GUARDIAN_IDS_MAP = ImmutableMap.<Integer, Integer>builder()
+            .put(ObjectID.GUARDIAN_OF_MIND, 2)
+            .put(ObjectID.GUARDIAN_OF_CHAOS, 35)
+            .put(ObjectID.GUARDIAN_OF_DEATH, 65)
+            .put(ObjectID.GUARDIAN_OF_BLOOD, 77)
+            .put(ObjectID.GUARDIAN_OF_BODY, 20)
+            .put(ObjectID.GUARDIAN_OF_COSMIC, 27)
+            .put(ObjectID.GUARDIAN_OF_NATURE, 44)
+            .put(ObjectID.GUARDIAN_OF_LAW, 54)
+            .build();
+
 
     private static final Set<Integer> TALISMAN_IDS = GuardianInfo.ALL.stream().mapToInt(x -> x.talismanId).boxed().collect(Collectors.toSet());
     private static final int GREAT_GUARDIAN_ID = 11403;
@@ -125,8 +156,6 @@ public class GOTRPlugin extends LoopedPlugin
 
     private static final int ENTRY_BARRIER_GAMEOBJECT_ID = TODO;
 
-    private static final int FRAG_GAMEOBJECT_ID = TODO;
-
     private static final int FRAG_ITEM_ID = TODO;
     private static final int ESSENCE_ITEM_ID = TODO;
     private static final int WORKBENCH_GAMEOBJECT_ID = TODO;
@@ -143,6 +172,15 @@ public class GOTRPlugin extends LoopedPlugin
     private static final String BARRIER_DIALOG_FINISHING_UP = "It looks like the adventurers within are just finishing up. You must<br>wait until they are done to join.";
 
     private static final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+
+    private static final WorldArea FRAG_SHORTCUT_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+
+
+    private static final WorldArea FRAG_PORTAL_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+
+    public static final int FRAG_COUNT = 160;
+
+
 
     @Getter(AccessLevel.PACKAGE)
     private final Set<GameObject> guardians = new HashSet<>();
@@ -316,7 +354,7 @@ public class GOTRPlugin extends LoopedPlugin
                 break;
             case MINE_FRAGS_SHORTCUT:
 
-                if (Inventory.getCount(true, FRAG_ITEM_ID) >= 160)
+                if (Inventory.getCount(true, FRAG_ITEM_ID) >= FRAG_COUNT && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
                 {
                     log.info("Changing from MINE_FRAGS_SHORTCUT to CRAFT_ESSENCE");
                     state = STATE.CRAFT_ESSENCE;
@@ -328,9 +366,16 @@ public class GOTRPlugin extends LoopedPlugin
                     log.info("jumpShortcut");
                     return 500;
                 }
-                if (mineFrags())
+
+                if (mineFragsShortcut())
                 {
-                    log.info("mineFrags");
+                    log.info("mineFrags shortcut");
+                    return 500;
+                }
+
+                if (leaveShortcut())
+                {
+                    log.info("leaveShortcut");
                     return 500;
                 }
 
@@ -386,8 +431,42 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case MINE_FRAGS_PORTAL:
+                if (Inventory.isFull() && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+                {
+                    log.info("Changing from MINE_FRAGS_PORTAL to REDEEM_USE_ALTAR");
+                    state = STATE.REDEEM_USE_ALTAR;
+                    return 0;
+                }
+
+                if (enterFragsPortal())
+                {
+                    log.info("enterFragsPortal");
+                    return 500;
+                }
+
+                if (mineFragsPortal())
+                {
+                    log.info("mineFrags portal");
+                    return 500;
+                }
+
+                if (exitFragsPortal())
+                {
+                    log.info("exitFragsPortal");
+                    return 500;
+                }
+
                 break;
             case REDEEM_USE_ALTAR:
+
+
+                if (redeem())
+                {
+                    log.info("redeem REDEEM_USE_ALTAR");
+                    return 500;
+                }
+
+
                 break;
             case REDEEM_DEPOSIT:
                 break;
@@ -400,6 +479,108 @@ public class GOTRPlugin extends LoopedPlugin
 
         log.info("End of LOOP, idling");
         return 1000;
+    }
+
+    private boolean redeem()
+    {
+        if (!Inventory.contains(x -> x.getName().toLowerCase().contains("guardian stone")))
+            return false;
+
+        TileObject guardianObject = TileObjects.getNearest(x -> x.hasAction("Power-up"));
+
+        if (guardianObject == null)
+        {
+            log.info("guardianObject is null");
+            return false;
+        }
+
+        guardianObject.interact("Power-up");
+        return true;
+    }
+
+    private boolean exitFragsPortal()
+    {
+        if (client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+            return false;
+
+        TileObject exitPortal = TileObjects.getNearest(x -> x.hasAction("Enter"));
+        if (exitPortal == null)
+        {
+            log.info("exitPortal is null");
+            return false;
+        }
+
+        exitPortal.interact("Enter");
+        return true;
+    }
+
+    private boolean leaveShortcut()
+    {
+        if (client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+            return false;
+
+
+        TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID);
+
+        if (fragsShortcut == null)
+        {
+            log.info("fragsShortcut is null");
+            return false;
+        }
+
+        if (!Reachable.isInteractable(fragsShortcut))
+        {
+            log.info("Frags shortcut is unreachable shortcut");
+            return false;
+        }
+
+        fragsShortcut.interact("Climb-down");
+        return true;
+
+    }
+
+    private boolean mineFragsPortal()
+    {
+        if (!client.getLocalPlayer().getWorldLocation().isInArea(FRAG_PORTAL_AREA))
+            return false;
+
+        if (client.getLocalPlayer().isAnimating())
+            return false;
+
+        TileObject fragsPortalObject = TileObjects.getNearest(x -> x.hasAction("Mine"));
+        if (fragsPortalObject == null)
+        {
+            log.info("fragsPortalObject is null");
+            return false;
+        }
+
+        fragsPortalObject.interact("Mine");
+        return true;
+    }
+
+    private boolean enterFragsPortal()
+    {
+        if (client.getLocalPlayer().getWorldLocation().isInArea(FRAG_PORTAL_AREA))
+            return false;
+
+        if (portal == null)
+        {
+            log.info("portal is null");
+            return false;
+        }
+
+        TileObject portalObject = TileObjects.getNearest(portal.getId());
+
+        if (!Reachable.isInteractable(portalObject))
+        {
+            log.info("portalObject is not reachable");
+            return false;
+        }
+
+
+        portalObject.interact("Enter");
+        return true;
+
     }
 
     private boolean depositRunes()
@@ -440,14 +621,14 @@ public class GOTRPlugin extends LoopedPlugin
         if (!Inventory.contains(ESSENCE_ITEM_ID) && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
             return false;
 
-        TileObject exitAltarPortal = TileObjects.getNearest(x -> x.hasAction(TODO));
+        TileObject exitAltarPortal = TileObjects.getNearest(x -> x.hasAction("Use"));
         if (exitAltarPortal == null)
         {
             log.info("exitAltarPortal is null");
             return false;
         }
 
-        exitAltarPortal.interact(TODO);
+        exitAltarPortal.interact("Use");
         return true;
     }
 
@@ -456,14 +637,14 @@ public class GOTRPlugin extends LoopedPlugin
         if (!Inventory.contains(ESSENCE_ITEM_ID))
             return false;
 
-        TileObject altarObject = TileObjects.getNearest(x -> x.hasAction(TODO));
+        TileObject altarObject = TileObjects.getNearest(x -> x.hasAction("Craft-rune"));
         if (altarObject == null)
         {
             log.info("altarObject is null");
             return false;
         }
 
-        altarObject.interact(TODO);
+        altarObject.interact("Craft-rune");
         return true;
     }
 
@@ -479,21 +660,29 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
         }
 
-        altarPortal.interact(TODO);
+        altarPortal.interact("Enter");
         return true;
 
     }
 
     private TileObject getAltarPortal()
     {
-        TileObject correctGuardian = null;
+        TileObject correctGuardian;
+
+        if (elementalRewardPoints > catalyticRewardPoints)
+        {
+            correctGuardian = activeGuardians.stream().filter(x -> {
+                CATALYTIC_GUARDIAN_IDS_MAP.containsKey(x.getId()) && CATALYTIC_GUARDIAN_IDS_MAP.get(x.getId()) <=
+            }).findFirst().orElse(null);
+        }
+
         if (catalyticRewardPoints > elementalRewardPoints)
         {
             correctGuardian = activeGuardians.stream().filter(x -> ELEMENTAL_GUARDIAN_IDS.contains(x.getId())).findFirst().orElse(null);
         }
         else
         {
-            correctGuardian = activeGuardians.stream().filter(x -> !ELEMENTAL_GUARDIAN_IDS.contains(x.getId())).findFirst().orElse(null);
+            correctGuardian = activeGuardians.stream().filter(x -> CATALYTIC_GUARDIAN_IDS_MAP.containsKey(x.getId())).findFirst().orElse(null);
         }
         if (correctGuardian == null)
         {
@@ -501,12 +690,12 @@ public class GOTRPlugin extends LoopedPlugin
             return null;
         }
 
-        return TileObjects.getFirstSurrounding(correctGuardian.getWorldLocation(), 5, x -> x.hasAction(TODO));
+        return TileObjects.getFirstSurrounding(correctGuardian.getWorldLocation(), 5, x -> x.hasAction("Enter"));
     }
 
     private boolean craftEssence()
     {
-        if (TODO client.getLocalPlayer().isAnimating())
+        if (client.getLocalPlayer().isAnimating())
             return false;
 
 
@@ -517,15 +706,19 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
         }
 
-        workbench.interact(TODO);
+        workbench.interact("Work-at");
         return true;
     }
 
-    private boolean mineFrags()
+    private boolean mineFragsShortcut()
     {
         if (client.getLocalPlayer().isAnimating())
             return false;
-        TileObject fragObject = TileObjects.getNearest(FRAG_GAMEOBJECT_ID);
+
+        if (Inventory.getCount(true, FRAG_ITEM_ID) >= FRAG_COUNT)
+            return false;
+
+        TileObject fragObject = TileObjects.getNearest(x -> x.hasAction("Mine"));
         if (fragObject == null)
         {
             log.info("No fragObject");
@@ -538,20 +731,27 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
         }
 
-        fragObject.interact(TODO);
+        fragObject.interact("Mine");
         return true;
     }
 
     private boolean jumpShortcut()
     {
         TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID);
+
+        if (fragsShortcut == null)
+        {
+            log.info("fragsShortcut is null");
+            return false;
+        }
+
         if (!Reachable.isInteractable(fragsShortcut))
         {
             log.info("Frags shortcut is unreachable shortcut");
             return false;
         }
 
-        TileObject fragObject = TileObjects.getNearest(FRAG_GAMEOBJECT_ID);
+        TileObject fragObject = TileObjects.getNearest(x -> x.hasAction("Mine"));
         if (fragObject == null)
         {
             log.info("No fragObject shortcut");
@@ -564,7 +764,7 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
         }
 
-        fragsShortcut.interact(TODO);
+        fragsShortcut.interact("Climb-down");
         return true;
     }
 
@@ -597,7 +797,7 @@ public class GOTRPlugin extends LoopedPlugin
                 log.info("Could not find entry barrier");
                 return false;
             }
-            entryBarrier.interact(TODO);
+            entryBarrier.interact("Quick-pass");
             return true;
         }
         return false;
