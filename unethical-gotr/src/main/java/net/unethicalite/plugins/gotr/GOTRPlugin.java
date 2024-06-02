@@ -133,10 +133,10 @@ public class GOTRPlugin extends LoopedPlugin
     private static final int CATALYTIC_ESSENCE_PILE_ID = 43723;
 
     private static final int UNCHARGED_CELL_ITEM_ID = 26882;
-    private static final int WEAK_CELL_ITEM_ID = TODO;
+    private static final int WEAK_CELL_ITEM_ID = ItemID.WEAK_CELL;
 
     private static final int UNCHARGED_CELL_GAMEOBJECT_ID = 43732;
-    private static final int WEAK_CELL_GAMEOBJECT_ID = TODO;
+    private static final int WEAK_CELL_GAMEOBJECT_ID = ObjectID.WEAK_CELLS;
     private static final int CHISEL_ID = 1755;
     private static final int OVERCHARGED_CELL_ID = 26886;
 
@@ -154,11 +154,11 @@ public class GOTRPlugin extends LoopedPlugin
 
     private static final int MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID = TODO;
 
-    private static final int ENTRY_BARRIER_GAMEOBJECT_ID = TODO;
+    private static final int ENTRY_BARRIER_GAMEOBJECT_ID = ObjectID.BARRIER_43700;
 
-    private static final int FRAG_ITEM_ID = TODO;
-    private static final int ESSENCE_ITEM_ID = TODO;
-    private static final int WORKBENCH_GAMEOBJECT_ID = TODO;
+    private static final int FRAG_ITEM_ID = ItemID.GUARDIAN_FRAGMENTS;
+    private static final int ESSENCE_ITEM_ID = ItemID.GUARDIAN_ESSENCE;
+    private static final int WORKBENCH_GAMEOBJECT_ID = ObjectID.WORKBENCH_43754;
 
 
 
@@ -237,6 +237,7 @@ public class GOTRPlugin extends LoopedPlugin
     private int lastElementalRuneSprite;
     private int lastCatalyticRuneSprite;
     private boolean areGuardiansNeeded = false;
+    private boolean haveCrafted = false;
 
     private final Map<String, String> expandCardinal = new HashMap<>();
 
@@ -458,7 +459,13 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case REDEEM_USE_ALTAR:
-
+                if ( haveCrafted && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+                {
+                    log.info("Changing from REDEEM_USE_ALTAR to REDEEM_DEPOSIT");
+                    state = STATE.REDEEM_DEPOSIT;
+                    haveCrafted = false;
+                    return 0;
+                }
 
                 if (redeem())
                 {
@@ -466,9 +473,43 @@ public class GOTRPlugin extends LoopedPlugin
                     return 500;
                 }
 
+                if (enterAltarPortal())
+                {
+                    log.info("enterAltarPortal");
+                    return 500;
+                }
+
+                if (craftRunes())
+                {
+                    log.info("craftRunes");
+                    return 500;
+                }
+
+                if (exitAltarPortal())
+                {
+                    log.info("exitAltarPortal");
+                    return 500;
+                }
+                else
+                {
+                    haveCrafted = true;
+                }
 
                 break;
             case REDEEM_DEPOSIT:
+
+                if (redeem())
+                {
+                    log.info("redeem REDEEM_USE_ALTAR");
+                    return 500;
+                }
+
+                if (depositRunes())
+                {
+                    log.info("depositRunes");
+                    return 500;
+                }
+
                 break;
             default:
                 log.info("End of SWITCH, idling");
@@ -588,32 +629,16 @@ public class GOTRPlugin extends LoopedPlugin
         if (!Inventory.contains(x -> x.getName().toLowerCase().contains("rune")) && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
             return false;
 
-        if (Bank.isOpen())
+        TileObject depositPool = TileObjects.getNearest(ObjectID.DEPOSIT_POOL);
+        if (depositPool == null)
         {
-            Item bankInventoryItem = Bank.Inventory.getFirst(x -> x.getName().toLowerCase().contains("rune"));
-            if (bankInventoryItem == null)
-            {
-                Bank.close();
-                return false;
-            }
-            else
-            {
-                Bank.depositAll(bankInventoryItem.getId());
-                return true;
-            }
+            log.info("depositPool is null");
+            return false;
         }
-        else
-        {
-            TileObject bankObject = TileObjects.getNearest(x -> x.hasAction(TODO));
-            if (bankObject == null)
-            {
-                log.info("bankObject is null");
-                return false;
-            }
 
-            bankObject.interact(TODO);
-            return true;
-        }
+        depositPool.interact("Deposit-runes");
+        return true;
+
     }
 
     private boolean exitAltarPortal()
@@ -671,9 +696,7 @@ public class GOTRPlugin extends LoopedPlugin
 
         if (elementalRewardPoints > catalyticRewardPoints)
         {
-            correctGuardian = activeGuardians.stream().filter(x -> {
-                CATALYTIC_GUARDIAN_IDS_MAP.containsKey(x.getId()) && CATALYTIC_GUARDIAN_IDS_MAP.get(x.getId()) <=
-            }).findFirst().orElse(null);
+            correctGuardian = activeGuardians.stream().filter(x -> CATALYTIC_GUARDIAN_IDS_MAP.containsKey(x.getId()) && (CATALYTIC_GUARDIAN_IDS_MAP.get(x.getId()) <= client.getRealSkillLevel(Skill.RUNECRAFT))).findFirst().orElse(null);
         }
 
         if (catalyticRewardPoints > elementalRewardPoints)
