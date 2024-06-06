@@ -26,8 +26,15 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
+import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileItems;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Combat;
+import net.unethicalite.api.game.Skills;
+import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.magic.Spell;
+import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -67,6 +74,15 @@ public class VorkathPlugin extends LoopedPlugin
 
 
     private static final int VORKATH_REGION = 9023;
+    private static final List<Integer> HOUSE_REGIONS = List.of(7513, 7514);
+    private static final List<Integer> LUNAR_ISLE_REGIONS = List.of(8253, 8252, 8509, 8505);
+    private static final List<Integer> RELLEKKA_REGIONS = List.of(10297, 10553, 10554);
+
+    public static final WorldPoint BANK_POINT = new WorldPoint(2099, 3919, 0);
+
+    private static final int DEPOSITS_PER_TICK = 4;
+
+
 
     @Getter(AccessLevel.PACKAGE)
     private Vorkath vorkath;
@@ -90,6 +106,8 @@ public class VorkathPlugin extends LoopedPlugin
     private Rectangle wooxWalkBar;
     private int lastAcidSpotsSize = 0;
 
+    private WorldPoint furthestFreeTile;
+
     public static final int VORKATH_WAKE_UP = 7950;
     public static final int VORKATH_DEATH = 7949;
     public static final int VORKATH_SLASH_ATTACK = 7951;
@@ -98,6 +116,22 @@ public class VorkathPlugin extends LoopedPlugin
     public static final int VORKATH_ACID_ATTACK = 7957;
 
     private WorldPoint deadlyFireballLocation;
+
+    private State state = State.DRINK_FROM_POOL;
+
+    private enum State
+    {
+        DRINK_FROM_POOL,
+        TELEPORT_TO_LUNAR_ISLE,
+        DEPOSIT_INVENTORY,
+        GET_SUPPLIES,
+        TELEPORT_TO_RELLEKKA,
+        WALK_TO_UNGAEL_TELEPORT,
+        TELEPORT_TO_UNGAEL,
+        ENTER_VORKATH_PIT,
+        FIGHT_VORKATH
+    }
+
 
 
     @Subscribe
@@ -330,88 +364,360 @@ public class VorkathPlugin extends LoopedPlugin
             }
         }
 
-
-        //Custom bot code
-        if (deadlyFireballLocation != null)
+        switch (state)
         {
-            WorldPoint worldLocation = client.getLocalPlayer().getWorldLocation();
+            case DRINK_FROM_POOL:
+                // logic for DRINK_FROM_POOL
 
-            if (worldLocation.distanceTo(deadlyFireballLocation) >= 2)
-                deadlyFireballLocation = null;
-            else
-            {
-                WorldPoint nearestSafeInteractablePoint = Reachable.getInteractable(vorkath.getVorkath()).stream()
-                        .filter(x -> x.distanceTo(worldLocation) >= 2)
-                        .min(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
-                        .orElse(null);
-                if (nearestSafeInteractablePoint == null)
+                if (Combat.getMissingHealth() == 0 && Prayers.getPoints() == Skills.getLevel(Skill.PRAYER) && Combat.getSpecEnergy() == 100)
                 {
-                    log.info("No safe location to attack vorkath from. Trying to move away.");
-
-                    nearestSafeInteractablePoint = client.getLocalPlayer().getWorldArea().offset(5).toWorldPointList().stream()
-                            .filter(x -> x.distanceTo(worldLocation) >= 2)
-                            .min(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
-                            .orElse(null);
-                }
-
-                if (nearestSafeInteractablePoint == null)
-                {
-                    log.info("No safe location to move to. Tanking fireball");
-                    deadlyFireballLocation = null;
+                    state = State.TELEPORT_TO_LUNAR_ISLE;
                 }
                 else
                 {
-                    log.info("Dodging deadly fireball");
-                    Movement.walkTo(nearestSafeInteractablePoint);
+                    TileItem restorePool = TileItems.getNearest(x -> x.hasAction("Drink"));
+                    if (restorePool == null)
+                    {
+                        log.info("Restoration pool is null!");
+                    }
+                    else
+                    {
+                        restorePool.interact("Drink");
+                    }
+                }
+                return;
+
+            case TELEPORT_TO_LUNAR_ISLE:
+                // logic for TELEPORT_TO_LUNAR_ISLE
+                if (!isInHouse())
+                {
+                    state = State.DEPOSIT_INVENTORY;
+                }
+                else
+                {
+                    TileItem lunarTele = TileItems.getNearest(x -> x.hasAction("Lunar Isle"));
+                    if (lunarTele == null)
+                    {
+                        log.info("Lunar isle teleport is null!");
+                    }
+                    else
+                    {
+                        lunarTele.interact("Lunar Isle");;
+                    }
+                }
+                return;
+
+            case DEPOSIT_INVENTORY:
+                // logic for DEPOSIT_INVENTORY
+                if (!Bank.isOpen())
+                {
+                    if (!Objects.equals(client.getLocalPlayer().getWorldLocation(), BANK_POINT))
+                    {
+                        Movement.walkTo(BANK_POINT);
+                        return;
+                    }
+                    NPC jack = NPCs.getNearest(3472);
+                    if (jack == null)
+                    {
+                        log.info("jack is null!");
+                        return;
+                    }
+                    log.info("Talking to jack");
+                    jack.interact("Bank");
                     return;
                 }
-            }
-        }
+                else
+                {
+                    List<Item> itemsToDeposit = Inventory.getAll(x -> !isItemToKeep(x));
+                    if (itemsToDeposit.isEmpty())
+                    {
+                        TODO
+                    }
+                    for (int i = 0; i < DEPOSITS_PER_TICK; i++)
+                    {
 
-        if (!Prayers.isQuickPrayerEnabled())
+                    }
+                }
+
+               break;
+
+            case GET_SUPPLIES:
+                // logic for GET_SUPPLIES
+                return;
+
+            case TELEPORT_TO_RELLEKKA:
+                // logic for TELEPORT_TO_RELLEKKA
+                return;
+
+            case WALK_TO_UNGAEL_TELEPORT:
+                // logic for WALK_TO_UNGAEL_TELEPORT
+                return;
+
+            case TELEPORT_TO_UNGAEL:
+                // logic for TELEPORT_TO_UNGAEL
+                return;
+
+            case ENTER_VORKATH_PIT:
+                // logic for ENTER_VORKATH_PIT
+                return;
+
+            case FIGHT_VORKATH:
+                // logic for FIGHT_VORKATH
+
+                if (!isAtVorkath())
+                {
+                    state = State.DRINK_FROM_POOL;
+                    return;
+                }
+
+                //Custom bot code
+
+                if (vorkath.getVorkath() == null || vorkath.getVorkath().isDead())
+                {
+                    if (Combat.getCurrentHealth() <= 75)
+                    {
+                        Item firstFoodItem = Inventory.getFirst(x -> x.hasAction("Eat"));
+                        if (firstFoodItem == null)
+                        {
+                            log.info("No food! Teleporting out.");
+                            breakTeleportTab();
+                            return;
+                        }
+                        firstFoodItem.interact("Eat");
+                        return;
+                    }
+                }
+
+                //Emergency teleport
+                if (Prayers.getPoints() <= 5)
+                {
+                    breakTeleportTab();
+                    return;
+                }
+
+                if (Combat.getCurrentHealth() <= 50)
+                {
+                    Item firstFoodItem = Inventory.getFirst(x -> x.hasAction("Eat"));
+                    if (firstFoodItem == null)
+                    {
+                        log.info("No food! Teleporting out.");
+                        breakTeleportTab();
+                        return;
+                    }
+                    firstFoodItem.interact("Eat");
+                    return;
+                }
+
+                if (Skills.getBoostedLevel(Skill.STRENGTH) - Skills.getLevel(Skill.STRENGTH) < 5)
+                {
+                    Item superCombatPotion = Inventory.getFirst(x -> x.hasAction("Drink") && x.getName().toLowerCase().contains("super combat"));
+                    if (superCombatPotion == null)
+                    {
+                        log.info("No super combat!");
+                    }
+                    else
+                    {
+                        superCombatPotion.interact("Drink");
+                        return;
+                    }
+                }
+
+
+
+                WorldPoint worldLocation = client.getLocalPlayer().getWorldLocation();
+                if (deadlyFireballLocation != null)
+                {
+
+                    if (worldLocation.distanceTo(deadlyFireballLocation) >= 2)
+                        deadlyFireballLocation = null;
+                    else
+                    {
+                        WorldPoint nearestSafeInteractablePoint = Reachable.getInteractable(vorkath.getVorkath()).stream()
+                                .filter(x -> x.distanceTo(worldLocation) >= 2)
+                                .min(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
+                                .orElse(null);
+                        if (nearestSafeInteractablePoint == null)
+                        {
+                            log.info("No safe location to attack vorkath from. Trying to move away.");
+
+                            nearestSafeInteractablePoint = client.getLocalPlayer().getWorldArea().offset(5).toWorldPointList().stream()
+                                    .filter(x -> x.distanceTo(worldLocation) >= 2)
+                                    .min(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
+                                    .orElse(null);
+                        }
+
+                        if (nearestSafeInteractablePoint == null)
+                        {
+                            log.info("No safe location to move to. Tanking fireball");
+                            deadlyFireballLocation = null;
+                        }
+                        else
+                        {
+                            log.info("Dodging deadly fireball");
+                            Movement.walkTo(nearestSafeInteractablePoint);
+                            return;
+                        }
+                    }
+                }
+
+                if (!Prayers.isQuickPrayerEnabled())
+                {
+                    log.info("Toggling quick prayers");
+                    Prayers.toggleQuickPrayer(true);
+                    return;
+                }
+
+                if (!(Combat.isSuperAntifired()))
+                {
+                    Item antifirePotion = Inventory.getFirst(x -> x.hasAction("Drink") && x.getName().toLowerCase().contains("super antifire"));
+                    if (antifirePotion == null)
+                    {
+                        log.info("No antifire!");
+                        breakTeleportTab();
+                    }
+                    else
+                    {
+                        log.info("Drinking antifire");
+                        antifirePotion.interact("Drink");
+                    }
+                    return;
+                }
+
+                if (Combat.isVenomed() || Combat.isPoisoned())
+                {
+                    Item antivenomPotion = Inventory.getFirst(x -> x.hasAction("Drink") && x.getName().toLowerCase().contains("venom"));
+                    if (antivenomPotion == null)
+                    {
+                        log.info("No anti venom!");
+                        breakTeleportTab();
+                    }
+                    else
+                    {
+                        log.info("Drinking anti venom");
+                        antivenomPotion.interact("Drink");
+                    }
+                    return;
+                }
+
+                if (!acidFreePath.isEmpty())
+                {
+
+                    if (!acidFreePath.contains(worldLocation))
+                    {
+                        WorldPoint closestFreeTile = acidFreePath.stream()
+                                .min(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
+                                .orElse(null);
+                        if (closestFreeTile == null)
+                        {
+                            log.info("No closest free tile!");
+                            return;
+                        }
+                        Movement.walkTo(closestFreeTile);
+                    }
+                    else
+                    {
+                        if (furthestFreeTile == null || furthestFreeTile.distanceTo(worldLocation) <= 2)
+                        {
+                            furthestFreeTile = acidFreePath.stream()
+                                    .max(Comparator.comparingInt(x -> x.distanceTo(worldLocation)))
+                                    .orElse(null);
+                            if (furthestFreeTile == null)
+                            {
+                                log.info("No furthest free tile!");
+                                return;
+                            }
+                        }
+
+                        Movement.walkTo(furthestFreeTile);
+                    }
+                    return;
+                }
+                else
+                {
+                    furthestFreeTile = null;
+                }
+
+                if (zombifiedSpawn != null)
+                {
+                    if (SpellBook.getCurrent() != SpellBook.STANDARD)
+                    {
+                        log.info("Not on correct spellbook!");
+                        breakTeleportTab();
+                        return;
+                    }
+                    else
+                    {
+                        Spell spellToCast = SpellBook.Standard.CRUMBLE_UNDEAD;
+                        if(!spellToCast.canCast())
+                        {
+                            log.info("Cannot cast crumble undead!");
+                            breakTeleportTab();
+                            return;
+                        }
+
+                        spellToCast.castOn(zombifiedSpawn);
+                        return;
+                    }
+                }
+
+                if (client.getLocalPlayer().getInteracting() == null)
+                {
+                    if (vorkath.getVorkath() == null)
+                    {
+                        log.info("No vorkath to attack!");
+                        return;
+                    }
+                    vorkath.getVorkath().interact("Attack");
+                    return;
+                }
+                return;
+            default:
+                throw new IllegalStateException("Unexpected value: " + state);
+        }
+    }
+
+    private boolean isAtLunarIsle()
+    {
+        for (int mapRegion : client.getMapRegions())
         {
-            log.info("Toggling quick prayers");
-            Prayers.toggleQuickPrayer(true);
-            return;
+            if (LUNAR_ISLE_REGIONS.contains(mapRegion))
+            {
+                return true;
+            }
         }
+        return false;
+    }
 
-        if (!(Combat.isSuperAntifired()))
+
+    private boolean isItemToKeep(Item item)
+    {
+        if (item.hasAction("Eat"))
+            return true;
+
+        if (item.getName().toLowerCase().contains("anti-venom"))
+            return true;
+
+        if (item.getName().toLowerCase().contains("super combat"))
+            return true;
+
+        if (item.getName().toLowerCase().contains("super antifire"))
+            return true;
+
+
+
+        return false;
+    }
+
+    private boolean isInHouse()
+    {
+        for (int mapRegion : client.getMapRegions())
         {
-            Item antifirePotion = Inventory.getFirst(x -> x.hasAction("Drink") && x.getName().toLowerCase().contains("super antifire"));
-            if (antifirePotion == null)
+            if (HOUSE_REGIONS.contains(mapRegion))
             {
-                log.info("No antifire!");
-                breakTeleportTab();
+                return true;
             }
-            else
-            {
-                log.info("Drinking antifire");
-                antifirePotion.interact("Drink");
-            }
-            return;
         }
-
-        if (Combat.isVenomed() || Combat.isPoisoned())
-        {
-            Item antivenomPotion = Inventory.getFirst(x -> x.hasAction("Drink") && x.getName().toLowerCase().contains("venom"));
-            if (antivenomPotion == null)
-            {
-                log.info("No anti venom!");
-                breakTeleportTab();
-            }
-            else
-            {
-                log.info("Drinking anti venom");
-                antivenomPotion.interact("Drink");
-            }
-            return;
-        }
-
-
-
-
-
-
+        return false;
     }
 
     public void breakTeleportTab()
