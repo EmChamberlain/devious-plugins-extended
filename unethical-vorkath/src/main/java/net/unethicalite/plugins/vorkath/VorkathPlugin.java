@@ -47,6 +47,8 @@ import javax.inject.Inject;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.function.IntConsumer;
+import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -79,6 +81,15 @@ public class VorkathPlugin extends LoopedPlugin
     private static final List<Integer> RELLEKKA_REGIONS = List.of(10297, 10553, 10554);
 
     public static final WorldPoint BANK_POINT = new WorldPoint(2099, 3919, 0);
+    public static final Set<Integer> INVENTORY_ID_WITHDRAW_SET = new HashSet<>();
+
+    static
+    {
+        INVENTORY_ID_WITHDRAW_SET.add(ItemID.SUPER_COMBAT_POTION4);
+        INVENTORY_ID_WITHDRAW_SET.add(ItemID.ANTIVENOM4_12913);
+        INVENTORY_ID_WITHDRAW_SET.add(ItemID.EXTENDED_SUPER_ANTIFIRE4);
+        INVENTORY_ID_WITHDRAW_SET.add(ItemID.RUNE_POUCH);
+    }
 
     private static final int DEPOSITS_PER_TICK = 4;
 
@@ -409,40 +420,38 @@ public class VorkathPlugin extends LoopedPlugin
 
             case DEPOSIT_INVENTORY:
                 // logic for DEPOSIT_INVENTORY
-                if (!Bank.isOpen())
+
+                if (Inventory.isEmpty())
                 {
-                    if (!Objects.equals(client.getLocalPlayer().getWorldLocation(), BANK_POINT))
-                    {
-                        Movement.walkTo(BANK_POINT);
-                        return;
-                    }
-                    NPC jack = NPCs.getNearest(3472);
-                    if (jack == null)
-                    {
-                        log.info("jack is null!");
-                        return;
-                    }
-                    log.info("Talking to jack");
-                    jack.interact("Bank");
+                    state = State.GET_SUPPLIES;
                     return;
                 }
-                else
-                {
-                    List<Item> itemsToDeposit = Inventory.getAll(x -> !isItemToKeep(x));
-                    if (itemsToDeposit.isEmpty())
-                    {
-                        TODO
-                    }
-                    for (int i = 0; i < DEPOSITS_PER_TICK; i++)
-                    {
 
-                    }
+                if (openBank())
+                {
+                    log.info("Opening bank");
+                    return;
                 }
 
-               break;
+                Bank.depositInventory();
+                return;
+
 
             case GET_SUPPLIES:
                 // logic for GET_SUPPLIES
+                if (openBank())
+                {
+                   log.info("Opening bank");
+                   return;
+                }
+
+                List<Integer> toWithdraw = new ArrayList<>(INVENTORY_ID_WITHDRAW_SET);
+                for (int itemId : toWithdraw)
+                {
+
+                }
+
+
                 return;
 
             case TELEPORT_TO_RELLEKKA:
@@ -676,6 +685,28 @@ public class VorkathPlugin extends LoopedPlugin
         }
     }
 
+    private boolean openBank()
+    {
+        if (!Bank.isOpen())
+        {
+            if (!Objects.equals(client.getLocalPlayer().getWorldLocation(), BANK_POINT))
+            {
+                Movement.walkTo(BANK_POINT);
+                return true;
+            }
+            NPC jack = NPCs.getNearest(3472);
+            if (jack == null)
+            {
+                log.info("jack is null!");
+                return true;
+            }
+            log.info("Talking to jack");
+            jack.interact("Bank");
+            return true;
+        }
+        return false;
+    }
+
     private boolean isAtLunarIsle()
     {
         for (int mapRegion : client.getMapRegions())
@@ -689,24 +720,25 @@ public class VorkathPlugin extends LoopedPlugin
     }
 
 
-    private boolean isItemToKeep(Item item)
+    /*private boolean isItemToKeep(Item item)
     {
         if (item.hasAction("Eat"))
             return true;
 
-        if (item.getName().toLowerCase().contains("anti-venom"))
+        String lowerCaseName = item.getName().toLowerCase();
+        if (lowerCaseName.contains("anti-venom"))
             return true;
 
-        if (item.getName().toLowerCase().contains("super combat"))
+        if (lowerCaseName.contains("super combat"))
             return true;
 
-        if (item.getName().toLowerCase().contains("super antifire"))
+        if (lowerCaseName.contains("super antifire"))
             return true;
 
 
 
         return false;
-    }
+    }*/
 
     private boolean isInHouse()
     {

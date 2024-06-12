@@ -152,7 +152,9 @@ public class GOTRPlugin extends LoopedPlugin
 
     private static final int PORTAL_ID = 43729;
 
-    private static final int MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID = TODO;
+    private static final int MINE_FRAGS_SHORTCUT_ENTER_GAMEOBJECT_ID = 43724;
+    private static final int MINE_FRAGS_SHORTCUT_EXIT_GAMEOBJECT_ID = 43726;
+
 
     private static final int ENTRY_BARRIER_GAMEOBJECT_ID = ObjectID.BARRIER_43700;
 
@@ -171,12 +173,12 @@ public class GOTRPlugin extends LoopedPlugin
     private static final int DIALOG_WIDGET_MESSAGE = 1;
     private static final String BARRIER_DIALOG_FINISHING_UP = "It looks like the adventurers within are just finishing up. You must<br>wait until they are done to join.";
 
-    private static final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+    private static final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(3597,9484,0), new WorldPoint(3632,9517,0));
 
-    private static final WorldArea FRAG_SHORTCUT_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+    private static final WorldArea FRAG_SHORTCUT_AREA = new WorldArea(new WorldPoint(3637,9494,0), new WorldPoint(3644,9513,0));
 
 
-    private static final WorldArea FRAG_PORTAL_AREA = new WorldArea(new WorldPoint(,,), new WorldPoint(,,));
+    private static final WorldArea FRAG_PORTAL_AREA = new WorldArea(new WorldPoint(3586,9494,0), new WorldPoint(3593,9514,0));
 
     public static final int FRAG_COUNT = 160;
 
@@ -561,7 +563,7 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
 
 
-        TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID);
+        TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_EXIT_GAMEOBJECT_ID);
 
         if (fragsShortcut == null)
         {
@@ -760,7 +762,7 @@ public class GOTRPlugin extends LoopedPlugin
 
     private boolean jumpShortcut()
     {
-        TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_GAMEOBJECT_ID);
+        TileObject fragsShortcut = TileObjects.getNearest(MINE_FRAGS_SHORTCUT_ENTER_GAMEOBJECT_ID);
 
         if (fragsShortcut == null)
         {
@@ -795,7 +797,7 @@ public class GOTRPlugin extends LoopedPlugin
     {
         if (!Reachable.isInteractable(unchargedCellTable) || Inventory.contains(WEAK_CELL_ITEM_ID) || Inventory.getCount(UNCHARGED_CELL_ITEM_ID) >= 10)
             return false;
-        unchargedCellTable.interact(TODO);
+        unchargedCellTable.interact("Take");
         return true;
     }
 
@@ -803,7 +805,7 @@ public class GOTRPlugin extends LoopedPlugin
     {
         if (!Reachable.isInteractable(weakCellTable) || Inventory.contains(WEAK_CELL_ITEM_ID))
             return false;
-        weakCellTable.interact(TODO);
+        weakCellTable.interact("Take");
         return true;
     }
 
