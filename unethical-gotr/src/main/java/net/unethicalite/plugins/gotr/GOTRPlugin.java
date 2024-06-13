@@ -367,7 +367,12 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case COLLECT_MATS:
-                state = STATE.MINE_FRAGS_SHORTCUT;
+                if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
+                    state = STATE.MINE_FRAGS_SHORTCUT;
+                else
+                    state = STATE.CRAFT_ESSENCE;
+
+
                 if (Inventory.contains(WEAK_CELL_ITEM_ID) && Inventory.getCount(true, UNCHARGED_CELL_ITEM_ID) >= 10)
                 {
                     log.info("Changing from COLLECT_MATS to MINE_FRAGS_SHORTCUT");
