@@ -822,7 +822,6 @@ public class GOTRPlugin extends LoopedPlugin
 
     private TileObject getAltarPortal()
     {
-        TileObject correctGuardian = null;
         log.info("Elemental: {}", activeElementalGuardian == null ? 0 : activeElementalGuardian.getId());
         log.info("Catalytic: {}", activeCatalyticGuardian == null ? 0 : activeCatalyticGuardian.getId());
 
@@ -831,23 +830,17 @@ public class GOTRPlugin extends LoopedPlugin
         {
             if (CATALYTIC_GUARDIAN_IDS_MAP.get(activeCatalyticGuardian.getActualId()) <= client.getRealSkillLevel(Skill.RUNECRAFT))
             {
-                correctGuardian = activeCatalyticGuardian;
-                if (correctGuardian != null)
-                    return correctGuardian;
+                return activeCatalyticGuardian;
+            }
+            else
+            {
+                return activeCatalyticGuardian;
             }
         }
         else
         {
-            correctGuardian = activeElementalGuardian;
-            if (correctGuardian == null)
-            {
-                log.info("correctGuardian is null");
-                return null;
-            }
-            else
-                return correctGuardian;
+                return activeElementalGuardian;
         }
-        return correctGuardian;
     }
 
     private boolean craftEssence()
