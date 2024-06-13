@@ -209,7 +209,7 @@ public class GOTRPlugin extends LoopedPlugin
     private TileObject barrierObject;
 
 
-    public static final int FRAG_COUNT = 350;
+    public static final int FRAG_COUNT = 300;
 
 
 
@@ -830,25 +830,26 @@ public class GOTRPlugin extends LoopedPlugin
         log.info("Catalytic: {}", activeCatalyticGuardian == null ? 0 : activeCatalyticGuardian.getId());
 
 
-        if (elementalRewardPoints >= catalyticRewardPoints && activeCatalyticGuardian != null)
+        if (currentElementalRewardPoints >= currentCatalyticRewardPoints && activeCatalyticGuardian != null)
         {
             if (CATALYTIC_GUARDIAN_IDS_MAP.get(activeCatalyticGuardian.getActualId()) <= client.getRealSkillLevel(Skill.RUNECRAFT))
             {
                 correctGuardian = activeCatalyticGuardian;
+                if (correctGuardian != null)
+                    return correctGuardian;
             }
         }
-
-        if (catalyticRewardPoints > elementalRewardPoints || correctGuardian == null)
+        else
         {
             correctGuardian = activeElementalGuardian;
+            if (correctGuardian == null)
+            {
+                log.info("correctGuardian is null");
+                return null;
+            }
+            else
+                return correctGuardian;
         }
-
-        if (correctGuardian == null)
-        {
-            log.info("correctGuardian is null");
-            return null;
-        }
-
         return correctGuardian;
     }
 
