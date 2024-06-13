@@ -209,7 +209,7 @@ public class GOTRPlugin extends LoopedPlugin
     private TileObject barrierObject;
 
 
-    public static final int FRAG_COUNT = 250;
+    public static final int FRAG_COUNT = 350;
 
 
 
