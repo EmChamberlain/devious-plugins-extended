@@ -206,6 +206,8 @@ public class GOTRPlugin extends LoopedPlugin
     private static final int LARGE_GUARDIAN_REMAINS = 43719;
     private static final int HUGE_GUARDIAN_REMAINS = 43720;
 
+    private TileObject barrierObject;
+
 
     public static final int FRAG_COUNT = 250;
 
@@ -365,6 +367,7 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case COLLECT_MATS:
+                state = STATE.MINE_FRAGS_SHORTCUT;
                 if (Inventory.contains(WEAK_CELL_ITEM_ID) && Inventory.getCount(true, UNCHARGED_CELL_ITEM_ID) >= 10)
                 {
                     log.info("Changing from COLLECT_MATS to MINE_FRAGS_SHORTCUT");
@@ -440,6 +443,7 @@ public class GOTRPlugin extends LoopedPlugin
             case USE_ALTAR:
                 if (!Inventory.contains(ESSENCE_ITEM_ID) && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA) && !Inventory.contains(x -> x.getName().toLowerCase().contains("rune")))
                 {
+                    barrierObject = null;
                     if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
                     {
                         log.info("Changing from USE_ALTAR to MINE_FRAGS_SHORTCUT");
@@ -586,7 +590,7 @@ public class GOTRPlugin extends LoopedPlugin
 
 
         log.info("End of LOOP, idling");
-        return 1000;
+        return 10;
     }
 
     private boolean redeemGuardianStone()
@@ -617,11 +621,6 @@ public class GOTRPlugin extends LoopedPlugin
         ))
             return false;
 
-
-
-
-        //TileObject barrierObject = TileObjects.getNearest(x -> x.hasAction("Place-cell"));
-
         NPC nearestBarrier = NPCs.getNearest(x ->
                 x.getName().toLowerCase().contains("null") &&
                 x.getHealthRatio() != -1 &&
@@ -633,15 +632,18 @@ public class GOTRPlugin extends LoopedPlugin
             nearestBarrier = NPCs.getNearest(x -> x.getName().toLowerCase().contains("null"));
 
         WorldArea validArea = nearestBarrier.getWorldArea().offset(1);
-        TileObject barrierObject = TileObjects.getNearest(x ->
-                validArea.contains(x.getWorldLocation()) &&
-                x.hasAction("Place-cell")
-        );
+
 
         /*TileObject barrierObject = TileObjects.getFirstSurrounding(
                 nearestBarrier.getWorldLocation(),3, x -> x.hasAction("Place-cell")
         );*/
-
+        if (barrierObject == null)
+        {
+            barrierObject = TileObjects.getNearest(x ->
+                    validArea.contains(x.getWorldLocation()) &&
+                    x.hasAction("Place-cell")
+            );
+        }
         if (barrierObject == null)
         {
             log.info("Barrier object is null");
