@@ -209,9 +209,6 @@ public class GOTRPlugin extends LoopedPlugin
     private TileObject barrierObject;
 
 
-    public static final int FRAG_COUNT = 300;
-
-
 
     @Getter(AccessLevel.PACKAGE)
     private final Set<GameObject> guardians = new HashSet<>();
@@ -396,7 +393,7 @@ public class GOTRPlugin extends LoopedPlugin
                 break;
             case MINE_FRAGS_SHORTCUT:
 
-                if (Inventory.getCount(true, FRAG_ITEM_ID) >= FRAG_COUNT && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+                if (Inventory.getCount(true, FRAG_ITEM_ID) >= config.fragCount() && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
                 {
                     log.info("Changing from MINE_FRAGS_SHORTCUT to CRAFT_ESSENCE");
                     state = STATE.CRAFT_ESSENCE;
@@ -872,7 +869,7 @@ public class GOTRPlugin extends LoopedPlugin
 
     private boolean mineFragsShortcut()
     {
-        if (Inventory.getCount(true, FRAG_ITEM_ID) >= FRAG_COUNT)
+        if (Inventory.getCount(true, FRAG_ITEM_ID) >= config.fragCount())
             return false;
 
         if (client.getLocalPlayer().isAnimating())

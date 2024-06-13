@@ -17,4 +17,16 @@ public interface GOTRConfig extends Config
     {
         return false;
     }
+
+    @ConfigItem(
+            keyName = "fragCount",
+            name = "fragCount",
+            description = "fragCount",
+            position = 1
+    )
+    default int fragCount()
+    {
+        return 250;
+    }
+
 }
