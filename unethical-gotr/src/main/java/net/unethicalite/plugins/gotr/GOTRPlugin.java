@@ -28,6 +28,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 import net.unethicalite.api.entities.Entities;
+import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.input.Keyboard;
@@ -196,15 +197,17 @@ public class GOTRPlugin extends LoopedPlugin
     private static final WorldArea MINIGAME_AREA = new WorldArea(new WorldPoint(3597,9484,0), new WorldPoint(3634,9517,0));
 
     private static final WorldArea FRAG_SHORTCUT_AREA = new WorldArea(new WorldPoint(3637,9494,0), new WorldPoint(3644,9513,0));
+    private static final WorldArea ENTRY_PORTAL_AREA = new WorldArea(new WorldPoint(3611,9471,0), new WorldPoint(3619,9481,0));
+
     private static final WorldPoint FRAG_SHORTCUT_POINT = new WorldPoint(3632,9503,0);
 
 
-    private static final WorldArea FRAG_PORTAL_AREA = new WorldArea(new WorldPoint(3586,9494,0), new WorldPoint(3593,9514,0));
+    private static final WorldArea FRAG_PORTAL_AREA = new WorldArea(new WorldPoint(3586,9494,0), new WorldPoint(3594,9514,0));
     private static final int LARGE_GUARDIAN_REMAINS = 43719;
     private static final int HUGE_GUARDIAN_REMAINS = 43720;
 
 
-    public static final int FRAG_COUNT = 30;//160;
+    public static final int FRAG_COUNT = 250;
 
 
 
@@ -357,7 +360,7 @@ public class GOTRPlugin extends LoopedPlugin
                 if (enterMinigame())
                 {
                     log.info("enterMinigame");
-                    return 500;
+                    return 2000;
                 }
 
                 break;
@@ -413,6 +416,12 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case CRAFT_ESSENCE:
+                if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
+                {
+                    log.info("Changing from CRAFT_ESSENCE to MINE_FRAGS_SHORTCUT");
+                    state = STATE.MINE_FRAGS_SHORTCUT;
+                    return 0;
+                }
 
                 if (Inventory.isFull())
                 {
@@ -431,9 +440,25 @@ public class GOTRPlugin extends LoopedPlugin
             case USE_ALTAR:
                 if (!Inventory.contains(ESSENCE_ITEM_ID) && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA) && !Inventory.contains(x -> x.getName().toLowerCase().contains("rune")))
                 {
-                    log.info("Changing from USE_ALTAR to MINE_FRAGS_PORTAL");
-                    state = STATE.MINE_FRAGS_PORTAL;
-                    return 0;
+                    if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
+                    {
+                        log.info("Changing from USE_ALTAR to MINE_FRAGS_SHORTCUT");
+                        state = STATE.MINE_FRAGS_SHORTCUT;
+                        return 0;
+                    }
+                    else if (!Inventory.contains(UNCHARGED_CELL_ITEM_ID))
+                    {
+                        log.info("Changing from USE_ALTAR to COLLECT_MATS");
+                        state = STATE.COLLECT_MATS;
+                        return 0;
+                    }
+                    else
+                    {
+                        log.info("Changing from USE_ALTAR to CRAFT_ESSENCE");
+                        state = STATE.CRAFT_ESSENCE;
+                        return 0;
+                    }
+
                 }
 
                 if (enterAltarPortal())
@@ -454,6 +479,18 @@ public class GOTRPlugin extends LoopedPlugin
                     return 500;
                 }
 
+                if (redeemGuardianStone())
+                {
+                    log.info("redeemGuardianStone USE_ALTAR");
+                    return 500;
+                }
+
+                if (redeemCell())
+                {
+                    log.info("redeemCell USE_ALTAR");
+                    return 500;
+                }
+
                 if (depositRunes())
                 {
                     log.info("depositRunes");
@@ -461,11 +498,11 @@ public class GOTRPlugin extends LoopedPlugin
                 }
 
                 break;
-            case MINE_FRAGS_PORTAL:
+            /*case MINE_FRAGS_PORTAL:
                 if (Inventory.isFull() && client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
                 {
-                    log.info("Changing from MINE_FRAGS_PORTAL to REDEEM_USE_ALTAR");
-                    state = STATE.REDEEM_USE_ALTAR;
+                    log.info("Changing from MINE_FRAGS_PORTAL to USE_ALTAR");
+                    state = STATE.USE_ALTAR;
                     return 0;
                 }
 
@@ -540,7 +577,7 @@ public class GOTRPlugin extends LoopedPlugin
                     return 500;
                 }
 
-                break;
+                break;*/
             default:
                 log.info("End of SWITCH, idling");
                 return 1000;
@@ -552,12 +589,12 @@ public class GOTRPlugin extends LoopedPlugin
         return 1000;
     }
 
-    private boolean redeem()
+    private boolean redeemGuardianStone()
     {
         if (!Inventory.contains(x -> x.getName().toLowerCase().contains("guardian stone")))
             return false;
 
-        TileObject guardianObject = TileObjects.getNearest(x -> x.hasAction("Power-up"));
+        NPC guardianObject = NPCs.getNearest(x -> x.hasAction("Power-up"));
 
         if (guardianObject == null)
         {
@@ -567,6 +604,59 @@ public class GOTRPlugin extends LoopedPlugin
 
         guardianObject.interact("Power-up");
         return true;
+    }
+
+
+    private boolean redeemCell()
+    {
+        if (!(
+                Inventory.contains(x -> x.getName().toLowerCase().contains("weak cell")) ||
+                Inventory.contains(x -> x.getName().toLowerCase().contains("medium cell")) ||
+                Inventory.contains(x -> x.getName().toLowerCase().contains("strong cell")) ||
+                Inventory.contains(x -> x.getName().toLowerCase().contains("overcharged cell"))
+        ))
+            return false;
+
+
+
+
+        //TileObject barrierObject = TileObjects.getNearest(x -> x.hasAction("Place-cell"));
+
+        NPC nearestBarrier = NPCs.getNearest(x ->
+                x.getName().toLowerCase().contains("null") &&
+                x.getHealthRatio() != -1 &&
+                x.getHealthScale() != -1 &&
+                x.getHealthRatio() < x.getHealthScale()
+
+        );
+        if (nearestBarrier == null)
+            nearestBarrier = NPCs.getNearest(x -> x.getName().toLowerCase().contains("null"));
+
+        WorldArea validArea = nearestBarrier.getWorldArea().offset(1);
+        TileObject barrierObject = TileObjects.getNearest(x ->
+                validArea.contains(x.getWorldLocation()) &&
+                x.hasAction("Place-cell")
+        );
+
+        /*TileObject barrierObject = TileObjects.getFirstSurrounding(
+                nearestBarrier.getWorldLocation(),3, x -> x.hasAction("Place-cell")
+        );*/
+
+        if (barrierObject == null)
+        {
+            log.info("Barrier object is null");
+            barrierObject = TileObjects.getNearest(x -> x.hasAction("Place-cell"));
+        }
+        if (barrierObject == null)
+        {
+            log.info("Barrier object is null after retry");
+            return false;
+        }
+        else
+        {
+            barrierObject.interact("Place-cell");
+            return true;
+        }
     }
 
     private boolean exitFragsPortal()
@@ -615,8 +705,11 @@ public class GOTRPlugin extends LoopedPlugin
         if (!client.getLocalPlayer().getWorldLocation().isInArea(FRAG_PORTAL_AREA))
             return false;
 
-        if (client.getLocalPlayer().isAnimating())
+        if (Inventory.isFull())
             return false;
+
+        if (client.getLocalPlayer().isAnimating())
+            return true;
 
         TileObject fragsPortalObject = TileObjects.getNearest(HUGE_GUARDIAN_REMAINS);
         if (fragsPortalObject == null)
@@ -823,7 +916,7 @@ public class GOTRPlugin extends LoopedPlugin
 
     private boolean getUnchargedCell()
     {
-        if (!Reachable.isInteractable(unchargedCellTable) || Inventory.getCount(UNCHARGED_CELL_ITEM_ID) >= 10)
+        if (!Reachable.isInteractable(unchargedCellTable) || Inventory.getCount(true, UNCHARGED_CELL_ITEM_ID) >= 10)
             return false;
         unchargedCellTable.interact("Take");
         return true;
@@ -900,7 +993,7 @@ public class GOTRPlugin extends LoopedPlugin
         if (elementalRuneWidget != null)
         {
             int guardianId = SPRITE_GUARDIAN_IDS_MAP.getOrDefault(elementalRuneWidget.getSpriteId(), 0);
-            log.info("Elemental guardian id: {}", guardianId);
+            //log.info("Elemental guardian id: {}", guardianId);
             if (guardianId != 0)
                 activeElementalGuardian = TileObjects.getNearest(guardianId);
             else
@@ -916,7 +1009,7 @@ public class GOTRPlugin extends LoopedPlugin
         if (catalyticRuneWidget != null)
         {
             int guardianId = SPRITE_GUARDIAN_IDS_MAP.getOrDefault(catalyticRuneWidget.getSpriteId(), 0);
-            log.info("Catalytic guardian id: {}", guardianId);
+            //log.info("Catalytic guardian id: {}", guardianId);
             if (guardianId != 0)
                 activeCatalyticGuardian = TileObjects.getNearest(guardianId);
             else
