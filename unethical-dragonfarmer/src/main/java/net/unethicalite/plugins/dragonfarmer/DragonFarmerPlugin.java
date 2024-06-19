@@ -58,6 +58,7 @@ public class DragonFarmerPlugin extends LoopedPlugin
     private final WorldPoint BLUE_DRAGON_LOCATION = new WorldPoint(1932, 8975, 1);
 
     private final WorldPoint BANK_LOCATION = new WorldPoint(2465, 2848, 1);
+    private boolean needToSetConfig = true;
 
 
     @Subscribe
@@ -70,13 +71,34 @@ public class DragonFarmerPlugin extends LoopedPlugin
 
     }
 
+    public void setConfigForLucidCombat()
+    {
+        configManager.setConfiguration("lucid-combat", "npcToFight", "Blue dragon");
+        configManager.setConfiguration("lucid-combat", "maxRange", 10);
+        configManager.setConfiguration("lucid-combat", "antilureProtection", true);
+        configManager.setConfiguration("lucid-combat", "antilureProtectionRange", 3);
+        configManager.setConfiguration("lucid-combat", "useSafespot", false);
+        configManager.setConfiguration("lucid-combat", "buryScatter", false);
+        configManager.setConfiguration("lucid-combat", "enableAutoSpec", true);
+        configManager.setConfiguration("lucid-combat", "mainWeapon", "lance");
+        configManager.setConfiguration("lucid-combat", "specWeapon", "gon dagger");
+
+    }
+
     @Override
     protected int loop()
     {
         if (!config.isEnabled())
         {
             state = 0;
+            needToSetConfig = true;
             return 1000;
+        }
+
+        if (needToSetConfig)
+        {
+            setConfigForLucidCombat();
+            needToSetConfig = false;
         }
 
 
