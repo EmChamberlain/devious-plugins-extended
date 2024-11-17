@@ -53,6 +53,9 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
+		if (!config.doLogin())
+			return;
+
 		if (List.of(GameState.LOGGING_IN, GameState.LOADING, GameState.LOGGED_IN, GameState.CONNECTION_LOST, GameState.HOPPING).contains(e.getGameState()))
 		{
 			return;

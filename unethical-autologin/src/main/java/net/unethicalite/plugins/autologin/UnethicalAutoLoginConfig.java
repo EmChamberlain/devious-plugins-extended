@@ -43,10 +43,21 @@ public interface UnethicalAutoLoginConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "doLogin",
+			name = "Do Login",
+			description = "Whether to login or not",
+			position = 3
+	)
+	default boolean doLogin()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 			keyName = "useWorld",
 			name = "Select world",
 			description = "Select world to login to",
-			position = 3
+			position = 4
 	)
 	default boolean useWorld()
 	{
@@ -57,7 +68,7 @@ public interface UnethicalAutoLoginConfig extends Config
 			keyName = "world",
 			name = "World",
 			description = "World Selector",
-			position = 4,
+			position = 5,
 			hidden = true,
 			unhide = "useWorld"
 	)
@@ -70,7 +81,7 @@ public interface UnethicalAutoLoginConfig extends Config
 			keyName = "lastWorld",
 			name = "Save last world",
 			description = "Save last world",
-			position = 5,
+			position = 6,
 			hidden = true,
 			unhide = "useWorld"
 	)
@@ -83,7 +94,7 @@ public interface UnethicalAutoLoginConfig extends Config
 			keyName = "welcomeScreen",
 			name = "Complete Welcome screen",
 			description = "Automatically presses the 'Click here to Play' button after login",
-			position = 6
+			position = 7
 	)
 	default boolean welcomeScreen()
 	{
@@ -94,7 +105,7 @@ public interface UnethicalAutoLoginConfig extends Config
 			keyName = "neverIdle",
 			name = "Never idle",
 			description = "Automatically makes it so you never idle",
-			position = 7
+			position = 8
 	)
 	default boolean neverIdle()
 	{
