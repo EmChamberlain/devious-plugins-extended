@@ -134,6 +134,7 @@ public class RoguesDenPlugin extends LoopedPlugin
     {
         if (!config.isEnabled())
         {
+            state = STATE.GET_STAMINA_DOSE;
             return 1000;
         }
 

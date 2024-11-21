@@ -2403,6 +2403,13 @@
       "version": "0.0.2",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.2.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-20",
+      "sha512sum": "6C3298999C6E40C8420B75E4E40158984D4828D1A4EE4EB548A73F1339162FAC90B87080798066BD65CD0D5D38A081D8C665050B5A1FED6BE94E3E5D80616F3C",
+      "version": "0.0.3",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.3.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
