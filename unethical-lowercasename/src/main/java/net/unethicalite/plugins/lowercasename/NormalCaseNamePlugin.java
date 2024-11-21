@@ -1,4 +1,4 @@
-package net.unethicalite.plugins.lowercasename;
+package net.unethicalite.plugins.roguesden;
 
 import com.google.inject.Provides;
 

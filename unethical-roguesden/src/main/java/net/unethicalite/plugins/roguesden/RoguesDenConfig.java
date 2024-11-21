@@ -4,8 +4,8 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("unethical-lowercasename")
-public interface NormalCaseNameConfig extends Config
+@ConfigGroup("unethical-roguesden")
+public interface RoguesDenConfig extends Config
 {
     @ConfigItem(
             keyName = "isEnabled",

@@ -45,6 +45,7 @@ import org.pf4j.Extension;
 import javax.inject.Inject;
 import java.awt.*;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
@@ -345,6 +346,40 @@ public class GOTRPlugin extends LoopedPlugin
             return 1000;
         }
 
+        /*if (Dialog.isOpen() && Dialog.hasOption("Yes"))
+        {
+            Dialog.chooseOption("Yes");
+            return 1000;
+        }*/
+
+        if (nextGameStart.isPresent())
+        {
+            var start = nextGameStart.get();
+            var secondsToStart = ChronoUnit.SECONDS.between(Instant.now(), start) - .5d;
+            if (secondsToStart > 20 && secondsToStart <= 45) {
+                state = STATE.COLLECT_MATS;
+                /*if (Inventory.contains(FRAG_ITEM_ID))
+                {
+                    Inventory.getFirst(FRAG_ITEM_ID).interact("Destroy");
+                    return 500;
+                }*/
+                if (!client.getLocalPlayer().getWorldLocation().isInArea(MINIGAME_AREA))
+                {
+                    if (leaveShortcut())
+                    {
+                        log.info("leaveShortcut");
+                        return 500;
+                    }
+                    if (exitAltarPortal())
+                    {
+                        log.info("exitAltarPortal");
+                        return 500;
+                    }
+                }
+                log.info("Waiting for next game to almost start");
+                return 1000;
+            }
+        }
 
         switch(state) {
             case ENTER_AREA:
@@ -364,16 +399,14 @@ public class GOTRPlugin extends LoopedPlugin
 
                 break;
             case COLLECT_MATS:
-                if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
-                    state = STATE.MINE_FRAGS_SHORTCUT;
-                else
-                    state = STATE.CRAFT_ESSENCE;
-
 
                 if (Inventory.contains(WEAK_CELL_ITEM_ID) && Inventory.getCount(true, UNCHARGED_CELL_ITEM_ID) >= 10)
                 {
                     log.info("Changing from COLLECT_MATS to MINE_FRAGS_SHORTCUT");
-                    state = STATE.MINE_FRAGS_SHORTCUT;
+                    if (Inventory.getCount(true, FRAG_ITEM_ID) <= 30)
+                        state = STATE.MINE_FRAGS_SHORTCUT;
+                    else
+                        state = STATE.CRAFT_ESSENCE;
                     return 0;
                 }
 
@@ -387,8 +420,6 @@ public class GOTRPlugin extends LoopedPlugin
                     log.info("getUnchargedCell");
                     return 500;
                 }
-
-
 
                 break;
             case MINE_FRAGS_SHORTCUT:
@@ -624,28 +655,41 @@ public class GOTRPlugin extends LoopedPlugin
             return false;
 
         NPC nearestBarrier = NPCs.getNearest(x ->
-                x.getName().toLowerCase().contains("null") &&
+                (x.getId() == ObjectID.OVERCHARGED_BARRIER || x.getId() == ObjectID.OVERCHARGED_BARRIER_43751) &&
                 x.getHealthRatio() != -1 &&
                 x.getHealthScale() != -1 &&
                 x.getHealthRatio() < x.getHealthScale()
 
         );
         if (nearestBarrier == null)
-            nearestBarrier = NPCs.getNearest(x -> x.getName().toLowerCase().contains("null"));
+            nearestBarrier = NPCs.getNearest(ObjectID.OVERCHARGED_BARRIER, ObjectID.OVERCHARGED_BARRIER_43751);
 
-        WorldArea validArea = nearestBarrier.getWorldArea().offset(1);
+        WorldArea validArea;
+        if (nearestBarrier != null)
+            validArea = nearestBarrier.getWorldArea().offset(2);
+        else
+            validArea = null;
+
+        if (validArea != null)
+        {
+            barrierObject = TileObjects.getNearest(x ->
+                    validArea.contains(x.getWorldLocation()) &&
+                            x.hasAction("Place-cell")
+            );
+            log.info("Setting barrier object from world area: " + validArea.toString());
+        }
+        else
+        {
+            barrierObject = TileObjects.getNearest(x -> x.hasAction("Place-cell"));
+            log.info("validArea is null");
+        }
+
 
 
         /*TileObject barrierObject = TileObjects.getFirstSurrounding(
                 nearestBarrier.getWorldLocation(),3, x -> x.hasAction("Place-cell")
         );*/
-        if (barrierObject == null)
-        {
-            barrierObject = TileObjects.getNearest(x ->
-                    validArea.contains(x.getWorldLocation()) &&
-                    x.hasAction("Place-cell")
-            );
-        }
+
         if (barrierObject == null)
         {
             log.info("Barrier object is null");
@@ -828,13 +872,13 @@ public class GOTRPlugin extends LoopedPlugin
 
         if (currentElementalRewardPoints >= currentCatalyticRewardPoints && activeCatalyticGuardian != null)
         {
-            if (CATALYTIC_GUARDIAN_IDS_MAP.get(activeCatalyticGuardian.getActualId()) <= client.getRealSkillLevel(Skill.RUNECRAFT))
+            if (CATALYTIC_GUARDIAN_IDS_MAP.get(activeCatalyticGuardian.getId()) <= client.getRealSkillLevel(Skill.RUNECRAFT))
             {
                 return activeCatalyticGuardian;
             }
             else
             {
-                return activeCatalyticGuardian;
+                return activeElementalGuardian;
             }
         }
         else
@@ -916,7 +960,7 @@ public class GOTRPlugin extends LoopedPlugin
     {
         if (!Reachable.isInteractable(unchargedCellTable) || Inventory.getCount(true, UNCHARGED_CELL_ITEM_ID) >= 10)
             return false;
-        unchargedCellTable.interact("Take");
+        unchargedCellTable.interact("Take-10");
         return true;
     }
 

@@ -61,6 +61,7 @@ include("unethical-dodgegraphics")
 include("unethical-dragonfarmer")
 include("unethical-tithefarm")
 include("unethical-gotr")
+include("unethical-roguesden")
 //include("unethical-buylooper")
 //include("example-kotlin")
 
@@ -76,3 +77,4 @@ for (project in rootProject.children) {
 include("unethical-armouranimator:unethical-vorkath")
 findProject(":unethical-armouranimator:unethical-vorkath")?.name = "unethical-vorkath"
 include("unethical-vorkath")
+

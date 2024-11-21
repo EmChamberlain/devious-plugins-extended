@@ -106,6 +106,8 @@ public class UnethicalAutoLoginPlugin extends Plugin
 	@Subscribe
 	private void onLoginIndexChanged(LoginIndexChanged e)
 	{
+		if (!config.doLogin())
+			return;
 		switch (e.getIndex())
 		{
 			case 2:
@@ -168,6 +170,8 @@ public class UnethicalAutoLoginPlugin extends Plugin
 		{
 			return;
 		}
+		if (!config.doLogin())
+			return;
 
 		if (e.isLoaded() && Game.getState() == GameState.LOGIN_SCREEN)
 		{
