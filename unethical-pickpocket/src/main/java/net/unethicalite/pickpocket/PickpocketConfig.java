@@ -125,4 +125,15 @@ public interface PickpocketConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+			keyName = "rogueSet",
+			name = "rogueSet",
+			description = "",
+			position = 10
+	)
+	default boolean rogueSet()
+	{
+		return true;
+	}
 }

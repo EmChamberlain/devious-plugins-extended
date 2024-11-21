@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.api.NPC;
+import net.runelite.api.ObjectID;
 import net.runelite.api.Player;
 import net.runelite.api.TileObject;
 import net.runelite.api.Varbits;
@@ -29,6 +30,7 @@ import net.unethicalite.api.magic.Spell;
 import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
 import org.pf4j.Extension;
@@ -115,6 +117,8 @@ public class PickpocketPlugin extends LoopedPlugin
 							&& (!item.getName().toLowerCase().contains("rune pouch"))
 							&& item.getId() != ItemID.COINS_995
 							&& !Objects.equals(item.getName(), "Coin pouch")
+							&& !item.getName().toLowerCase().contains("vyre noble")
+							&& !item.getName().toLowerCase().contains("rogue")
 			);
 			if (!unneeded.isEmpty())
 			{
@@ -156,6 +160,43 @@ public class PickpocketPlugin extends LoopedPlugin
 
 		if (config.bank() && (Inventory.isFull() || !Inventory.contains(config.foodName()) || !Equipment.contains(x -> x.getName().toLowerCase().contains("dodgy necklace"))))
 		{
+			if (config.bankLocation() == BankLocation.DARKMEYER_BANK)
+			{
+				if (!Equipment.contains(ItemID.VYRE_NOBLE_TOP))
+				{
+					Item vyreTop = Inventory.getFirst(ItemID.VYRE_NOBLE_TOP);
+					if (vyreTop != null)
+					{
+						log.info("Equipping vyre top");
+						vyreTop.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.VYRE_NOBLE_LEGS))
+				{
+					Item vyreLegs = Inventory.getFirst(ItemID.VYRE_NOBLE_LEGS);
+					if (vyreLegs != null)
+					{
+						log.info("Equipping vyre legs");
+						vyreLegs.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.VYRE_NOBLE_SHOES))
+				{
+					Item vyreShoes = Inventory.getFirst(ItemID.VYRE_NOBLE_SHOES);
+					if (vyreShoes != null)
+					{
+						log.info("Equipping vyre shoes");
+						vyreShoes.interact("Wear");
+						return -2;
+					}
+				}
+			}
+
+
 			if (Movement.isWalking())
 			{
 				return -4;
@@ -165,6 +206,7 @@ public class PickpocketPlugin extends LoopedPlugin
 					.stream()
 					.min(Comparator.comparingInt(obj -> obj.distanceTo(Players.getLocal())))
 					.orElse(null);
+
 			if (bank != null)
 			{
 				bank.interact("Bank", "Use");
@@ -206,6 +248,64 @@ public class PickpocketPlugin extends LoopedPlugin
 			if (local.isMoving() && target.distanceTo(local) > 3)
 			{
 				return -1;
+			}
+
+			if (config.rogueSet())
+			{
+				if (!Equipment.contains(ItemID.ROGUE_MASK))
+				{
+					Item rogueMask = Inventory.getFirst(ItemID.ROGUE_MASK);
+					if (rogueMask != null)
+					{
+						log.info("Equipping rogue mask");
+						rogueMask.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.ROGUE_TOP))
+				{
+					Item rogueTop = Inventory.getFirst(ItemID.ROGUE_TOP);
+					if (rogueTop != null)
+					{
+						log.info("Equipping rogue top");
+						rogueTop.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.ROGUE_TROUSERS))
+				{
+					Item rogueTrousers = Inventory.getFirst(ItemID.ROGUE_TROUSERS);
+					if (rogueTrousers != null)
+					{
+						log.info("Equipping rogue trousers");
+						rogueTrousers.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.ROGUE_BOOTS))
+				{
+					Item rogueBoots = Inventory.getFirst(ItemID.ROGUE_BOOTS);
+					if (rogueBoots != null)
+					{
+						log.info("Equipping rogue boots");
+						rogueBoots.interact("Wear");
+						return -2;
+					}
+				}
+
+				if (!Equipment.contains(ItemID.ROGUE_GLOVES))
+				{
+					Item rogueGloves = Inventory.getFirst(ItemID.ROGUE_GLOVES);
+					if (rogueGloves != null)
+					{
+						log.info("Equipping rogue gloves");
+						rogueGloves.interact("Wear");
+						return -2;
+					}
+				}
 			}
 
 			target.interact("Pickpocket");
