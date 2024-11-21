@@ -261,7 +261,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(STAND_0_LOCATION);
+                Movement.walk(STAND_0_LOCATION);
                 return 500;
 
             case RUN_0:
@@ -272,7 +272,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_0_LOCATION);
+                Movement.walk(RUN_0_LOCATION);
                 return 500;
 
             case OPEN_GRILL:
@@ -301,7 +301,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_1_LOCATION);
+                Movement.walk(RUN_1_LOCATION);
                 return 500;
 
             case RUN_2:
@@ -312,7 +312,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_2_LOCATION);
+                Movement.walk(RUN_2_LOCATION);
                 return 500;
 
             case CLIMB_LEDGE:
@@ -341,7 +341,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(STAND_SAW_LOCATION);
+                Movement.walk(STAND_SAW_LOCATION);
                 return 1500;
 
             case CROSS_LEDGE:
@@ -371,7 +371,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(STAND_1_LOCATION);
+                Movement.walk(STAND_1_LOCATION);
                 return 500;
 
             case RUN_3:
@@ -382,7 +382,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_3_LOCATION);
+                Movement.walk(RUN_3_LOCATION);
                 return 500;
 
             case SHORTCUT:
@@ -450,7 +450,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(STAND_2_LOCATION);
+                Movement.walk(STAND_2_LOCATION);
                 return 500;
 
             case RUN_4:
@@ -461,7 +461,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_4_LOCATION);
+                Movement.walk(RUN_4_LOCATION);
                 return 500;
 
             case GET_FLASH_POWDER:
@@ -475,7 +475,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                 if (client.getLocalPlayer().getWorldLocation().distanceTo(RUN_4_LOCATION) > 0)
                 {
                     log.info("walking to flash powder is null");
-                    Movement.walkTo(FLASH_POWDER_LOCATION);
+                    Movement.walk(FLASH_POWDER_LOCATION);
                     return 500;
                 }
 
@@ -524,7 +524,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(RUN_5_LOCATION);
+                Movement.walk(RUN_5_LOCATION);
                 return 500;
 
             case WALK:
@@ -535,7 +535,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                     return 0;
                 }
 
-                Movement.walkTo(WALK_LOCATION);
+                Movement.walk(WALK_LOCATION);
                 return 500;
 
             case CRACK:
