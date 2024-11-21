@@ -31,6 +31,7 @@ import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.movement.pathfinder.model.BankLocation;
+import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
 import org.pf4j.Extension;
@@ -58,7 +59,7 @@ public class PickpocketPlugin extends LoopedPlugin
 		if (junk != null)
 		{
 			junk.interact("Drop");
-			log.debug("Dropping junk");
+			log.info("Dropping junk");
 			return -1;
 		}
 
@@ -67,7 +68,7 @@ public class PickpocketPlugin extends LoopedPlugin
 		{
 			pouch.interact("Open-all");
 			maxPouches = Rand.nextInt(1, 29);
-			log.debug("Opening pouches");
+			log.info("Opening pouches");
 			return -1;
 		}
 
@@ -79,7 +80,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				if (food != null)
 				{
 					food.interact(1);
-					log.debug("Eating food");
+					log.info("Eating food");
 					return -2;
 				}
 			}
@@ -93,7 +94,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				if (dodgyNecklace != null)
 				{
 					dodgyNecklace.interact("Wear");
-					log.debug("Equipping dodgy necklace");
+					log.info("Equipping dodgy necklace");
 					return -2;
 				}
 			}
@@ -103,8 +104,9 @@ public class PickpocketPlugin extends LoopedPlugin
 		{
 			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
 			{
+				MousePackets.queueClickPacket();
 				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
-				log.debug("casting shadow veil");
+				log.info("casting shadow veil");
 				return -3;
 			}
 		}
@@ -142,7 +144,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				if (!Inventory.contains(config.foodName()))
 				{
 					Bank.withdraw(config.foodName(), config.foodAmount(), Bank.WithdrawMode.ITEM);
-					log.debug("Withdrawing food");
+					log.info("Withdrawing food");
 					return -2;
 				}
 			}
@@ -152,7 +154,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				if (Inventory.getCount(x -> x.getName().toLowerCase().contains("dodgy necklace")) < 3)
 				{
 					Bank.withdraw("Dodgy necklace", 5, Bank.WithdrawMode.ITEM);
-					log.debug("Withdrawing dodgy necklace");
+					log.info("Withdrawing dodgy necklace");
 					return -2;
 				}
 			}
@@ -220,7 +222,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				return -4;
 			}
 
-			Movement.walkTo(config.bankLocation());
+			Movement.walk(config.bankLocation().getArea().toWorldPoint());
 			return -4;
 		}
 
@@ -235,7 +237,7 @@ public class PickpocketPlugin extends LoopedPlugin
 					return -4;
 				}
 
-				Movement.walkTo(target);
+				Movement.walk(target);
 				return -4;
 			}
 
@@ -319,7 +321,7 @@ public class PickpocketPlugin extends LoopedPlugin
 
 		if (lastNpcPosition != null)
 		{
-			Movement.walkTo(lastNpcPosition);
+			Movement.walk(lastNpcPosition);
 			return -4;
 		}
 

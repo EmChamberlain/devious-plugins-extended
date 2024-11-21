@@ -2301,9 +2301,16 @@
     },
     {
       "date": "2024-11-21",
-      "sha512sum": "8D91E9E6F9D0DBD5190373667900F8AA7635F8987CB9E08DFD6A5F6381A2D84FA3085393AD09D55AE38DEFCE405ACFFD4D361F364847D8E4F7941290C64350B2",
+      "sha512sum": "211BC85E633208D86F8B46956396AE65FCA435A5BB8B63FC713A6D1F3710D822E27791F407232129774516B7291A39F990CC27D750F7F532BAB28362AB91225B",
       "version": "0.0.10",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.10.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-21",
+      "sha512sum": "3FCDA48EF6754FB99D7E95D9DD0974CAF50AA512DC69F5C9C8C0CD42A6794D614874052030BD168780AD91D7E4C83C52036DB5EA766A3917426E0A82795197D8",
+      "version": "0.0.11",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.11.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
