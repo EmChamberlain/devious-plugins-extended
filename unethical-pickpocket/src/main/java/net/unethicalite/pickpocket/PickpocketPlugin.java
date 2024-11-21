@@ -8,6 +8,7 @@ import net.runelite.api.ItemID;
 import net.runelite.api.NPC;
 import net.runelite.api.Player;
 import net.runelite.api.TileObject;
+import net.runelite.api.Varbits;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.util.Text;
 import net.runelite.client.config.ConfigManager;
@@ -19,9 +20,13 @@ import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Combat;
+import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.magic.Magic;
+import net.unethicalite.api.magic.Spell;
+import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -91,12 +96,23 @@ public class PickpocketPlugin extends LoopedPlugin
 				}
 			}
 		}
+
+		if (config.shadowVeil())
+		{
+			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
+			{
+				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
+				log.debug("casting shadow veil");
+				return -3;
+			}
+		}
 		
 		if (Bank.isOpen())
 		{
 			List<Item> unneeded = Inventory.getAll(item ->
 					(!config.eat() || !Objects.equals(item.getName(), config.foodName()))
 							&& (!item.getName().toLowerCase().contains("dodgy necklace"))
+							&& (!item.getName().toLowerCase().contains("rune pouch"))
 							&& item.getId() != ItemID.COINS_995
 							&& !Objects.equals(item.getName(), "Coin pouch")
 			);
@@ -193,7 +209,7 @@ public class PickpocketPlugin extends LoopedPlugin
 			}
 
 			target.interact("Pickpocket");
-			return Rand.nextInt(222, 333);
+			return Rand.nextInt(222, 999);
 		}
 
 		if (Movement.isWalking())

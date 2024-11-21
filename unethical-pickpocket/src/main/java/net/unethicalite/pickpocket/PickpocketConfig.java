@@ -114,4 +114,15 @@ public interface PickpocketConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+			keyName = "shadowVeil",
+			name = "shadowVeil",
+			description = "",
+			position = 9
+	)
+	default boolean shadowVeil()
+	{
+		return true;
+	}
 }
