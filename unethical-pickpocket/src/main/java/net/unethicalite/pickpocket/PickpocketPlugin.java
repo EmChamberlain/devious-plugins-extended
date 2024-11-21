@@ -5,6 +5,7 @@ import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Item;
 import net.runelite.api.ItemID;
+import net.runelite.api.MenuAction;
 import net.runelite.api.NPC;
 import net.runelite.api.ObjectID;
 import net.runelite.api.Player;
@@ -105,7 +106,7 @@ public class PickpocketPlugin extends LoopedPlugin
 			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
 			{
 				MousePackets.queueClickPacket();
-				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
+				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL, 1, MenuAction.CC_OP.getId());
 				log.info("casting shadow veil");
 				return -3;
 			}
