@@ -240,7 +240,7 @@ public class PickpocketPlugin extends LoopedPlugin
 				return -4;
 			}
 
-			Movement.walk(config.bankLocation().getArea().toWorldPoint());
+			Movement.walkTo(config.bankLocation().getArea().toWorldPoint());
 			return -4;
 		}
 
@@ -255,7 +255,7 @@ public class PickpocketPlugin extends LoopedPlugin
 					return -4;
 				}
 
-				Movement.walk(target);
+				Movement.walkTo(target);
 				return -4;
 			}
 
@@ -339,7 +339,7 @@ public class PickpocketPlugin extends LoopedPlugin
 
 		if (lastNpcPosition != null)
 		{
-			Movement.walk(lastNpcPosition);
+			Movement.walkTo(lastNpcPosition);
 			return -4;
 		}
 
