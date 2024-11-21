@@ -96,6 +96,7 @@ public class PickpocketPlugin extends LoopedPlugin
 		{
 			List<Item> unneeded = Inventory.getAll(item ->
 					(!config.eat() || !Objects.equals(item.getName(), config.foodName()))
+							&& (!item.getName().toLowerCase().contains("dodgy necklace"))
 							&& item.getId() != ItemID.COINS_995
 							&& !Objects.equals(item.getName(), "Coin pouch")
 			);
