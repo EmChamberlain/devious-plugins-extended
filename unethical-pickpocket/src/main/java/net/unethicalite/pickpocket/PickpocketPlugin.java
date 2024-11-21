@@ -105,8 +105,8 @@ public class PickpocketPlugin extends LoopedPlugin
 		{
 			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
 			{
-				MousePackets.queueClickPacket();
-				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL, 1, MenuAction.CC_OP.getId());
+				Magic.selectSpell(SpellBook.Necromancy.SHADOW_VEIL);
+				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
 				log.info("casting shadow veil");
 				return -3;
 			}
