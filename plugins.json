@@ -1,19 +1,6 @@
 [{
   "projectUrl": "",
   "provider": "EmChamberlain",
-  "name": "Guardians of the Rift Helper",
-  "description": "Guardians of the Rift Helper",
-  "id": "guardiansoftherifthelper-plugin",
-  "releases": [{
-    "date": "2024-05-29",
-    "sha512sum": "0EFC34A7BA27735B311F238E9156025B5E72ADBDB0B5FD52828D518E0892E047217EDF867E5E3430415935440E98EB96053FDD12F2FF264A4F990BD437CB1F48",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/Guardians-of-the-Rift-Helper-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
-}, {
-  "projectUrl": "",
-  "provider": "EmChamberlain",
   "name": "mAuto Switcher",
   "description": "Auto switch gear by pressing hot key",
   "id": "mautoswitcher-plugin",
@@ -469,6 +456,13 @@
       "sha512sum": "643674080D07E8B666579C5F81FA190FB484DC7FF51AFAF20AA5049D9688084FD96564A0EE29C39F70D6ABB728D1D186CDD8B5C40EC1DA5B0259312856E4F4CD",
       "version": "0.1.1",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.1.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-20",
+      "sha512sum": "0F4969187B78BE0261F517E1348F4E711912BED1E28101F95101CA69AFFBCB5221A21D48A4AE2CAC0BA63A004C69BCB31A4E63B38F2019F9D899EA9FB03DC736",
+      "version": "0.1.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-autologin-0.1.2.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -1325,6 +1319,13 @@
       "version": "0.2.6",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.2.6.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-20",
+      "sha512sum": "CC12C724198BAEDD6D5E2196976D6A3775D0F3C434FDE9303E55B016FFB0B1789CDF740B6811597155E16C186CCE1B8A251C3B41A0002EC03972E148E6CAEF16",
+      "version": "0.3.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-dragonfarmer-0.3.1.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
@@ -1642,6 +1643,13 @@
       "sha512sum": "6DBDE311F5615CCA890D7661EB892278C140FE0D6B5CC397A9017281B95BCEF3E1521C4025A24F556932E14A13C04F8BDFACAF3917D5E78786ABCDC223595B86",
       "version": "0.0.6",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.0.6.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-20",
+      "sha512sum": "5A69EED51D87F7599294E96630F1262B2CD09D214F225514D96E960854D0761B0EC0A62581FC051E5626239C8497002F9101C9B6222AE7CE473814BD492109EA",
+      "version": "0.2.18",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-gotr-0.2.18.jar?raw=true",
       "requires": "^1.0.0"
     }
   ]
@@ -2375,6 +2383,19 @@
       "requires": "^1.0.0"
     }
   ]
+}, {
+  "projectUrl": "",
+  "provider": "EmChamberlain",
+  "name": "Unethical RoguesDen",
+  "description": "RoguesDen",
+  "id": "unethicalroguesden-plugin",
+  "releases": [{
+    "date": "2024-11-20",
+    "sha512sum": "AC933CE1532B86A6BBB9C6517FBB03FB43320BF3CD19C92E001DC42000B8313AD72E7535F4049F97EAF207A74B712FB8CFB7E69B6FFBDB2EBBBBA6A8A4666523",
+    "version": "0.0.1",
+    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.1.jar?raw=true",
+    "requires": "^1.0.0"
+  }]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

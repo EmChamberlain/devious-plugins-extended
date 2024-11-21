@@ -74,7 +74,8 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
+/*
 include("unethical-armouranimator:unethical-vorkath")
 findProject(":unethical-armouranimator:unethical-vorkath")?.name = "unethical-vorkath"
 include("unethical-vorkath")
-
+*/
