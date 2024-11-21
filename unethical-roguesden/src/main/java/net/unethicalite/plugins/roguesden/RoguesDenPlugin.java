@@ -465,16 +465,16 @@ public class RoguesDenPlugin extends LoopedPlugin
                 return 500;
 
             case GET_FLASH_POWDER:
-                if (client.getLocalPlayer().getWorldLocation().distanceTo(RUN_4_LOCATION) <= 0 && Inventory.contains(x -> x.getName().toLowerCase().contains("flash powder")))
+                if (client.getLocalPlayer().getWorldLocation().distanceTo(FLASH_POWDER_LOCATION) <= 0 && Inventory.contains(x -> x.getName().toLowerCase().contains("flash powder")))
                 {
                     log.info("Changing from GET_FLASH_POWDER to STUN_NPC");
                     state = STATE.STUN_NPC;
                     return 0;
                 }
 
-                if (client.getLocalPlayer().getWorldLocation().distanceTo(RUN_4_LOCATION) > 0)
+                if (client.getLocalPlayer().getWorldLocation().distanceTo(FLASH_POWDER_LOCATION) > 0)
                 {
-                    log.info("walking to flash powder is null");
+                    log.info("walking to flash powder");
                     Movement.walk(FLASH_POWDER_LOCATION);
                     return 500;
                 }
