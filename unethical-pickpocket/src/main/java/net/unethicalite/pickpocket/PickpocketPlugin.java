@@ -13,6 +13,7 @@ import net.runelite.api.TileObject;
 import net.runelite.api.Varbits;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.util.Text;
+import net.runelite.api.widgets.Widget;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.util.WildcardMatcher;
@@ -21,6 +22,7 @@ import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.events.MenuAutomated;
 import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Bank;
@@ -35,6 +37,8 @@ import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 import net.unethicalite.api.packets.MousePackets;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
+import net.unethicalite.api.widgets.Widgets;
+import net.unethicalite.client.managers.interaction.InteractionManager;
 import org.pf4j.Extension;
 
 import java.util.Comparator;
@@ -48,6 +52,9 @@ public class PickpocketPlugin extends LoopedPlugin
 {
 	@Inject
 	private PickpocketConfig config;
+
+	@Inject
+	private InteractionManager interactionManager;
 
 	private WorldPoint lastNpcPosition = null;
 
@@ -105,9 +112,19 @@ public class PickpocketPlugin extends LoopedPlugin
 		{
 			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
 			{
-				Magic.selectSpell(SpellBook.Necromancy.SHADOW_VEIL);
-				Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
+				//Magic.selectSpell(SpellBook.Necromancy.SHADOW_VEIL);
+				//Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
+				interactionManager.onMenuAutomated(MenuAutomated.builder()
+						.option("Cast")
+						.target("Shadow Veil")
+						.identifier(1)
+						.opcode(MenuAction.CC_OP)
+						.param0(-1)
+						.param1(14287028)
+						.build());
+
 				log.info("casting shadow veil");
+
 				return -3;
 			}
 		}

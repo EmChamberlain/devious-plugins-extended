@@ -2326,6 +2326,13 @@
       "version": "0.0.13",
       "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.13.jar?raw=true",
       "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-21",
+      "sha512sum": "6896DA0B32C184AB88D192CB21E9FB4BE2EF3DDDD9ACC5F29190D3050DF33A9EC4D9F9799538CCE129F933D929033D432B458F949A7A79C53AAC793E6707510B",
+      "version": "0.0.14",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.14.jar?raw=true",
+      "requires": "^1.0.0"
     }
   ]
 }, {
