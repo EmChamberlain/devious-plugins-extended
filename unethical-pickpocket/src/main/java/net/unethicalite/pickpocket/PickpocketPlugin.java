@@ -108,26 +108,7 @@ public class PickpocketPlugin extends LoopedPlugin
 			}
 		}
 
-		if (config.shadowVeil())
-		{
-			if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
-			{
-				//Magic.selectSpell(SpellBook.Necromancy.SHADOW_VEIL);
-				//Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
-				interactionManager.onMenuAutomated(MenuAutomated.builder()
-						.option("Cast")
-						.target("Shadow Veil")
-						.identifier(1)
-						.opcode(MenuAction.CC_OP)
-						.param0(-1)
-						.param1(14287028)
-						.build());
 
-				log.info("casting shadow veil");
-
-				return -3;
-			}
-		}
 		
 		if (Bank.isOpen())
 		{
@@ -229,15 +210,33 @@ public class PickpocketPlugin extends LoopedPlugin
 
 			if (bank != null)
 			{
-				bank.interact("Bank", "Use");
-				return -4;
+				if (Reachable.isInteractable(bank))
+				{
+					bank.interact("Bank", "Use");
+					return -4;
+				}
+				else
+				{
+					Movement.walkNextTo(bank);
+					return -4;
+				}
+
 			}
 
 			NPC banker = NPCs.getNearest("Banker");
 			if (banker != null)
 			{
-				banker.interact("Bank");
-				return -4;
+				if (Reachable.isInteractable(banker))
+				{
+					banker.interact("Bank");
+					return -4;
+				}
+				else
+				{
+					Movement.walkNextTo(banker);
+					return -4;
+				}
+
 			}
 
 			Movement.walkTo(config.bankLocation().getArea().toWorldPoint());
@@ -325,6 +324,27 @@ public class PickpocketPlugin extends LoopedPlugin
 						rogueGloves.interact("Wear");
 						return -2;
 					}
+				}
+			}
+
+			if (config.shadowVeil())
+			{
+				if (Vars.getBit(Varbits.SHADOW_VEIL) != 1 && Vars.getBit(Varbits.SHADOW_VEIL_COOLDOWN) == 0)
+				{
+					//Magic.selectSpell(SpellBook.Necromancy.SHADOW_VEIL);
+					//Magic.cast(SpellBook.Necromancy.SHADOW_VEIL);
+					interactionManager.onMenuAutomated(MenuAutomated.builder()
+							.option("Cast")
+							.target("Shadow Veil")
+							.identifier(1)
+							.opcode(MenuAction.CC_OP)
+							.param0(-1)
+							.param1(14287028)
+							.build());
+
+					log.info("casting shadow veil");
+
+					return -3;
 				}
 			}
 
