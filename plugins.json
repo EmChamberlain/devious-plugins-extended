@@ -2270,13 +2270,22 @@
   "name": "Unethical Pickpocket",
   "description": "Configurable pickpocketer",
   "id": "unethicalpickpocket-plugin",
-  "releases": [{
-    "date": "2023-12-16",
-    "sha512sum": "58712FCDCF7326CB3E3135EAC6563E0BACF0F1B81268E4290D805A0A0B09B5ACBB245B36FD09633E8EFDFBBC146E2B1810FA92E1EFD625CB3614B8147AD147CC",
-    "version": "0.0.6",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.6.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2023-12-16",
+      "sha512sum": "58712FCDCF7326CB3E3135EAC6563E0BACF0F1B81268E4290D805A0A0B09B5ACBB245B36FD09633E8EFDFBBC146E2B1810FA92E1EFD625CB3614B8147AD147CC",
+      "version": "0.0.6",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.6.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-21",
+      "sha512sum": "D5E7D148A3BFE83D1F684838D6F460B88D9FCC8429FFDC0BCD1E76E1A19E9F0ED8475DD6187CEB8FBF1AF3A0EEDC8326F3D481A794257F30FD768DFFB76E302B",
+      "version": "0.0.7",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-pickpocket-0.0.7.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

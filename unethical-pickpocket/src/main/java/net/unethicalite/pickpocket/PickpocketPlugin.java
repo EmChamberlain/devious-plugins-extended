@@ -20,6 +20,7 @@ import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
@@ -76,6 +77,20 @@ public class PickpocketPlugin extends LoopedPlugin
 				}
 			}
 		}
+
+		if (config.dodgyNecklaces())
+		{
+			if (!Equipment.contains(x -> x.getName().toLowerCase().contains("dodgy necklace")))
+			{
+				Item dodgyNecklace = Inventory.getFirst(x -> x.getName().toLowerCase().contains("dodgy necklace"));
+				if (dodgyNecklace != null)
+				{
+					dodgyNecklace.interact("Wear");
+					log.debug("Equipping dodgy necklace");
+					return -2;
+				}
+			}
+		}
 		
 		if (Bank.isOpen())
 		{
@@ -110,9 +125,19 @@ public class PickpocketPlugin extends LoopedPlugin
 					return -2;
 				}
 			}
+
+			if (config.dodgyNecklaces())
+			{
+				if (Inventory.getCount(x -> x.getName().toLowerCase().contains("dodgy necklace")) < 3)
+				{
+					Bank.withdraw("Dodgy necklace", 5, Bank.WithdrawMode.ITEM);
+					log.debug("Withdrawing dodgy necklace");
+					return -2;
+				}
+			}
 		}
 
-		if (config.bank() && (Inventory.isFull() || !Inventory.contains(config.foodName())))
+		if (config.bank() && (Inventory.isFull() || !Inventory.contains(config.foodName()) || !Equipment.contains(x -> x.getName().toLowerCase().contains("dodgy necklace"))))
 		{
 			if (Movement.isWalking())
 			{

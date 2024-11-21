@@ -103,4 +103,15 @@ public interface PickpocketConfig extends Config
 	{
 		return "Jug, Potato seed";
 	}
+
+	@ConfigItem(
+			keyName = "dodgyNecklaces",
+			name = "dodgyNecklaces",
+			description = "",
+			position = 8
+	)
+	default boolean dodgyNecklaces()
+	{
+		return true;
+	}
 }
