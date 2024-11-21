@@ -2389,13 +2389,22 @@
   "name": "Unethical RoguesDen",
   "description": "RoguesDen",
   "id": "unethicalroguesden-plugin",
-  "releases": [{
-    "date": "2024-11-20",
-    "sha512sum": "AC933CE1532B86A6BBB9C6517FBB03FB43320BF3CD19C92E001DC42000B8313AD72E7535F4049F97EAF207A74B712FB8CFB7E69B6FFBDB2EBBBBA6A8A4666523",
-    "version": "0.0.1",
-    "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.1.jar?raw=true",
-    "requires": "^1.0.0"
-  }]
+  "releases": [
+    {
+      "date": "2024-11-20",
+      "sha512sum": "AC933CE1532B86A6BBB9C6517FBB03FB43320BF3CD19C92E001DC42000B8313AD72E7535F4049F97EAF207A74B712FB8CFB7E69B6FFBDB2EBBBBA6A8A4666523",
+      "version": "0.0.1",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.1.jar?raw=true",
+      "requires": "^1.0.0"
+    },
+    {
+      "date": "2024-11-20",
+      "sha512sum": "97F01540B797C9D1B33FAF72B1A7B2BD1B82004B303D72CCFE63EFDF6FA8DFBFAEF2FA81F8BF2ED4DFB7E801C9922F04F9CF7A4857A0D2112CE0FA21AE211402",
+      "version": "0.0.2",
+      "url": "https://github.com/EmChamberlain/devious-plugins-extended/blob/master/release/unethical-roguesden-0.0.2.jar?raw=true",
+      "requires": "^1.0.0"
+    }
+  ]
 }, {
   "projectUrl": "",
   "provider": "EmChamberlain",

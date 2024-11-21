@@ -195,6 +195,13 @@ public class RoguesDenPlugin extends LoopedPlugin
                     }
                     else
                     {
+                        if (Inventory.contains(x -> !x.getName().toLowerCase().contains("stamina potion")))
+                        {
+                            log.info("depositing inventory");
+                            Bank.depositInventory();
+                            return 1500;
+                        }
+
                         log.info("Attempted to withdraw potion");
                         Bank.withdraw(x -> x.getName().toLowerCase().contains("stamina potion(1)"), 1, Bank.WithdrawMode.ITEM);
                         return 1500;
