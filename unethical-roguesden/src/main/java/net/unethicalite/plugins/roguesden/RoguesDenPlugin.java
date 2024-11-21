@@ -334,7 +334,7 @@ public class RoguesDenPlugin extends LoopedPlugin
                 return 1500;
 
             case STAND_SAW:
-                if (client.getLocalPlayer().getWorldLocation().isInArea(CLIMB_LEDGE_AREA))
+                if (client.getLocalPlayer().getWorldLocation().isInArea(STAND_SAW_AREA))
                 {
                     log.info("Changing from STAND_SAW to CROSS_LEDGE");
                     state = STATE.CROSS_LEDGE;
