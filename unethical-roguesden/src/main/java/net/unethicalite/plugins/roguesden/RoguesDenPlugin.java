@@ -318,8 +318,8 @@ public class RoguesDenPlugin extends LoopedPlugin
             case CLIMB_LEDGE:
                 if (client.getLocalPlayer().getWorldLocation().isInArea(CLIMB_LEDGE_AREA))
                 {
-                    log.info("Changing from CLIMB_LEDGE to STAND_1");
-                    state = STATE.STAND_1;
+                    log.info("Changing from CLIMB_LEDGE to STAND_SAW");
+                    state = STATE.STAND_SAW;
                     return 0;
                 }
                 TileObject ledge = TileObjects.getNearest(x -> x.getName().toLowerCase().contains("ledge") && x.hasAction("Climb"));
